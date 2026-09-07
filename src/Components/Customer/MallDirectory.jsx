@@ -15,22 +15,15 @@ const MallDirectory = ({
   onAddToCart,
   onUpdateQty,
   onRemoveItem,
-  onClearCart
+  onClearCart,
+  favorites = [],
+  onToggleFavorite,
+  onRemoveFavorite
 }) => {
   const [shops, setShops] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-
-  // Favorites state with localStorage persistence
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      const saved = localStorage.getItem('sc_favorites_v1');
-      return saved ? JSON.parse(saved) : [];
-    } catch (e) {
-      return [];
-    }
-  });
 
   // Modals & Drawers
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -58,27 +51,6 @@ const MallDirectory = ({
     window.addEventListener('sc:shops_updated', handleShopsUpdated);
     return () => window.removeEventListener('sc:shops_updated', handleShopsUpdated);
   }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('sc_favorites_v1', JSON.stringify(favorites));
-    } catch (e) {}
-  }, [favorites]);
-
-  const handleToggleFavorite = (shop) => {
-    setFavorites((prev) => {
-      const exists = prev.some((s) => s.id === shop.id);
-      if (exists) {
-        return prev.filter((s) => s.id !== shop.id);
-      } else {
-        return [...prev, shop];
-      }
-    });
-  };
-
-  const handleRemoveFavorite = (shopId) => {
-    setFavorites((prev) => prev.filter((s) => s.id !== shopId));
-  };
 
   // Filter storefronts by selected category and search query
   const filteredShops = shops.filter((shop) => {
@@ -195,23 +167,19 @@ const MallDirectory = ({
         ) : (
           <div className="storefronts-grid">
             {filteredShops.map((shop) => (
-              <StorefrontCard 
-                key={shop.id} 
-                shop={shop} 
-                isFavorite={favorites.some((f) => f.id === shop.id)}
-                onToggleFavorite={handleToggleFavorite}
-              />
+              <StorefrontCard key={shop.id} shop={shop} />
             ))}
           </div>
         )}
       </main>
 
-      {/* Favorites Drawer */}
+      {/* Favorites Drawer (Session Liked Items) */}
       <FavoritesDrawer
         isOpen={isFavoritesOpen}
         onClose={() => setIsFavoritesOpen(false)}
         favorites={favorites}
-        onRemoveFavorite={handleRemoveFavorite}
+        onRemoveFavorite={onRemoveFavorite}
+        onAddToCart={onAddToCart}
       />
 
       {/* CART DRAWER */}

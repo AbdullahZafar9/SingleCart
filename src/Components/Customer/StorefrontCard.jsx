@@ -1,8 +1,8 @@
 import React from 'react';
-import { Star, MapPin, Clock, ArrowRight, Heart } from 'lucide-react';
+import { Star, MapPin, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const StorefrontCard = ({ shop, isFavorite = false, onToggleFavorite }) => {
+const StorefrontCard = ({ shop }) => {
   const navigate = useNavigate();
 
   return (
@@ -20,24 +20,7 @@ const StorefrontCard = ({ shop, isFavorite = false, onToggleFavorite }) => {
           loading="lazy"
         />
         <div className="storefront-banner-overlay" />
-        <span className="storefront-badge">{shop.department || 'Storefront'}</span>
-        
-        {/* Favorite heart button on boutique card */}
-        <button
-          className={`storefront-fav-btn ${isFavorite ? 'active' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite && onToggleFavorite(shop);
-          }}
-          title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
-          aria-label="Toggle favorite"
-        >
-          <Heart
-            size={16}
-            fill={isFavorite ? '#e11d48' : 'rgba(0, 0, 0, 0.25)'}
-            color={isFavorite ? '#e11d48' : '#ffffff'}
-          />
-        </button>
+        <span className="storefront-badge">{shop.department || 'Boutique'}</span>
 
         <img
           src={shop.logo_url}
@@ -60,18 +43,18 @@ const StorefrontCard = ({ shop, isFavorite = false, onToggleFavorite }) => {
             <MapPin size={13} />
             {shop.location_in_mall || 'Floor 1'}
           </span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            ({shop.reviews_count || 100}+ reviews)
+          </span>
         </div>
 
         <p className="storefront-desc">{shop.description}</p>
 
         <div className="storefront-footer">
-          <div className="pickup-pill">
-            <Clock size={13} />
-            <span>Prep: {shop.pickup_estimated || '10-15 mins'}</span>
-          </div>
+          <span className="storefront-status-open">Open Now</span>
 
           <button className="enter-store-btn">
-            <span>Explore</span>
+            <span>Explore Boutique</span>
             <ArrowRight size={14} />
           </button>
         </div>

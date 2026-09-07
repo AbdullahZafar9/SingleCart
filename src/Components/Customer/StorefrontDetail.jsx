@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Phone, Clock, Plus, Check } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart } from 'lucide-react';
 import { getShopById, getProducts } from '../../Data/mallStore';
 import MallNavbar from './MallNavbar';
+import FavoritesDrawer from './FavoritesDrawer';
 import MallFooter from '../Shared/MallFooter';
 
-const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
+const StorefrontDetail = ({
+  cart,
+  onAddToCart,
+  onOpenCart,
+  favorites = [],
+  onToggleFavorite,
+  onRemoveFavorite
+}) => {
   const { storeId } = useParams();
   const navigate = useNavigate();
 
@@ -13,6 +21,7 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recentlyAddedId, setRecentlyAddedId] = useState(null);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
 
   useEffect(() => {
     const fetchStoreData = async () => {
@@ -48,10 +57,17 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
     }, 1500);
   };
 
+  const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+
   if (loading) {
     return (
       <div className="mall-container">
-        <MallNavbar cartCount={cart.reduce((a, b) => a + b.quantity, 0)} onOpenCart={onOpenCart} />
+        <MallNavbar
+          cartCount={totalCartCount}
+          onOpenCart={onOpenCart}
+          favoritesCount={favorites.length}
+          onOpenFavorites={() => setIsFavoritesOpen(true)}
+        />
         <div style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
           <p>Loading boutique storefront catalog...</p>
         </div>
@@ -62,13 +78,18 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
   if (!shop) {
     return (
       <div className="mall-container">
-        <MallNavbar cartCount={cart.reduce((a, b) => a + b.quantity, 0)} onOpenCart={onOpenCart} />
+        <MallNavbar
+          cartCount={totalCartCount}
+          onOpenCart={onOpenCart}
+          favoritesCount={favorites.length}
+          onOpenFavorites={() => setIsFavoritesOpen(true)}
+        />
         <div style={{ padding: '80px 24px', textAlign: 'center' }}>
           <h2>Storefront Not Found</h2>
           <p style={{ color: 'var(--text-muted)', margin: '12px 0 24px' }}>
             The requested boutique could not be located in the mall directory.
           </p>
-          <button className="btn-primary" onClick={() => navigate('/')}>
+          <button className="btn-primary" onClick={() => navigate('/mall')}>
             Back to Mall Directory
           </button>
         </div>
@@ -76,11 +97,14 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
     );
   }
 
-  const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-
   return (
     <div className="mall-container">
-      <MallNavbar cartCount={totalCartCount} onOpenCart={onOpenCart} showSearch={false} />
+      <MallNavbar
+        cartCount={totalCartCount}
+        onOpenCart={onOpenCart}
+        favoritesCount={favorites.length}
+        onOpenFavorites={() => setIsFavoritesOpen(true)}
+      />
 
       <header className="store-detail-header">
         <img
@@ -90,7 +114,7 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
         />
 
         <div className="store-detail-header-inner">
-          <button className="back-to-mall-btn" onClick={() => navigate('/')}>
+          <button className="back-to-mall-btn" onClick={() => navigate('/mall')}>
             <ArrowLeft size={16} />
             <span>Back to Mall Directory</span>
           </button>
@@ -113,10 +137,6 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
                   <MapPin size={14} />
                   {shop.location_in_mall}
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Clock size={14} />
-                  Prep: {shop.pickup_estimated || '10-15 mins'}
-                </span>
                 {shop.phone && (
                   <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Phone size={14} />
@@ -136,8 +156,8 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
       <main className="mall-section" style={{ paddingTop: '36px' }}>
         <div className="section-header">
           <div className="section-title">
-            <h3>Boutique Menu & Catalog</h3>
-            <p>Fresh drops and signature items ready for direct pickup or dine-in</p>
+            <h3>Boutique Drops & Catalog</h3>
+            <p>Curated signature products available for direct unified checkout</p>
           </div>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             Showing {products.length} items
@@ -152,6 +172,10 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
           <div className="products-grid">
             {products.map((product) => {
               const isAdded = recentlyAddedId === product.id;
+              const isLiked = favorites.some(
+                (item) => String(item.id) === String(product.id)
+              );
+
               return (
                 <div key={product.id} className="product-card">
                   <div className="product-image-wrap">
@@ -164,6 +188,23 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
                     {product.badge && (
                       <span className="product-badge-tag">{product.badge}</span>
                     )}
+
+                    {/* Like / Favorite heart icon button directly on each item */}
+                    <button
+                      className={`product-fav-btn ${isLiked ? 'active' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite && onToggleFavorite(product, shop);
+                      }}
+                      title={isLiked ? 'Remove from liked items' : 'Like this item'}
+                      aria-label="Save item to favorites"
+                    >
+                      <Heart
+                        size={16}
+                        fill={isLiked ? '#e11d48' : 'rgba(0, 0, 0, 0.25)'}
+                        color={isLiked ? '#e11d48' : '#ffffff'}
+                      />
+                    </button>
                   </div>
 
                   <div className="product-body">
@@ -202,6 +243,15 @@ const StorefrontDetail = ({ cart, onAddToCart, onOpenCart }) => {
           </div>
         )}
       </main>
+
+      {/* Favorites Drawer for Storefront View */}
+      <FavoritesDrawer
+        isOpen={isFavoritesOpen}
+        onClose={() => setIsFavoritesOpen(false)}
+        favorites={favorites}
+        onRemoveFavorite={onRemoveFavorite}
+        onAddToCart={onAddToCart}
+      />
 
       <MallFooter />
     </div>

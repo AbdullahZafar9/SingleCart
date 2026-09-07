@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, X, Trash2, ArrowRight } from 'lucide-react';
+import { Heart, X, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 
 const FavoritesDrawer = ({
   isOpen,
   onClose,
   favorites = [],
-  onRemoveFavorite
+  onRemoveFavorite,
+  onAddToCart
 }) => {
   const navigate = useNavigate();
 
@@ -34,15 +35,15 @@ const FavoritesDrawer = ({
         <div className="drawer-header">
           <div className="drawer-header-left">
             <Heart size={20} fill="#ea580c" stroke="#ea580c" />
-            <h2>Saved Favorites</h2>
+            <h2>Liked Items</h2>
             <span className="drawer-count-badge">
-              {favorites.length} {favorites.length === 1 ? 'store' : 'stores'}
+              {favorites.length} {favorites.length === 1 ? 'item' : 'items'}
             </span>
           </div>
           <button
             className="drawer-close-btn"
             onClick={onClose}
-            aria-label="Close favorites"
+            aria-label="Close liked items"
           >
             <X size={20} />
           </button>
@@ -54,43 +55,54 @@ const FavoritesDrawer = ({
               <div className="empty-cart-icon">
                 <Heart size={44} stroke="#94a3b8" />
               </div>
-              <h4>No favorites saved yet</h4>
+              <h4>No liked items yet</h4>
               <p>
-                Tap the heart icon on any boutique card in the mall directory to save it here for quick access.
+                Tap the heart icon on any product in a boutique to save your favorites for this session.
               </p>
-              <button className="explore-mall-btn" onClick={onClose}>
+              <button
+                className="explore-mall-btn"
+                onClick={() => {
+                  onClose();
+                  navigate('/mall');
+                }}
+              >
                 Browse Boutiques
               </button>
             </div>
           ) : (
             <div className="fav-items-list">
-              {favorites.map((shop) => (
-                <div key={shop.id} className="fav-item-card">
+              {favorites.map((item) => (
+                <div key={item.id} className="fav-item-card">
                   <img
-                    src={shop.logo_url}
-                    alt={shop.shop_name}
+                    src={item.image_url}
+                    alt={item.name}
                     className="fav-item-logo"
                   />
                   <div className="fav-item-info">
-                    <h4>{shop.shop_name}</h4>
-                    <span className="fav-item-dept">{shop.department || 'Boutique'}</span>
-                    <span className="fav-item-floor">{shop.location_in_mall || 'Floor 1'}</span>
+                    <h4>{item.name}</h4>
+                    <span className="fav-item-dept">{item.shop_name || 'Mall Boutique'}</span>
+                    <span className="fav-item-price">
+                      ${Number(item.price).toFixed(2)}
+                    </span>
                   </div>
                   <div className="fav-item-actions">
-                    <button
-                      className="fav-visit-btn"
-                      onClick={() => {
-                        onClose();
-                        navigate(`/store/${shop.id}`);
-                      }}
-                      title="Visit Storefront"
-                    >
-                      <ArrowRight size={16} />
-                    </button>
+                    {onAddToCart && (
+                      <button
+                        className="fav-add-cart-btn"
+                        onClick={() => {
+                          onAddToCart(item);
+                        }}
+                        title="Add to SingleCart"
+                      >
+                        <ShoppingBag size={14} />
+                        <span>Add</span>
+                      </button>
+                    )}
                     <button
                       className="fav-remove-btn"
-                      onClick={() => onRemoveFavorite(shop.id)}
-                      title="Remove from favorites"
+                      onClick={() => onRemoveFavorite(item.id)}
+                      title="Remove from liked items"
+                      aria-label="Remove item"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -100,6 +112,21 @@ const FavoritesDrawer = ({
             </div>
           )}
         </div>
+
+        {favorites.length > 0 && (
+          <div className="drawer-footer">
+            <button
+              className="checkout-btn"
+              onClick={() => {
+                onClose();
+                navigate('/mall');
+              }}
+            >
+              <span>Continue Exploring Mall</span>
+              <ArrowRight size={18} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

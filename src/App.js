@@ -44,6 +44,16 @@ function App() {
     }
   });
 
+  // Real-time session liked items / favorites
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('sc_session_liked_items');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
   // Drawer / Modals for Storefront view
   const [isStoreCartOpen, setIsStoreCartOpen] = useState(false);
   const [isStoreCheckoutOpen, setIsStoreCheckoutOpen] = useState(false);
@@ -54,6 +64,33 @@ function App() {
       localStorage.setItem('sc_cart_v1', JSON.stringify(cart));
     } catch (e) {}
   }, [cart]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('sc_session_liked_items', JSON.stringify(favorites));
+    } catch (e) {}
+  }, [favorites]);
+
+  const handleToggleFavorite = (product, shop) => {
+    setFavorites((prev) => {
+      const exists = prev.some((item) => String(item.id) === String(product.id));
+      if (exists) {
+        return prev.filter((item) => String(item.id) !== String(product.id));
+      } else {
+        return [
+          ...prev,
+          {
+            ...product,
+            shop_name: product.shop_name || shop?.shop_name || 'Mall Boutique'
+          }
+        ];
+      }
+    });
+  };
+
+  const handleRemoveFavorite = (productId) => {
+    setFavorites((prev) => prev.filter((item) => String(item.id) !== String(productId)));
+  };
 
   const handleAddToCart = (product) => {
     setCart((prev) => {
@@ -132,6 +169,9 @@ function App() {
                 onUpdateQty={handleUpdateQty}
                 onRemoveItem={handleRemoveItem}
                 onClearCart={handleClearCart}
+                favorites={favorites}
+                onToggleFavorite={handleToggleFavorite}
+                onRemoveFavorite={handleRemoveFavorite}
               />
             }
           />
@@ -145,6 +185,9 @@ function App() {
                   cart={cart}
                   onAddToCart={handleAddToCart}
                   onOpenCart={() => setIsStoreCartOpen(true)}
+                  favorites={favorites}
+                  onToggleFavorite={handleToggleFavorite}
+                  onRemoveFavorite={handleRemoveFavorite}
                 />
                 <CartDrawer
                   isOpen={isStoreCartOpen}

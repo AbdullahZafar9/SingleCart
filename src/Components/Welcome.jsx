@@ -16,11 +16,11 @@ const storyText = `Step into a unified digital mall platform where premier fashi
 Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy instant table or curbside pickup.`;
 
 const SHOP_TAGS = {
-  'retailer-1': 'Floor 2 • Exclusive Drop',
-  'retailer-2': 'Floor 1 • 5 mins prep',
-  'retailer-3': 'Floor 3 • Next-Gen Tech',
-  'retailer-4': 'Floor 1 • Clean Beauty',
-  'retailer-5': 'Floor 2 • Modern Living'
+  'retailer-1': 'Floor 2 • Urban Streetwear',
+  'retailer-2': 'Floor 1 • Clean Skincare',
+  'retailer-3': 'Floor 1 • Shoes & Sneakers',
+  'retailer-4': 'Floor 3 • Tech Accessories',
+  'retailer-5': 'Floor 2 • Leathercraft & Bags'
 };
 
 const Welcome = () => {

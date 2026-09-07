@@ -2,9 +2,9 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v1',
-  PRODUCTS: 'sc_products_v1',
-  ORDERS: 'sc_orders_v1'
+  SHOPS: 'sc_shops_v3',
+  PRODUCTS: 'sc_products_v3',
+  ORDERS: 'sc_orders_v3'
 };
 
 // Safe LocalStorage helpers
@@ -28,6 +28,14 @@ const setStoredList = (key, data) => {
 
 // Initialize default storage on first load
 export const initializeLocalStorage = () => {
+  // Clean up legacy v1/v2 cafe data if needed
+  try {
+    localStorage.removeItem('sc_shops_v1');
+    localStorage.removeItem('sc_products_v1');
+    localStorage.removeItem('sc_shops_v2');
+    localStorage.removeItem('sc_products_v2');
+  } catch (e) {}
+
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
     setStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
   }

@@ -89,7 +89,6 @@ const CreateShopModal = ({ isOpen, onClose, onShopCreated }) => {
                 className="form-input"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                style={{ background: '#1e293b' }}
               >
                 {DEPARTMENT_OPTIONS.map((dept) => (
                   <option key={dept.id} value={dept.name}>

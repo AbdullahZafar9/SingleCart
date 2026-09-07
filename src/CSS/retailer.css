@@ -1,5 +1,5 @@
 /* ============================================================
-   SingleCart Retailer Dashboard Styles
+   SingleCart Retailer Dashboard Styles (Light Theme)
    ============================================================ */
 
 .retailer-wrapper {
@@ -22,9 +22,8 @@
 .retailer-login-card {
   width: 100%;
   max-width: 460px;
-  background: var(--bg-card);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--border-glass);
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 36px;
   box-shadow: var(--shadow-lg);
@@ -39,12 +38,12 @@
   width: 54px;
   height: 54px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--accent-gold), #d97706);
+  background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
-  color: #090d16;
+  color: #ffffff;
   margin: 0 auto 16px;
   box-shadow: 0 4px 18px var(--accent-gold-glow);
 }
@@ -52,6 +51,7 @@
 .retailer-login-header h2 {
   font-size: 1.6rem;
   margin-bottom: 6px;
+  color: var(--text-primary);
 }
 
 .retailer-login-header p {
@@ -80,7 +80,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.03);
+  background: #f8fafc;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   margin-bottom: 8px;
@@ -91,14 +91,14 @@
 }
 
 .demo-shop-btn:hover {
-  background: rgba(245, 158, 11, 0.1);
+  background: #fffbeb;
   border-color: var(--accent-gold);
-  color: var(--accent-gold-light);
+  color: var(--accent-gold);
 }
 
 /* RETAILER TOP BAR */
 .retailer-header {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
   padding: 16px 28px;
@@ -121,18 +121,20 @@
   height: 42px;
   border-radius: var(--radius-sm);
   object-fit: cover;
-  border: 1px solid var(--border-glass);
+  border: 2px solid #ffffff;
+  box-shadow: var(--shadow-sm);
 }
 
 .retailer-title-meta h2 {
   font-size: 1.15rem;
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .retailer-title-meta span {
   font-size: 0.76rem;
   color: var(--accent-gold);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -146,8 +148,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
   color: var(--accent-emerald);
   padding: 6px 12px;
   border-radius: var(--radius-full);
@@ -188,14 +190,14 @@
 }
 
 .stat-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(14px);
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
+  box-shadow: var(--shadow-sm);
 }
 
 .stat-icon-wrap {
@@ -209,18 +211,18 @@
 }
 
 .stat-icon-wrap.gold {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--accent-gold);
+  background: #fffbeb;
+  color: #b45309;
 }
 
 .stat-icon-wrap.blue {
-  background: rgba(59, 130, 246, 0.15);
-  color: var(--accent-blue);
+  background: #eff6ff;
+  color: #1d4ed8;
 }
 
 .stat-icon-wrap.emerald {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--accent-emerald);
+  background: #ecfdf5;
+  color: #047857;
 }
 
 .stat-info h4 {
@@ -228,6 +230,7 @@
   font-weight: 800;
   line-height: 1.1;
   font-family: var(--font-display);
+  color: var(--text-primary);
 }
 
 .stat-info p {
@@ -236,6 +239,7 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-top: 4px;
+  font-weight: 600;
 }
 
 /* TABS ROW */
@@ -261,13 +265,13 @@
 
 .dash-tab-btn:hover {
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.04);
+  background: #f1f5f9;
 }
 
 .dash-tab-btn.active {
-  color: var(--accent-gold-light);
-  background: rgba(245, 158, 11, 0.12);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #b45309;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
 }
 
 /* LIVE ORDERS PIPELINE */
@@ -290,12 +294,13 @@
   font-weight: 600;
   border: 1px solid var(--border-subtle);
   color: var(--text-muted);
+  background: #ffffff;
   transition: var(--transition-fast);
 }
 
 .order-filter-btn.active {
   background: var(--text-primary);
-  color: var(--text-inverse);
+  color: #ffffff;
   border-color: var(--text-primary);
 }
 
@@ -306,8 +311,7 @@
 }
 
 .retailer-order-card {
-  background: var(--bg-card);
-  backdrop-filter: blur(14px);
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   padding: 20px;
@@ -315,12 +319,14 @@
   flex-direction: column;
   gap: 14px;
   position: relative;
-  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .retailer-order-card:hover {
-  border-color: var(--border-glass);
+  border-color: #cbd5e1;
   transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .order-card-top {
@@ -333,6 +339,7 @@
   font-size: 1rem;
   font-weight: 800;
   font-family: var(--font-display);
+  color: var(--text-primary);
 }
 
 .order-customer-info {
@@ -356,15 +363,16 @@
 }
 
 .order-note-box {
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px dashed rgba(245, 158, 11, 0.3);
+  background: #fffbeb;
+  border: 1px dashed #fde68a;
   border-radius: var(--radius-sm);
   padding: 8px 12px;
   font-size: 0.8rem;
-  color: var(--accent-gold-light);
+  color: #b45309;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 600;
 }
 
 .order-items-list {
@@ -380,6 +388,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 0.84rem;
+  color: var(--text-primary);
 }
 
 .order-total-price-row {
@@ -415,16 +424,16 @@
 
 .action-btn.ready {
   background: var(--accent-emerald);
-  color: #090d16;
+  color: #ffffff;
 }
 
 .action-btn.complete {
-  background: #334155;
-  color: #f8fafc;
+  background: #0f172a;
+  color: #ffffff;
 }
 
 .action-btn:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.1);
 }
 
 /* CATALOG MANAGER */
@@ -436,11 +445,11 @@
 }
 
 .catalog-table-wrap {
-  background: var(--bg-card);
-  backdrop-filter: blur(14px);
+  background: #ffffff;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .catalog-table {
@@ -450,7 +459,7 @@
 }
 
 .catalog-table th {
-  background: rgba(15, 23, 42, 0.9);
+  background: #f8fafc;
   padding: 14px 18px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -492,13 +501,13 @@
 }
 
 .stock-toggle-switch.in-stock {
-  background: rgba(16, 185, 129, 0.15);
+  background: #ecfdf5;
   color: var(--accent-emerald);
-  border-color: rgba(16, 185, 129, 0.3);
+  border-color: #a7f3d0;
 }
 
 .stock-toggle-switch.out-of-stock {
-  background: rgba(244, 63, 94, 0.15);
+  background: #fff1f2;
   color: var(--accent-rose);
-  border-color: rgba(244, 63, 94, 0.3);
+  border-color: #fecdd3;
 }

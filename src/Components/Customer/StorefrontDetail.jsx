@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart, ZoomIn, Sparkles } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart, ZoomIn } from 'lucide-react';
 import { getShopByIdSync, getProductsSync, getShopById, getProducts } from '../../Data/mallStore';
 import { SHOP_ITEM_CATEGORIES } from '../../Data/initialMallData';
 import MallNavbar from './MallNavbar';
@@ -195,12 +195,6 @@ const StorefrontDetail = ({
 
       {/* BOUTIQUE CATEGORIES BAR */}
       <section className="store-categories-section">
-        <div className="store-categories-header">
-          <span className="categories-label">
-            <Sparkles size={15} color="var(--primary)" />
-            Shop Departments:
-          </span>
-        </div>
         <div className="store-categories-pills">
           {availableCategories.map((cat) => (
             <button

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingBag, Search, Store, ShieldCheck } from 'lucide-react';
+import { ShoppingBag, Search, Store, ShieldCheck, Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MallNavbar = ({
@@ -14,7 +14,7 @@ const MallNavbar = ({
   return (
     <nav className="mall-navbar">
       <div className="mall-nav-inner">
-        <div className="mall-brand" onClick={() => navigate('/')}>
+        <div className="mall-brand" onClick={() => navigate('/mall')}>
           <div className="mall-logo-icon">S</div>
           <div className="mall-brand-text">
             <h1>SingleCart</h1>
@@ -36,6 +36,15 @@ const MallNavbar = ({
         )}
 
         <div className="mall-nav-actions">
+          <button
+            className="portal-link-btn"
+            onClick={() => navigate('/')}
+            title="Return to Welcome Screen"
+          >
+            <Home size={16} />
+            <span>Welcome</span>
+          </button>
+
           <button
             className="portal-link-btn"
             onClick={() => navigate('/retailer')}

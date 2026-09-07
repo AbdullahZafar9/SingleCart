@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Welcome from './Components/Welcome';
 import MallDirectory from './Components/Customer/MallDirectory';
 import StorefrontDetail from './Components/Customer/StorefrontDetail';
 import CartDrawer from './Components/Customer/CartDrawer';
@@ -118,9 +119,12 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          {/* 1. Public Customer Mall Experience (No Auth Required) */}
+          {/* 1. Warming Welcome Screen */}
+          <Route path="/" element={<Welcome />} />
+
+          {/* 2. Public Customer Digital Mall Directory */}
           <Route
-            path="/"
+            path="/mall"
             element={
               <MallDirectory
                 cart={cart}

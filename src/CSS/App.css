@@ -55,7 +55,7 @@
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: #fcf8f4;
   color: var(--text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -64,9 +64,10 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.05) 0%, transparent 45%),
-    radial-gradient(circle at 90% 15%, rgba(245, 158, 11, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 12% 10%, rgba(245, 158, 11, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 88% 18%, rgba(234, 88, 12, 0.10) 0%, transparent 42%),
+    radial-gradient(circle at 50% 80%, rgba(194, 65, 12, 0.07) 0%, transparent 50%),
+    linear-gradient(180deg, #fefaf6 0%, #f8f1e9 100%);
   background-attachment: fixed;
 }
 

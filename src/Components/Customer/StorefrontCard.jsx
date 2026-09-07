@@ -1,8 +1,8 @@
 import React from 'react';
-import { Star, MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Star, MapPin, Clock, ArrowRight, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const StorefrontCard = ({ shop }) => {
+const StorefrontCard = ({ shop, isFavorite = false, onToggleFavorite }) => {
   const navigate = useNavigate();
 
   return (
@@ -21,6 +21,24 @@ const StorefrontCard = ({ shop }) => {
         />
         <div className="storefront-banner-overlay" />
         <span className="storefront-badge">{shop.department || 'Storefront'}</span>
+        
+        {/* Favorite heart button on boutique card */}
+        <button
+          className={`storefront-fav-btn ${isFavorite ? 'active' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite && onToggleFavorite(shop);
+          }}
+          title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
+          aria-label="Toggle favorite"
+        >
+          <Heart
+            size={16}
+            fill={isFavorite ? '#e11d48' : 'rgba(0, 0, 0, 0.25)'}
+            color={isFavorite ? '#e11d48' : '#ffffff'}
+          />
+        </button>
+
         <img
           src={shop.logo_url}
           alt={`${shop.shop_name} logo`}

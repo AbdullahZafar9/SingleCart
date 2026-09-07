@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Search, X } from 'lucide-react';
 import { MALL_CATEGORIES } from '../../Data/initialMallData';
 import { getShops, getProducts } from '../../Data/mallStore';
 import MallNavbar from './MallNavbar';
-import MallHero from './MallHero';
 import StorefrontCard from './StorefrontCard';
 import CartDrawer from './CartDrawer';
 import CheckoutModal from './CheckoutModal';
 import OrderTrackerModal from './OrderTrackerModal';
+import FavoritesDrawer from './FavoritesDrawer';
 import MallFooter from '../Shared/MallFooter';
 
 const MallDirectory = ({
@@ -17,24 +18,33 @@ const MallDirectory = ({
   onClearCart
 }) => {
   const [shops, setShops] = useState([]);
-  const [allProductsCount, setAllProductsCount] = useState(15);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Favorites state with localStorage persistence
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sc_favorites_v1');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
   // Modals & Drawers
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [activeTrackedOrder, setActiveTrackedOrder] = useState(null);
 
   const fetchMallData = async () => {
     setLoading(true);
-    const [shopsData, prodsData] = await Promise.all([
+    const [shopsData] = await Promise.all([
       getShops(),
       getProducts()
     ]);
     setShops(shopsData);
-    setAllProductsCount(prodsData.length);
     setLoading(false);
   };
 
@@ -48,6 +58,27 @@ const MallDirectory = ({
     window.addEventListener('sc:shops_updated', handleShopsUpdated);
     return () => window.removeEventListener('sc:shops_updated', handleShopsUpdated);
   }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('sc_favorites_v1', JSON.stringify(favorites));
+    } catch (e) {}
+  }, [favorites]);
+
+  const handleToggleFavorite = (shop) => {
+    setFavorites((prev) => {
+      const exists = prev.some((s) => s.id === shop.id);
+      if (exists) {
+        return prev.filter((s) => s.id !== shop.id);
+      } else {
+        return [...prev, shop];
+      }
+    });
+  };
+
+  const handleRemoveFavorite = (shopId) => {
+    setFavorites((prev) => prev.filter((s) => s.id !== shopId));
+  };
 
   // Filter storefronts by selected category and search query
   const filteredShops = shops.filter((shop) => {
@@ -76,11 +107,42 @@ const MallDirectory = ({
       <MallNavbar
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        favoritesCount={favorites.length}
+        onOpenFavorites={() => setIsFavoritesOpen(true)}
       />
 
-      <MallHero totalShops={shops.length} totalProducts={allProductsCount} />
+      {/* CENTERED NORMAL-SIZED SINGLECART HEADING & SEARCH BAR */}
+      <section className="mall-center-hero">
+        <div className="mall-center-hero-content">
+          <h1 className="mall-center-heading">
+            Single<span>Cart</span>
+          </h1>
+          <p className="mall-center-subheading">
+            The Digital Mall & Boutiques
+          </p>
+
+          <div className="mall-center-search-bar">
+            <Search className="mall-center-search-icon" size={19} />
+            <input
+              type="text"
+              className="mall-center-search-input"
+              placeholder="Search boutiques, cafes, electronics, fashion..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                className="mall-center-search-clear"
+                onClick={() => setSearchQuery('')}
+                title="Clear search"
+                aria-label="Clear search"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
 
       {/* MALL DEPARTMENTS BAR */}
       <section className="mall-categories-nav">
@@ -133,11 +195,26 @@ const MallDirectory = ({
         ) : (
           <div className="storefronts-grid">
             {filteredShops.map((shop) => (
-              <StorefrontCard key={shop.id} shop={shop} />
+              <StorefrontCard 
+                key={shop.id} 
+                shop={shop} 
+                isFavorite={favorites.some((f) => f.id === shop.id)}
+                onToggleFavorite={handleToggleFavorite}
+              />
             ))}
           </div>
         )}
       </main>
+
+      <MallFooter />
+
+      {/* Favorites Drawer */}
+      <FavoritesDrawer
+        isOpen={isFavoritesOpen}
+        onClose={() => setIsFavoritesOpen(false)}
+        favorites={favorites}
+        onRemoveFavorite={handleRemoveFavorite}
+      />
 
       {/* CART DRAWER */}
       <CartDrawer

@@ -1,74 +1,85 @@
-import React, { useState } from 'react';
-import { ShoppingBag, Search, KeyRound } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ShoppingBag, Heart, Sun, Moon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import PortalSelectModal from './PortalSelectModal';
 
 const MallNavbar = ({
   cartCount = 0,
   onOpenCart,
-  searchQuery = '',
-  onSearchChange,
-  showSearch = true
+  favoritesCount = 0,
+  onOpenFavorites
 }) => {
   const navigate = useNavigate();
-  const [isPortalModalOpen, setIsPortalModalOpen] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('sc_theme') || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('sc_theme', theme);
+    } catch (e) {}
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   return (
-    <>
-      <nav className="mall-navbar">
-        <div className="mall-nav-inner">
-          <div className="mall-brand" onClick={() => navigate('/mall')}>
-            <div className="mall-logo-icon">S</div>
-            <div className="mall-brand-text">
-              <h1>SingleCart</h1>
-              <span>The Digital Mall</span>
-            </div>
+    <nav className="mall-navbar">
+      <div className="mall-nav-inner">
+        {/* Brand with shopping icon */}
+        <div className="mall-brand" onClick={() => navigate('/mall')}>
+          <div className="mall-logo-icon" title="SingleCart Digital Mall">
+            <ShoppingBag size={20} />
           </div>
-
-          {showSearch && (
-            <div className="mall-search-bar">
-              <Search className="mall-search-icon" size={18} />
-              <input
-                type="text"
-                className="mall-search-input"
-                placeholder="Search boutiques, cafes, electronics..."
-                value={searchQuery}
-                onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
-              />
-            </div>
-          )}
-
-          <div className="mall-nav-actions">
-            <button
-              className="portal-link-btn portal-access-btn"
-              onClick={() => setIsPortalModalOpen(true)}
-              title="Retailer & Admin Portal Access"
-            >
-              <KeyRound size={16} />
-              <span>Portal Access</span>
-            </button>
-
-            <button
-              className="cart-toggle-btn"
-              onClick={onOpenCart}
-              aria-label="Open Shopping Cart"
-            >
-              <ShoppingBag size={18} />
-              <span>Cart</span>
-              {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
-            </button>
+          <div className="mall-brand-text">
+            <h1>SingleCart</h1>
+            <span>The Digital Mall</span>
           </div>
         </div>
-      </nav>
 
-      {/* Role Selection Dialogue Modal */}
-      <PortalSelectModal
-        isOpen={isPortalModalOpen}
-        onClose={() => setIsPortalModalOpen(false)}
-      />
-    </>
+        {/* Right Side Actions: Theme Toggle, Favorites, Cart */}
+        <div className="mall-nav-actions">
+          {/* Light / Dark Mode Toggle */}
+          <button
+            className="nav-icon-btn theme-toggle-btn"
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Saved Favorites Button */}
+          <button
+            className="nav-icon-btn fav-toggle-btn"
+            onClick={onOpenFavorites}
+            title="Saved Favorites"
+            aria-label="Open Saved Favorites"
+          >
+            <Heart size={18} />
+            <span>Favorites</span>
+            {favoritesCount > 0 && (
+              <span className="nav-fav-badge">{favoritesCount}</span>
+            )}
+          </button>
+
+          {/* Cart Button */}
+          <button
+            className="cart-toggle-btn"
+            onClick={onOpenCart}
+            aria-label="Open Shopping Cart"
+          >
+            <ShoppingBag size={18} />
+            <span>Cart</span>
+            {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 };
 
 export default MallNavbar;
+
 

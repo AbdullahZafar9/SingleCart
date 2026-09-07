@@ -206,8 +206,6 @@ const MallDirectory = ({
         )}
       </main>
 
-      <MallFooter />
-
       {/* Favorites Drawer */}
       <FavoritesDrawer
         isOpen={isFavoritesOpen}

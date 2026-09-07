@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Store } from 'lucide-react';
+import { ShieldCheck, Store, Home } from 'lucide-react';
 
 const MallFooter = () => {
   const navigate = useNavigate();
@@ -8,8 +8,8 @@ const MallFooter = () => {
   return (
     <footer className="mall-footer">
       <div className="mall-footer-inner">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div className="mall-logo-icon" style={{ width: '32px', height: '32px', fontSize: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div className="mall-logo-icon" style={{ width: '34px', height: '34px', fontSize: '1.05rem' }}>
             S
           </div>
           <div>
@@ -20,26 +20,38 @@ const MallFooter = () => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+        {/* Dedicated Footer Portals & Quick Nav */}
+        <div className="footer-links-group">
           <button
-            onClick={() => navigate('/retailer')}
-            style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}
+            onClick={() => navigate('/')}
+            className="footer-portal-link"
+            title="Return to Welcome Landing Screen"
+          >
+            <Home size={14} />
+            <span>Welcome Screen</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/retailer/login')}
+            className="footer-portal-link retailer"
+            title="Retailer Management Login"
           >
             <Store size={14} />
             <span>Retailer Portal</span>
           </button>
 
           <button
-            onClick={() => navigate('/admin')}
-            style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}
+            onClick={() => navigate('/admin/login')}
+            className="footer-portal-link admin"
+            title="Mall Administration Login"
           >
             <ShieldCheck size={14} />
-            <span>Executive Admin</span>
+            <span>Mall Admin</span>
           </button>
         </div>
 
         <div className="footer-copy">
-          <span>&copy; {new Date().getFullYear()} SingleCart Digital Mall Inc. Friction-free shopping.</span>
+          <span>&copy; {new Date().getFullYear()} SingleCart Digital Mall Inc. Friction-free multi-store shopping.</span>
         </div>
       </div>
     </footer>
@@ -47,3 +59,4 @@ const MallFooter = () => {
 };
 
 export default MallFooter;
+

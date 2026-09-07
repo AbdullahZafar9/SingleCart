@@ -1069,7 +1069,302 @@
   gap: 20px;
 }
 
+.footer-links-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-portal-link {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.footer-portal-link:hover {
+  color: var(--text-primary);
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+  transform: translateY(-1px);
+}
+
+.footer-portal-link.retailer:hover {
+  color: #b45309;
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.footer-portal-link.admin:hover {
+  color: #1d4ed8;
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+}
+
 .footer-copy {
   font-size: 0.84rem;
   color: var(--text-muted);
 }
+
+/* ============================================================
+   Portal Access Button & Dialogue Modal
+   ============================================================ */
+
+.portal-access-btn {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.portal-access-btn:hover {
+  background: #f8fafc;
+  border-color: #d97706;
+  color: #b45309;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.12);
+}
+
+.portal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out both;
+}
+
+.portal-modal-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  padding: 34px 28px 26px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  position: relative;
+  animation: portalModalScale 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes portalModalScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.93) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.portal-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  background: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portal-modal-close:hover {
+  color: var(--text-primary);
+  background: #f1f5f9;
+  transform: rotate(90deg);
+}
+
+.portal-modal-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.portal-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(217, 119, 6, 0.12);
+  color: #d97706;
+  margin-bottom: 12px;
+}
+
+.portal-modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.portal-modal-header p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.portal-modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.portal-option-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border-subtle);
+  background: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  position: relative;
+  text-align: left;
+}
+
+.portal-option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.07);
+}
+
+.portal-option-card.retailer:hover {
+  border-color: #f59e0b;
+  background: #fffdf9;
+}
+
+.portal-option-card.admin:hover {
+  border-color: #3b82f6;
+  background: #f8fbff;
+}
+
+.portal-option-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.portal-option-icon.retailer {
+  background: rgba(245, 158, 11, 0.14);
+  color: #b45309;
+}
+
+.portal-option-icon.admin {
+  background: rgba(59, 130, 246, 0.14);
+  color: #1d4ed8;
+}
+
+.portal-option-card:hover .portal-option-icon {
+  transform: scale(1.06);
+}
+
+.portal-option-content {
+  flex: 1;
+}
+
+.portal-option-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.portal-option-title-row h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.portal-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.portal-tag.retailer {
+  background: rgba(245, 158, 11, 0.14);
+  color: #b45309;
+}
+
+.portal-tag.admin {
+  background: rgba(59, 130, 246, 0.14);
+  color: #1d4ed8;
+}
+
+.portal-option-content p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.portal-option-arrow {
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.portal-option-card:hover .portal-option-arrow {
+  transform: translateX(3px);
+  color: var(--text-primary);
+}
+
+.portal-option-card.retailer:hover .portal-option-arrow {
+  color: #b45309;
+}
+
+.portal-option-card.admin:hover .portal-option-arrow {
+  color: #1d4ed8;
+}
+
+.portal-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+

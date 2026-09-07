@@ -7,6 +7,43 @@ export const MALL_CATEGORIES = [
   { id: 'bags', name: 'Bags', icon: '🎒', description: 'Commuter backpacks, leather duffels & slings' }
 ];
 
+export const SHOP_ITEM_CATEGORIES = {
+  'retailer-1': [
+    { id: 'all', label: 'All Streetwear' },
+    { id: 'tops', label: 'Tops' },
+    { id: 'bottom', label: 'Bottom' },
+    { id: 'hoodies', label: 'Hoodies' },
+    { id: 'caps', label: 'Caps' }
+  ],
+  'retailer-2': [
+    { id: 'all', label: 'All Skincare' },
+    { id: 'serums', label: 'Serums' },
+    { id: 'cleansers', label: 'Cleansers' },
+    { id: 'moisturizer', label: 'Moisturizer' },
+    { id: 'sun screen', label: 'Sun Screen' }
+  ],
+  'retailer-3': [
+    { id: 'all', label: 'All Shoes' },
+    { id: 'formal', label: 'Formal' },
+    { id: 'sneakers', label: 'Sneakers' },
+    { id: 'joggers', label: 'Joggers' },
+    { id: 'slippers', label: 'Slippers' }
+  ],
+  'retailer-4': [
+    { id: 'all', label: 'All Tech' },
+    { id: 'earbuds', label: 'Earbuds' },
+    { id: 'mouse', label: 'Mouse' },
+    { id: 'keyboards', label: 'Keyboards' },
+    { id: 'cables', label: 'Cables' }
+  ],
+  'retailer-5': [
+    { id: 'all', label: 'All Bags' },
+    { id: 'crossbody', label: 'Crossbody' },
+    { id: 'shoulder', label: 'Shoulder' },
+    { id: 'handbags', label: 'Handbags' }
+  ]
+};
+
 export const INITIAL_SHOPS = [
   {
     id: 'retailer-1',
@@ -17,10 +54,11 @@ export const INITIAL_SHOPS = [
     reviews_count: 168,
     location_in_mall: 'Floor 2, West Promenade (Suite 204)',
     phone: '+1 (555) 302-8819',
-    description: 'High-concept urban streetwear, heavyweight boxy hoodies, Japanese selvedge denim, and limited graphic drops.',
+    description: 'High-concept urban streetwear, heavyweight boxy hoodies, Japanese selvedge denim, distressed tops, and limited graphic drops.',
     logo_url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#ea580c'
+    accent_color: '#ea580c',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-1']
   },
   {
     id: 'retailer-2',
@@ -31,10 +69,11 @@ export const INITIAL_SHOPS = [
     reviews_count: 145,
     location_in_mall: 'Floor 1, Garden Court (Suite 118)',
     phone: '+1 (555) 672-0044',
-    description: 'Clean dermatological formulas, botanical facial oils, squalane hydration serums, and barrier-repair cleansers.',
+    description: 'Clean dermatological formulas, botanical facial oils, squalane hydration serums, barrier creams, and reef-safe daily sunscreens.',
     logo_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#10b981'
+    accent_color: '#10b981',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-2']
   },
   {
     id: 'retailer-3',
@@ -45,10 +84,11 @@ export const INITIAL_SHOPS = [
     reviews_count: 210,
     location_in_mall: 'Floor 1, North Concourse (Suite 142)',
     phone: '+1 (555) 441-8899',
-    description: 'Limited edition retro trainers, handcrafted leather Chelsea boots, lightweight runners, and Italian loafers.',
+    description: 'Handcrafted formal oxfords, limited retro sneakers, high-rebound joggers, and shearling comfort slippers.',
     logo_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#d97706'
+    accent_color: '#d97706',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-3']
   },
   {
     id: 'retailer-4',
@@ -59,10 +99,11 @@ export const INITIAL_SHOPS = [
     reviews_count: 132,
     location_in_mall: 'Floor 3, Innovation Hub (Suite 310)',
     phone: '+1 (555) 789-2211',
-    description: 'Audiophile wireless noise-cancelling monitors, custom mechanical keyboards, titanium charging pads, and cables.',
+    description: 'Audiophile ANC wireless earbuds, precision lightweight gaming mice, custom hot-swap mechanical keyboards, and 100W braided cables.',
     logo_url: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#3b82f6'
+    accent_color: '#3b82f6',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-4']
   },
   {
     id: 'retailer-5',
@@ -73,186 +114,512 @@ export const INITIAL_SHOPS = [
     reviews_count: 118,
     location_in_mall: 'Floor 2, South Promenade (Suite 228)',
     phone: '+1 (555) 901-4477',
-    description: 'Weatherproof commuter backpacks, full-grain leather weekender duffels, ballistic slings, and canvas totes.',
+    description: 'Tactical EDC crossbody slings, Italian suede shoulder totes, structured full-grain handbags, and handcrafted leather goods.',
     logo_url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#8b5cf6'
+    accent_color: '#8b5cf6',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-5']
   }
 ];
 
 export const INITIAL_PRODUCTS = [
+  // ==========================================
   // 1. Street Wear - Apex Streetwear & Denim (retailer-1)
+  // Categories: tops, bottom, hoodies, caps
+  // ==========================================
+  // Tops
   {
-    id: 'prod-101',
+    id: 'prod-sw-top-1',
     retailer_id: 'retailer-1',
-    name: 'Midnight Boxy Heavyweight Hoodie',
+    name: 'Vintage Acid Wash Heavyweight Graphic Tee',
     category: 'streetwear',
-    price: 98.00,
-    badge: '🔥 Bestseller',
-    description: '450 GSM organic French terry cotton with subtle high-density tonal embroidery and drop shoulders.',
-    image_url: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80',
-    in_stock: true
-  },
-  {
-    id: 'prod-102',
-    retailer_id: 'retailer-1',
-    name: 'Selvedge Raw Denim Relaxed Pant',
-    category: 'streetwear',
-    price: 145.00,
-    badge: '⭐ Premium Cut',
-    description: '14oz Kurabo Japanese shuttle-loom selvedge denim with custom oxidized brass hardware.',
-    image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&auto=format&fit=crop&q=80',
-    in_stock: true
-  },
-  {
-    id: 'prod-103',
-    retailer_id: 'retailer-1',
-    name: 'Vintage Wash Heavy Cotton Graphic Tee',
-    category: 'streetwear',
+    item_category: 'tops',
     price: 48.00,
     badge: '✨ New Drop',
-    description: 'Pre-shrunk 240 GSM combed cotton with faded distressed wash and vintage screenprint.',
-    image_url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80',
+    description: 'Pre-shrunk 260 GSM combed cotton with faded distressed wash, boxy streetwear fit, and vintage screenprint.',
+    image_url: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sw-top-2',
+    retailer_id: 'retailer-1',
+    name: 'Tokyo Oversized Minimalist Mockneck Top',
+    category: 'streetwear',
+    item_category: 'tops',
+    price: 54.00,
+    badge: '🔥 Bestseller',
+    description: 'Structured silhouette crafted from heavyweight double-knit interlock jersey with clean raw-edge finish.',
+    image_url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Bottom
+  {
+    id: 'prod-sw-bot-1',
+    retailer_id: 'retailer-1',
+    name: 'Kurabo Selvedge Raw Denim Relaxed Pant',
+    category: 'streetwear',
+    item_category: 'bottom',
+    price: 145.00,
+    badge: '⭐ Premium Cut',
+    description: '14oz Japanese shuttle-loom selvedge denim with custom oxidized brass hardware and wide-leg break.',
+    image_url: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sw-bot-2',
+    retailer_id: 'retailer-1',
+    name: 'Modular Tactical Cargo Trousers with Straps',
+    category: 'streetwear',
+    item_category: 'bottom',
+    price: 110.00,
+    badge: '⚡ Utility Fit',
+    description: 'Water-repellent ripstop cotton twill featuring 8 multi-depth bellows pockets and cinch-cord ankle cuffs.',
+    image_url: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Hoodies
+  {
+    id: 'prod-sw-hood-1',
+    retailer_id: 'retailer-1',
+    name: 'Midnight Boxy 450 GSM Heavyweight Hoodie',
+    category: 'streetwear',
+    item_category: 'hoodies',
+    price: 98.00,
+    badge: '🔥 Fan Favorite',
+    description: 'Ultra-dense organic French terry cotton with double-layered crossover hood and drop-shoulder aesthetic.',
+    image_url: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sw-hood-2',
+    retailer_id: 'retailer-1',
+    name: 'Faded Charcoal French Terry Full-Zip Hoodie',
+    category: 'streetwear',
+    item_category: 'hoodies',
+    price: 105.00,
+    badge: '✨ Streetwear',
+    description: 'Pigment-dyed heavyweight zip hoodie with heavy-gauge 2-way antique silver zipper and kangaroo pockets.',
+    image_url: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Caps
+  {
+    id: 'prod-sw-cap-1',
+    retailer_id: 'retailer-1',
+    name: 'Distressed Low-Profile Vintage Dad Cap',
+    category: 'streetwear',
+    item_category: 'caps',
+    price: 36.00,
+    badge: '🧢 Classic',
+    description: 'Unstructured 6-panel washed cotton twill with antique brass tri-glide buckle and curved brim.',
+    image_url: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sw-cap-2',
+    retailer_id: 'retailer-1',
+    name: 'Minimalist Embroidered Canvas Snapback',
+    category: 'streetwear',
+    item_category: 'caps',
+    price: 40.00,
+    badge: '✨ Limited',
+    description: 'High-crown structured canvas cap featuring tonal micro-embroidery and adjustable snap closure.',
+    image_url: 'https://images.unsplash.com/photo-1575428652377-a2d80e2277fc?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
 
+  // ==========================================
   // 2. Skin Care - Aura Botanical Skincare (retailer-2)
+  // Categories: serums, cleansers, moisturizer, sun screen
+  // ==========================================
+  // Serums
   {
-    id: 'prod-201',
+    id: 'prod-sk-ser-1',
     retailer_id: 'retailer-2',
-    name: 'Celestial Glow Squalane Facial Elixir',
+    name: 'Celestial Glow Squalane & Rosehip Facial Elixir',
     category: 'skincare',
+    item_category: 'serums',
     price: 48.00,
     badge: '✨ Radiance',
-    description: 'Deeply hydrating plant-derived squalane infused with cold-pressed rosehip seed and blue tansy oil.',
-    image_url: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80',
+    description: 'Deeply hydrating plant-derived squalane infused with cold-pressed organic rosehip seed oil and blue tansy.',
+    image_url: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
   {
-    id: 'prod-202',
+    id: 'prod-sk-ser-2',
     retailer_id: 'retailer-2',
-    name: 'Botanical Rosehip & Oat Cleansing Balm',
+    name: '10% Pure Niacinamide + Zinc Clarifying Serum',
     category: 'skincare',
+    item_category: 'serums',
+    price: 42.00,
+    badge: '💧 Pore Refine',
+    description: 'Concentrated vitamin B3 serum designed to balance sebum activity, minimize pores, and smooth skin texture.',
+    image_url: 'https://images.unsplash.com/photo-1608248597359-07f9c8f2b3e8?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Cleansers
+  {
+    id: 'prod-sk-cln-1',
+    retailer_id: 'retailer-2',
+    name: 'Botanical Rosehip & Oat Melt Cleansing Balm',
+    category: 'skincare',
+    item_category: 'cleansers',
     price: 36.00,
     badge: '🌿 Clean Beauty',
-    description: 'Melt-away antioxidant cleansing balm that gently breaks down SPF and impurities without stripping.',
-    image_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80',
+    description: 'Transformative oil-to-milk balm that dissolves water-resistant SPF and impurities without stripping natural lipids.',
+    image_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
   {
-    id: 'prod-203',
+    id: 'prod-sk-cln-2',
     retailer_id: 'retailer-2',
-    name: 'Peptide Infusion Overnight Barrier Cream',
+    name: 'Gentle Green Tea & Centella pH 5.5 Gel Cleanser',
     category: 'skincare',
+    item_category: 'cleansers',
+    price: 30.00,
+    badge: '🌱 Sensitive Safe',
+    description: 'Low-pH soothing facial cleanser formulated with fermented green tea extract and calming centella asiatica.',
+    image_url: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Moisturizer
+  {
+    id: 'prod-sk-moi-1',
+    retailer_id: 'retailer-2',
+    name: 'Peptide Infusion Overnight Barrier Restoring Cream',
+    category: 'skincare',
+    item_category: 'moisturizer',
     price: 52.00,
     badge: '💧 Barrier Restore',
-    description: 'Multi-peptide ceramide complex designed to repair skin barrier resilience and lock in moisture.',
-    image_url: 'https://images.unsplash.com/photo-1608248597359-07f9c8f2b3e8?w=800&auto=format&fit=crop&q=80',
+    description: 'Multi-peptide ceramide complex that fortifies the epidermal moisture barrier and locks in all-night hydration.',
+    image_url: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sk-moi-2',
+    retailer_id: 'retailer-2',
+    name: 'Cloud Lightweight Hyaluronic Water Gel',
+    category: 'skincare',
+    item_category: 'moisturizer',
+    price: 38.00,
+    badge: '✨ Ultra Hydrate',
+    description: 'Oil-free burst-release water moisturizer that absorbs instantly with 5 molecular weights of hyaluronic acid.',
+    image_url: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Sun Screen
+  {
+    id: 'prod-sk-sun-1',
+    retailer_id: 'retailer-2',
+    name: 'Invisible Shield SPF 50+ Daily Hydrating Fluid',
+    category: 'skincare',
+    item_category: 'sun screen',
+    price: 36.00,
+    badge: '☀️ Zero Whitecast',
+    description: 'Weightless chemical sunscreen serum offering broad-spectrum UVA/UVB protection with invisible satin finish.',
+    image_url: 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sk-sun-2',
+    retailer_id: 'retailer-2',
+    name: 'Matte Mineral Zinc SPF 50 Broad Spectrum Sunscreen',
+    category: 'skincare',
+    item_category: 'sun screen',
+    price: 34.00,
+    badge: '🌿 Reef Safe',
+    description: '100% non-nano zinc oxide sunscreen infused with soothing bisabolol for pore-blurring matte coverage.',
+    image_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
 
+  // ==========================================
   // 3. Shoes - SoleCraft Shoes & Sneakers (retailer-3)
+  // Categories: formal, sneakers, joggers, slippers
+  // ==========================================
+  // Formal
   {
-    id: 'prod-301',
+    id: 'prod-sh-for-1',
+    retailer_id: 'retailer-3',
+    name: 'Hand-Burnished Oxford Brogues in Espresso Calfskin',
+    category: 'shoes',
+    item_category: 'formal',
+    price: 185.00,
+    badge: '⭐ Handcrafted',
+    description: 'Goodyear-welted full-grain Italian calf leather with laser-perforated medallion toe and stacked leather heel.',
+    image_url: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sh-for-2',
+    retailer_id: 'retailer-3',
+    name: 'Classic Calfskin Leather Penny Loafers',
+    category: 'shoes',
+    item_category: 'formal',
+    price: 165.00,
+    badge: '👞 Artisan Made',
+    description: 'Supple hand-stitched apron moc toe with cushioned arch-support insole and durable leather outsoles.',
+    image_url: 'https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Sneakers
+  {
+    id: 'prod-sh-snk-1',
     retailer_id: 'retailer-3',
     name: 'Phantom Kinetic Retro Low-Top Sneakers',
     category: 'shoes',
+    item_category: 'sneakers',
     price: 135.00,
     badge: '👟 Trending',
-    description: 'Premium Italian calfskin leather with gum sole and ergonomic OrthoLite cushioned footbed.',
-    image_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80',
+    description: 'Premium calfskin leather with natural gum sole, perforated side panels, and ergonomic OrthoLite footbed.',
+    image_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
   {
-    id: 'prod-302',
+    id: 'prod-sh-snk-2',
     retailer_id: 'retailer-3',
-    name: 'Artisan Chelsea Boot in Handcrafted Suede',
+    name: 'Minimalist Monochromatic White Calfskin Sneaker',
     category: 'shoes',
-    price: 185.00,
-    badge: '⭐ Handcrafted',
-    description: 'Goodyear-welted waxed suede leather with elasticated side gussets and Vibram lugged outsoles.',
-    image_url: 'https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=800&auto=format&fit=crop&q=80',
+    item_category: 'sneakers',
+    price: 125.00,
+    badge: '✨ Core Classic',
+    description: 'Clean architectural lines, gold-stamped heel detail, buttery leather lining, and vulcanized rubber cupsole.',
+    image_url: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
+  // Joggers
   {
-    id: 'prod-303',
+    id: 'prod-sh-jog-1',
     retailer_id: 'retailer-3',
     name: 'CloudStrider Ultralight Cushion Runner',
     category: 'shoes',
+    item_category: 'joggers',
     price: 120.00,
     badge: '⚡ Performance',
-    description: 'Engineered breathable knit upper with nitrogen-infused foam midsole for boundless energy return.',
-    image_url: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=800&auto=format&fit=crop&q=80',
+    description: 'Breathable jacquard knit upper paired with nitrogen-infused dual-density foam for boundless kinetic return.',
+    image_url: 'https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sh-jog-2',
+    retailer_id: 'retailer-3',
+    name: 'Aero-Knit Carbon Plate Long Distance Jogger',
+    category: 'shoes',
+    item_category: 'joggers',
+    price: 145.00,
+    badge: '🏃 Pro Pace',
+    description: 'Full-length carbon fiber propulsion plate encased in high-rebound supercritical midsole foam.',
+    image_url: 'https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Slippers
+  {
+    id: 'prod-sh-slp-1',
+    retailer_id: 'retailer-3',
+    name: 'Shearling-Lined Suede Lounge Slippers',
+    category: 'shoes',
+    item_category: 'slippers',
+    price: 68.00,
+    badge: '☁️ Cloud Comfort',
+    description: 'Plush genuine Australian shearling interior with water-resistant cowhide suede upper and EVA tread sole.',
+    image_url: 'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-sh-slp-2',
+    retailer_id: 'retailer-3',
+    name: 'Ergonomic Recovery Cushion Slide Slippers',
+    category: 'shoes',
+    item_category: 'slippers',
+    price: 45.00,
+    badge: '✨ Relax Fit',
+    description: 'High-density one-piece molded EVA slide engineered with deep heel cup and pronounced arch cradle.',
+    image_url: 'https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
 
+  // ==========================================
   // 4. Tech Accessories - CyberPulse Tech Accessories (retailer-4)
+  // Categories: earbuds, mouse, keyboards, cables
+  // ==========================================
+  // Earbuds
   {
-    id: 'prod-401',
+    id: 'prod-tc-ear-1',
     retailer_id: 'retailer-4',
-    name: 'PulseWave Active Noise Cancelling Headphones',
+    name: 'PulseWave Pro Active Noise Cancelling Earbuds',
     category: 'tech',
-    price: 249.00,
-    badge: '⚡ Top Rated',
-    description: 'Dual bio-cellulose dynamic drivers, 48dB active hybrid noise cancellation, and 40-hour battery life.',
-    image_url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80',
+    item_category: 'earbuds',
+    price: 149.00,
+    badge: '⚡ Hi-Fi ANC',
+    description: '11mm beryllium acoustic drivers, 48dB adaptive hybrid noise cancellation, LDAC high-res audio codec.',
+    image_url: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
   {
-    id: 'prod-402',
+    id: 'prod-tc-ear-2',
     retailer_id: 'retailer-4',
-    name: 'Lumik 75% Mechanical Wireless Keyboard',
+    name: 'AeroPods True Wireless Ultra-Low Latency Buds',
     category: 'tech',
+    item_category: 'earbuds',
+    price: 89.00,
+    badge: '🎵 Studio Sound',
+    description: '35ms ultra-low gaming latency, IPX7 sweatproof nano-coating, and ergonomic stay-in-ear comfort wings.',
+    image_url: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Mouse
+  {
+    id: 'prod-tc-mou-1',
+    retailer_id: 'retailer-4',
+    name: 'Apex Glide Ultralight 49g Wireless Gaming Mouse',
+    category: 'tech',
+    item_category: 'mouse',
+    price: 79.00,
+    badge: '⚡ 26K DPI',
+    description: 'PixArt PAW3395 optical sensor, 4000Hz polling rate support, PTFE virgin feet, and 80-hour battery life.',
+    image_url: 'https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-tc-mou-2',
+    retailer_id: 'retailer-4',
+    name: 'ErgoPrecision Silent Wireless Productivity Mouse',
+    category: 'tech',
+    item_category: 'mouse',
+    price: 69.00,
+    badge: '✨ Silent Click',
+    description: 'Sculpted ergonomic thumb rest, dual-mode Bluetooth & 2.4GHz receiver, and frictionless metal mag-speed scroll wheel.',
+    image_url: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Keyboards
+  {
+    id: 'prod-tc-kbd-1',
+    retailer_id: 'retailer-4',
+    name: 'Lumik 75% Mechanical Hot-Swap Wireless Keyboard',
+    category: 'tech',
+    item_category: 'keyboards',
     price: 139.00,
     badge: '⌨️ Enthusiast',
-    description: 'CNC aluminum chassis with pre-lubed Gateron Yellow switches, sound-dampening silicone, and RGB.',
-    image_url: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=80',
+    description: 'CNC anodized aluminum frame with pre-lubed Gateron Yellow Pro linear switches and multi-layer silicone acoustic dampening.',
+    image_url: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
   {
-    id: 'prod-403',
+    id: 'prod-tc-kbd-2',
     retailer_id: 'retailer-4',
-    name: 'MagFast Titanium Qi2 Wireless Charging Pad',
+    name: 'Ghost Key 60% Low-Profile Mechanical Keyboard',
     category: 'tech',
-    price: 54.00,
-    badge: '⚡ Fast Charge',
-    description: 'Braided aramid cable with aerospace titanium housing capable of 15W high-speed magnetic alignment.',
-    image_url: 'https://images.unsplash.com/photo-1622445262464-84b1a07374a4?w=800&auto=format&fit=crop&q=80',
+    item_category: 'keyboards',
+    price: 119.00,
+    badge: '✨ Ultra Slim',
+    description: 'Ultra-thin aluminum chassis, Kailh low-profile red switches, dye-sublimated PBT keycaps, and custom RGB modes.',
+    image_url: 'https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Cables
+  {
+    id: 'prod-tc-cbl-1',
+    retailer_id: 'retailer-4',
+    name: '100W Braided Kevlar USB-C Fast Charging Cable (2M)',
+    category: 'tech',
+    item_category: 'cables',
+    price: 24.00,
+    badge: '⚡ 100W Power',
+    description: 'Double-braided bulletproof aramid fiber with E-marker chip, 480Mbps data sync, and reinforced strain-relief joints.',
+    image_url: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-tc-cbl-2',
+    retailer_id: 'retailer-4',
+    name: '3-in-1 Ultra-Durable Magnetic Quick-Charge Cable',
+    category: 'tech',
+    item_category: 'cables',
+    price: 29.00,
+    badge: '✨ 540° Swivel',
+    description: 'Interchangeable magnetic tips for Lightning, Type-C, and Micro USB with 540-degree rotatable magnetic hinge.',
+    image_url: 'https://images.unsplash.com/photo-1622445262464-84b1a07374a4?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   },
 
+  // ==========================================
   // 5. Bags - Nomad Bags & Leathercraft (retailer-5)
+  // Categories: crossbody, shoulder, handbags
+  // ==========================================
+  // Crossbody
   {
-    id: 'prod-501',
+    id: 'prod-bg-cro-1',
     retailer_id: 'retailer-5',
-    name: 'Voyager Weatherproof Commuter Backpack',
+    name: 'Tactical Ballistic EDC Crossbody Sling',
     category: 'bags',
-    price: 125.00,
-    badge: '🎒 Daily Carry',
-    description: 'Cordura 1000D ballistic nylon with padded 16" laptop pocket and magnetic Fidlock quick release.',
-    image_url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&auto=format&fit=crop&q=80',
-    in_stock: true
-  },
-  {
-    id: 'prod-502',
-    retailer_id: 'retailer-5',
-    name: 'Heritage Full-Grain Leather Weekender Duffel',
-    category: 'bags',
-    price: 195.00,
-    badge: '⭐ Premium Leather',
-    description: 'Hand-burnished vegetable-tanned leather with heavy solid brass YKK zippers and reinforced base.',
-    image_url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&auto=format&fit=crop&q=80',
-    in_stock: true
-  },
-  {
-    id: 'prod-503',
-    retailer_id: 'retailer-5',
-    name: 'Tactical Ballistic Crossbody Sling',
-    category: 'bags',
+    item_category: 'crossbody',
     price: 68.00,
     badge: '✨ Modular',
-    description: 'Compact weather-sealed sling with quick-adjust strap, internal passport slot, and key leash.',
-    image_url: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=800&auto=format&fit=crop&q=80',
+    description: 'Compact Cordura 1000D weather-sealed sling with German Fidlock magnetic buckle, key leash, and concealed passport slot.',
+    image_url: 'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-bg-cro-2',
+    retailer_id: 'retailer-5',
+    name: 'Minimalist Waterproof Ripstop Crossbody Bag',
+    category: 'bags',
+    item_category: 'crossbody',
+    price: 52.00,
+    badge: '🌧️ Weatherproof',
+    description: 'Ultralight dimension-polyant sailcloth body with YKK AquaGuard water-repellent zippers and quick-cinch strap.',
+    image_url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Shoulder
+  {
+    id: 'prod-bg-shd-1',
+    retailer_id: 'retailer-5',
+    name: 'Slouchy Italian Suede Leather Shoulder Bag',
+    category: 'bags',
+    item_category: 'shoulder',
+    price: 145.00,
+    badge: '⭐ Luxury Suede',
+    description: 'Velvety Italian split suede leather featuring unlined relaxed slouch structure and comfortable wide shoulder strap.',
+    image_url: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-bg-shd-2',
+    retailer_id: 'retailer-5',
+    name: 'Padded Commuter Canvas & Leather Shoulder Tote',
+    category: 'bags',
+    item_category: 'shoulder',
+    price: 115.00,
+    badge: '✨ Daily Carry',
+    description: 'Heavy 18oz waxed cotton duck canvas with bridle leather handles, padded 15-inch laptop compartment, and luggage pass-through.',
+    image_url: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  // Handbags
+  {
+    id: 'prod-bg-hnd-1',
+    retailer_id: 'retailer-5',
+    name: 'Heritage Full-Grain Structured Leather Handbag',
+    category: 'bags',
+    item_category: 'handbags',
+    price: 175.00,
+    badge: '⭐ Premium Cut',
+    description: 'Tuscan vegetable-tanned full-grain leather with hand-painted beveled edges, gold-toned turnlock, and removable strap.',
+    image_url: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80',
+    in_stock: true
+  },
+  {
+    id: 'prod-bg-hnd-2',
+    retailer_id: 'retailer-5',
+    name: 'Artisan Minimalist Top-Handle Leather Satchel',
+    category: 'bags',
+    item_category: 'handbags',
+    price: 160.00,
+    badge: '✨ Timeless',
+    description: 'Geometric sculpted silhouette with magnetic flap closure, suede interior lining, and protective brass base feet.',
+    image_url: 'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=900&auto=format&fit=crop&q=80',
     in_stock: true
   }
 ];
@@ -268,7 +635,7 @@ export const INITIAL_ORDERS = [
     status: 'Completed',
     created_at: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
     items: [
-      { id: 'prod-101', name: 'Midnight Boxy Heavyweight Hoodie', price: 98.00, quantity: 1 }
+      { id: 'prod-sw-hood-1', name: 'Midnight Boxy 450 GSM Heavyweight Hoodie', price: 98.00, quantity: 1 }
     ]
   },
   {
@@ -281,7 +648,7 @@ export const INITIAL_ORDERS = [
     status: 'Completed',
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     items: [
-      { id: 'prod-301', name: 'Phantom Kinetic Retro Low-Top Sneakers', price: 135.00, quantity: 1 }
+      { id: 'prod-sh-snk-1', name: 'Phantom Kinetic Retro Low-Top Sneakers', price: 135.00, quantity: 1 }
     ]
   },
   {
@@ -294,7 +661,7 @@ export const INITIAL_ORDERS = [
     status: 'Completed',
     created_at: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
     items: [
-      { id: 'prod-402', name: 'Lumik 75% Mechanical Wireless Keyboard', price: 139.00, quantity: 1 }
+      { id: 'prod-tc-kbd-1', name: 'Lumik 75% Mechanical Hot-Swap Wireless Keyboard', price: 139.00, quantity: 1 }
     ]
   },
   {
@@ -307,7 +674,7 @@ export const INITIAL_ORDERS = [
     status: 'Preparing',
     created_at: new Date(Date.now() - 1000 * 60 * 8).toISOString(),
     items: [
-      { id: 'prod-201', name: 'Celestial Glow Squalane Facial Elixir', price: 48.00, quantity: 1 }
+      { id: 'prod-sk-ser-1', name: 'Celestial Glow Squalane & Rosehip Facial Elixir', price: 48.00, quantity: 1 }
     ]
   },
   {
@@ -316,11 +683,11 @@ export const INITIAL_ORDERS = [
     customer_name: 'Devon Brooks',
     customer_phone: '+1 (555) 432-1199',
     delivery_notes: 'Store Counter Pickup',
-    total_price: 125.00,
+    total_price: 145.00,
     status: 'Pending',
     created_at: new Date(Date.now() - 1000 * 60 * 2).toISOString(),
     items: [
-      { id: 'prod-501', name: 'Voyager Weatherproof Commuter Backpack', price: 125.00, quantity: 1 }
+      { id: 'prod-bg-shd-1', name: 'Slouchy Italian Suede Leather Shoulder Bag', price: 145.00, quantity: 1 }
     ]
   }
 ];

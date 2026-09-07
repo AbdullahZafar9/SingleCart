@@ -2,9 +2,9 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v3',
-  PRODUCTS: 'sc_products_v3',
-  ORDERS: 'sc_orders_v3'
+  SHOPS: 'sc_shops_v4',
+  PRODUCTS: 'sc_products_v4',
+  ORDERS: 'sc_orders_v4'
 };
 
 // Safe LocalStorage helpers
@@ -28,12 +28,14 @@ const setStoredList = (key, data) => {
 
 // Initialize default storage on first load
 export const initializeLocalStorage = () => {
-  // Clean up legacy v1/v2 cafe data if needed
+  // Clean up legacy v1/v2/v3 data if needed
   try {
     localStorage.removeItem('sc_shops_v1');
     localStorage.removeItem('sc_products_v1');
     localStorage.removeItem('sc_shops_v2');
     localStorage.removeItem('sc_products_v2');
+    localStorage.removeItem('sc_shops_v3');
+    localStorage.removeItem('sc_products_v3');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
@@ -49,17 +51,36 @@ export const initializeLocalStorage = () => {
 
 initializeLocalStorage();
 
+// Helper to prevent slow network / paused DB from blocking screen navigation
+const withTimeout = (promise, ms = 1200) => {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('Supabase request timed out')), ms))
+  ]);
+};
+
 // ==========================================
-// 1. SHOPS & PROFILES
+// 1. SHOPS & PROFILES (SYNC & ASYNC)
 // ==========================================
+
+export const getShopsSync = () => {
+  return getStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
+};
+
+export const getShopByIdSync = (shopId) => {
+  const shops = getShopsSync();
+  return shops.find((s) => String(s.id) === String(shopId)) || null;
+};
 
 export const getShops = async () => {
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await withTimeout(
+        supabase
+          .from('profiles')
+          .select('*')
+          .order('created_at', { ascending: false })
+      );
       if (!error && data && data.length > 0) {
         return data;
       }
@@ -67,10 +88,15 @@ export const getShops = async () => {
       console.warn('Falling back to local shops:', err);
     }
   }
-  return getStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
+  return getShopsSync();
 };
 
 export const getShopById = async (shopId) => {
+  // Fast sync lookup first
+  const localShop = getShopByIdSync(shopId);
+  if (localShop) {
+    return localShop;
+  }
   const shops = await getShops();
   return shops.find((s) => String(s.id) === String(shopId)) || null;
 };
@@ -79,8 +105,8 @@ export const createShop = async (shopData) => {
   const newShop = {
     id: shopData.id || `retailer-${Date.now()}`,
     shop_name: shopData.shop_name.trim(),
-    category: shopData.category || 'fashion',
-    department: shopData.department || 'Fashion & Apparel',
+    category: shopData.category || 'streetwear',
+    department: shopData.department || 'Street Wear',
     rating: 5.0,
     reviews_count: 0,
     location_in_mall: shopData.location_in_mall || 'Floor 1, Promenade',
@@ -88,8 +114,7 @@ export const createShop = async (shopData) => {
     description: shopData.description || 'Welcome to our digital mall storefront.',
     logo_url: shopData.logo_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
     banner_url: shopData.banner_url || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
-    accent_color: shopData.accent_color || '#e5a93c',
-    pickup_estimated: shopData.pickup_estimated || '10-15 mins',
+    accent_color: shopData.accent_color || '#ea580c',
     created_at: new Date().toISOString()
   };
 
@@ -101,14 +126,16 @@ export const createShop = async (shopData) => {
   // Supabase sync
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('profiles').insert([{
-        id: newShop.id,
-        shop_name: newShop.shop_name,
-        role: 'retailer',
-        category: newShop.category,
-        description: newShop.description,
-        banner_url: newShop.banner_url
-      }]);
+      await withTimeout(
+        supabase.from('profiles').insert([{
+          id: newShop.id,
+          shop_name: newShop.shop_name,
+          role: 'retailer',
+          category: newShop.category,
+          description: newShop.description,
+          banner_url: newShop.banner_url
+        }])
+      );
     } catch (e) {
       console.warn('Supabase shop insert fallback:', e);
     }
@@ -122,8 +149,16 @@ export const createShop = async (shopData) => {
 };
 
 // ==========================================
-// 2. PRODUCTS & INVENTORY
+// 2. PRODUCTS & INVENTORY (SYNC & ASYNC)
 // ==========================================
+
+export const getProductsSync = (retailerId = null) => {
+  const allProducts = getStoredList(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
+  if (retailerId) {
+    return allProducts.filter((p) => String(p.retailer_id) === String(retailerId));
+  }
+  return allProducts;
+};
 
 export const getProducts = async (retailerId = null) => {
   if (isSupabaseConfigured && supabase) {
@@ -132,7 +167,7 @@ export const getProducts = async (retailerId = null) => {
       if (retailerId) {
         query = query.eq('retailer_id', retailerId);
       }
-      const { data, error } = await query;
+      const { data, error } = await withTimeout(query);
       if (!error && data && data.length > 0) {
         return data;
       }
@@ -141,11 +176,7 @@ export const getProducts = async (retailerId = null) => {
     }
   }
 
-  const allProducts = getStoredList(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
-  if (retailerId) {
-    return allProducts.filter((p) => String(p.retailer_id) === String(retailerId));
-  }
-  return allProducts;
+  return getProductsSync(retailerId);
 };
 
 export const saveProduct = async (productData) => {
@@ -157,11 +188,12 @@ export const saveProduct = async (productData) => {
     id: productId,
     retailer_id: productData.retailer_id,
     name: productData.name.trim(),
-    category: productData.category || 'general',
+    category: productData.category || 'streetwear',
+    item_category: productData.item_category || 'tops',
     price: parseFloat(productData.price) || 0,
     badge: productData.badge || '✨ New Item',
     description: productData.description || '',
-    image_url: productData.image_url || 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&auto=format&fit=crop&q=80',
+    image_url: productData.image_url || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80',
     in_stock: productData.in_stock !== undefined ? productData.in_stock : true,
     created_at: productData.created_at || new Date().toISOString()
   };
@@ -180,9 +212,9 @@ export const saveProduct = async (productData) => {
   if (isSupabaseConfigured && supabase) {
     try {
       if (isEditing) {
-        await supabase.from('products').update(formattedProduct).eq('id', productId);
+        await withTimeout(supabase.from('products').update(formattedProduct).eq('id', productId));
       } else {
-        await supabase.from('products').insert([formattedProduct]);
+        await withTimeout(supabase.from('products').insert([formattedProduct]));
       }
     } catch (e) {
       console.warn('Supabase product save fallback:', e);
@@ -208,7 +240,7 @@ export const toggleProductStock = async (productId, inStock) => {
 
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('products').update({ in_stock: inStock }).eq('id', productId);
+      await withTimeout(supabase.from('products').update({ in_stock: inStock }).eq('id', productId));
     } catch (e) {}
   }
 
@@ -224,7 +256,7 @@ export const deleteProduct = async (productId) => {
 
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('products').delete().eq('id', productId);
+      await withTimeout(supabase.from('products').delete().eq('id', productId));
     } catch (e) {}
   }
 
@@ -244,7 +276,7 @@ export const getOrders = async (retailerId = null) => {
       if (retailerId) {
         query = query.eq('retailer_id', retailerId);
       }
-      const { data, error } = await query;
+      const { data, error } = await withTimeout(query);
       if (!error && data && data.length > 0) {
         return data;
       }
@@ -283,7 +315,9 @@ export const placeOrder = async (orderData) => {
   // Supabase save
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data } = await supabase.from('orders').insert([newOrder]).select();
+      const { data } = await withTimeout(
+        supabase.from('orders').insert([newOrder]).select()
+      );
       if (data && data[0]) {
         newOrder.id = data[0].id;
       }
@@ -311,7 +345,7 @@ export const updateOrderStatus = async (orderId, newStatus) => {
 
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('orders').update({ status: newStatus }).eq('id', orderId);
+      await withTimeout(supabase.from('orders').update({ status: newStatus }).eq('id', orderId));
     } catch (e) {}
   }
 
@@ -333,7 +367,7 @@ export const getRevenueAnalytics = async () => {
       id: s.id,
       shop_name: s.shop_name,
       department: s.department || s.category,
-      accent_color: s.accent_color || '#e5a93c',
+      accent_color: s.accent_color || '#ea580c',
       totalRevenue: 0,
       completedOrdersCount: 0,
       totalOrdersCount: 0

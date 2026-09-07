@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
 import { MALL_CATEGORIES } from '../../Data/initialMallData';
-import { getShops, getProducts } from '../../Data/mallStore';
+import { getShopsSync, getShops, getProducts } from '../../Data/mallStore';
 import MallNavbar from './MallNavbar';
 import StorefrontCard from './StorefrontCard';
 import CartDrawer from './CartDrawer';
@@ -20,10 +20,11 @@ const MallDirectory = ({
   onToggleFavorite,
   onRemoveFavorite
 }) => {
-  const [shops, setShops] = useState([]);
+  // INSTANT SYNCHRONOUS HYDRATION: Zero-delay rendering
+  const [shops, setShops] = useState(() => getShopsSync());
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => getShopsSync().length === 0);
 
   // Modals & Drawers
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -32,12 +33,16 @@ const MallDirectory = ({
   const [activeTrackedOrder, setActiveTrackedOrder] = useState(null);
 
   const fetchMallData = async () => {
-    setLoading(true);
+    if (getShopsSync().length === 0) {
+      setLoading(true);
+    }
     const [shopsData] = await Promise.all([
       getShops(),
       getProducts()
     ]);
-    setShops(shopsData);
+    if (shopsData && shopsData.length > 0) {
+      setShops(shopsData);
+    }
     setLoading(false);
   };
 

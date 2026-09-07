@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart } from 'lucide-react';
-import { getShopById, getProducts } from '../../Data/mallStore';
+import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart, ZoomIn, Sparkles } from 'lucide-react';
+import { getShopByIdSync, getProductsSync, getShopById, getProducts } from '../../Data/mallStore';
+import { SHOP_ITEM_CATEGORIES } from '../../Data/initialMallData';
 import MallNavbar from './MallNavbar';
 import FavoritesDrawer from './FavoritesDrawer';
+import ProductZoomModal from './ProductZoomModal';
 import MallFooter from '../Shared/MallFooter';
 
 const StorefrontDetail = ({
@@ -17,20 +19,36 @@ const StorefrontDetail = ({
   const { storeId } = useParams();
   const navigate = useNavigate();
 
-  const [shop, setShop] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // INSTANT SYNCHRONOUS HYDRATION: Zero-delay rendering on route entry
+  const [shop, setShop] = useState(() => getShopByIdSync(storeId));
+  const [products, setProducts] = useState(() => getProductsSync(storeId));
+  const [loading, setLoading] = useState(() => !getShopByIdSync(storeId));
+
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [recentlyAddedId, setRecentlyAddedId] = useState(null);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+  const [zoomedProduct, setZoomedProduct] = useState(null);
 
+  // Background non-blocking sync
   useEffect(() => {
+    let isMounted = true;
+
     const fetchStoreData = async () => {
-      setLoading(true);
+      // If we already have local data, don't show blocking loading screen
+      const currentLocalShop = getShopByIdSync(storeId);
+      if (!currentLocalShop) {
+        setLoading(true);
+      }
+
       const shopData = await getShopById(storeId);
+      if (!isMounted) return;
+
       if (shopData) {
         setShop(shopData);
         const prods = await getProducts(storeId);
-        setProducts(prods);
+        if (isMounted) {
+          setProducts(prods);
+        }
       }
       setLoading(false);
     };
@@ -38,14 +56,19 @@ const StorefrontDetail = ({
     fetchStoreData();
 
     const handleProductsUpdated = () => {
-      fetchStoreData();
+      const refreshedProds = getProductsSync(storeId);
+      setProducts(refreshedProds);
     };
 
     window.addEventListener('sc:products_updated', handleProductsUpdated);
-    return () => window.removeEventListener('sc:products_updated', handleProductsUpdated);
+    return () => {
+      isMounted = false;
+      window.removeEventListener('sc:products_updated', handleProductsUpdated);
+    };
   }, [storeId]);
 
-  const handleAdd = (product) => {
+  const handleAdd = (product, e) => {
+    if (e) e.stopPropagation();
     if (!product.in_stock) return;
     onAddToCart({
       ...product,
@@ -59,7 +82,24 @@ const StorefrontDetail = ({
 
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  if (loading) {
+  // Determine subcategories for this boutique
+  const availableCategories =
+    shop?.item_categories ||
+    SHOP_ITEM_CATEGORIES[storeId] ||
+    [
+      { id: 'all', label: 'All Items' }
+    ];
+
+  // Filter products by selected category
+  const filteredProducts = products.filter((product) => {
+    if (selectedCategory === 'all') return true;
+    const prodItemCat = (product.item_category || '').toLowerCase();
+    const prodGenCat = (product.category || '').toLowerCase();
+    const targetCat = selectedCategory.toLowerCase();
+    return prodItemCat === targetCat || prodGenCat === targetCat;
+  });
+
+  if (loading && !shop) {
     return (
       <div className="mall-container">
         <MallNavbar
@@ -69,7 +109,7 @@ const StorefrontDetail = ({
           onOpenFavorites={() => setIsFavoritesOpen(true)}
         />
         <div style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
-          <p>Loading boutique storefront catalog...</p>
+          <p>Opening boutique storefront...</p>
         </div>
       </div>
     );
@@ -153,31 +193,67 @@ const StorefrontDetail = ({
         </div>
       </header>
 
-      <main className="mall-section" style={{ paddingTop: '36px' }}>
+      {/* BOUTIQUE CATEGORIES BAR */}
+      <section className="store-categories-section">
+        <div className="store-categories-header">
+          <span className="categories-label">
+            <Sparkles size={15} color="var(--primary)" />
+            Shop Departments:
+          </span>
+        </div>
+        <div className="store-categories-pills">
+          {availableCategories.map((cat) => (
+            <button
+              key={cat.id}
+              className={`store-cat-chip ${selectedCategory === cat.id ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* PRODUCTS SECTION */}
+      <main className="mall-section" style={{ paddingTop: '20px' }}>
         <div className="section-header">
           <div className="section-title">
-            <h3>Boutique Drops & Catalog</h3>
-            <p>Curated signature products available for direct unified checkout</p>
+            <h3>Boutique Catalog</h3>
+            <p>Click any item or its image to magnify & zoom in on details</p>
           </div>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Showing {products.length} items
+            Showing {filteredProducts.length} item{filteredProducts.length === 1 ? '' : 's'}
           </span>
         </div>
 
-        {products.length === 0 ? (
+        {filteredProducts.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
-            <p>No products currently listed for this boutique.</p>
+            <p>No products found in this category.</p>
+            <button
+              className="btn-secondary"
+              style={{ marginTop: '12px' }}
+              onClick={() => setSelectedCategory('all')}
+            >
+              Show All Items
+            </button>
           </div>
         ) : (
           <div className="products-grid">
-            {products.map((product) => {
+            {filteredProducts.map((product) => {
               const isAdded = recentlyAddedId === product.id;
               const isLiked = favorites.some(
                 (item) => String(item.id) === String(product.id)
               );
 
               return (
-                <div key={product.id} className="product-card">
+                <div
+                  key={product.id}
+                  className="product-card interactive-product-card"
+                  onClick={() => setZoomedProduct(product)}
+                  role="button"
+                  tabIndex={0}
+                  title="Click to view & zoom image"
+                >
                   <div className="product-image-wrap">
                     <img
                       src={product.image_url}
@@ -185,9 +261,24 @@ const StorefrontDetail = ({
                       className="product-img"
                       loading="lazy"
                     />
+
                     {product.badge && (
                       <span className="product-badge-tag">{product.badge}</span>
                     )}
+
+                    {product.item_category && (
+                      <span className="product-subcat-badge">
+                        {product.item_category}
+                      </span>
+                    )}
+
+                    {/* Zoom Click Indicator Overlay */}
+                    <div className="product-zoom-hint-overlay">
+                      <span className="zoom-hint-pill">
+                        <ZoomIn size={14} />
+                        Zoom
+                      </span>
+                    </div>
 
                     {/* Like / Favorite heart icon button directly on each item */}
                     <button
@@ -218,7 +309,7 @@ const StorefrontDetail = ({
 
                       <button
                         className={`add-to-cart-btn ${!product.in_stock ? 'disabled' : ''}`}
-                        onClick={() => handleAdd(product)}
+                        onClick={(e) => handleAdd(product, e)}
                         disabled={!product.in_stock}
                       >
                         {isAdded ? (
@@ -243,6 +334,17 @@ const StorefrontDetail = ({
           </div>
         )}
       </main>
+
+      {/* Interactive Product Image Zoom Lightbox Modal */}
+      <ProductZoomModal
+        isOpen={Boolean(zoomedProduct)}
+        onClose={() => setZoomedProduct(null)}
+        product={zoomedProduct}
+        shop={shop}
+        isLiked={zoomedProduct ? favorites.some((item) => String(item.id) === String(zoomedProduct.id)) : false}
+        onToggleFavorite={onToggleFavorite}
+        onAddToCart={onAddToCart}
+      />
 
       {/* Favorites Drawer for Storefront View */}
       <FavoritesDrawer

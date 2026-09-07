@@ -285,50 +285,165 @@
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 40px;
+  justify-content: space-evenly;
+  padding: 24px 36px;
   pointer-events: none;
+  z-index: 3;
 }
 
 .floatingCard {
-  background: rgba(255, 255, 255, 0.9);
+  pointer-events: auto;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.95);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
+  border-radius: 14px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 16px 36px rgba(90, 35, 10, 0.14);
-  max-width: 290px;
+  box-shadow: 0 12px 28px rgba(90, 35, 10, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  max-width: 295px;
+  width: fit-content;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  will-change: transform;
 }
 
-.floatingCard.card-1 {
-  align-self: flex-end;
+.floatingCard:hover {
+  animation-play-state: paused !important;
+  transform: translateY(-8px) scale(1.04) !important;
+  box-shadow: 0 20px 42px rgba(124, 45, 18, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+  border-color: rgba(234, 88, 12, 0.45);
 }
 
-.floatingCard.card-2 {
-  align-self: flex-start;
-  margin-left: 20px;
-}
-
-.floatingCard img {
+.floatingCardImg {
   width: 44px;
   height: 44px;
-  border-radius: 8px;
+  border-radius: 10px;
   object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.floatingCardText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .floatingCardText strong {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 700;
   color: #1c1917;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 .floatingCardText span {
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   color: #9a3412;
   font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.floatingCardHoverAction {
+  margin-left: auto;
+  color: #ea580c;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.floatingCard:hover .floatingCardHoverAction {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered positioning across the right mall hero */
+.floatingCard.card-pos-0 {
+  align-self: flex-end;
+  margin-right: 6%;
+  animation: floatShop1 5.2s ease-in-out infinite;
+}
+
+.floatingCard.card-pos-1 {
+  align-self: flex-start;
+  margin-left: 5%;
+  animation: floatShop2 6.0s ease-in-out infinite 0.7s;
+}
+
+.floatingCard.card-pos-2 {
+  align-self: flex-end;
+  margin-right: 14%;
+  animation: floatShop3 5.5s ease-in-out infinite 1.4s;
+}
+
+.floatingCard.card-pos-3 {
+  align-self: flex-start;
+  margin-left: 9%;
+  animation: floatShop4 6.4s ease-in-out infinite 2.1s;
+}
+
+.floatingCard.card-pos-4 {
+  align-self: flex-end;
+  margin-right: 8%;
+  animation: floatShop5 5.7s ease-in-out infinite 2.8s;
+}
+
+/* Keyframes for smooth, continuous floating bobbing effect */
+@keyframes floatShop1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-13px) rotate(0.6deg);
+  }
+}
+
+@keyframes floatShop2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-0.8deg);
+  }
+}
+
+@keyframes floatShop3 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-11px) rotate(0.5deg);
+  }
+}
+
+@keyframes floatShop4 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(-0.7deg);
+  }
+}
+
+@keyframes floatShop5 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0.8deg);
+  }
 }
 
 /* RESPONSIVE */
@@ -344,9 +459,26 @@
     padding: 40px 24px;
   }
   .welcomeRight {
-    height: 400px;
+    height: 440px;
   }
   .welcomeMainHeading {
     font-size: 2.8rem;
+  }
+  .welcomeFloatingCards {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .floatingCard {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    align-self: center !important;
+    margin: 0 !important;
   }
 }

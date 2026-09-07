@@ -7,16 +7,27 @@ import {
   Coffee,
   CheckCircle
 } from 'lucide-react';
+import { INITIAL_SHOPS } from '../Data/initialMallData';
+import { getShops } from '../Data/mallStore';
 import '../CSS/welcome.css';
 
 const storyText = `Step into a unified digital mall platform where premier fashion boutiques, specialty roasteries, and tech innovators connect under one roof.
 
 Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy instant table or curbside pickup.`;
 
+const SHOP_TAGS = {
+  'retailer-1': 'Floor 2 • Exclusive Drop',
+  'retailer-2': 'Floor 1 • 5 mins prep',
+  'retailer-3': 'Floor 3 • Next-Gen Tech',
+  'retailer-4': 'Floor 1 • Clean Beauty',
+  'retailer-5': 'Floor 2 • Modern Living'
+};
+
 const Welcome = () => {
   const navigate = useNavigate();
   const [typedText, setTypedText] = useState('');
   const [isTypingDone, setIsTypingDone] = useState(false);
+  const [shops, setShops] = useState(INITIAL_SHOPS);
 
   useEffect(() => {
     let index = 0;
@@ -31,6 +42,16 @@ const Welcome = () => {
     }, 16);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    getShops()
+      .then((loaded) => {
+        if (loaded && loaded.length > 0) {
+          setShops(loaded);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   return (
@@ -152,29 +173,42 @@ const Welcome = () => {
         />
         <div className="welcomeRightOverlay" />
 
-        {/* Floating preview cards */}
+        {/* Floating preview cards for every retail shop */}
         <div className="welcomeFloatingCards">
-          <div className="floatingCard card-1">
-            <img
-              src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=200&auto=format&fit=crop&q=80"
-              alt="Brew & Bean"
-            />
-            <div className="floatingCardText">
-              <strong>Brew & Bean Roastery</strong>
-              <span>Floor 1 • 5 mins prep</span>
-            </div>
-          </div>
+          {shops.map((shop, index) => {
+            const tag =
+              SHOP_TAGS[shop.id] ||
+              (shop.location_in_mall
+                ? `${shop.location_in_mall.split(',')[0]} • ${shop.department || 'Boutique'}`
+                : 'Floor 1 • Boutique');
 
-          <div className="floatingCard card-2">
-            <img
-              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80"
-              alt="Apex Streetwear"
-            />
-            <div className="floatingCardText">
-              <strong>Apex Streetwear & Denim</strong>
-              <span>Floor 2 • Exclusive Drop</span>
-            </div>
-          </div>
+            return (
+              <div
+                key={shop.id}
+                className={`floatingCard card-pos-${index % 5}`}
+                onClick={() => navigate(`/store/${shop.id}`)}
+                title={`Visit ${shop.shop_name}`}
+              >
+                <img
+                  src={shop.logo_url}
+                  alt={shop.shop_name}
+                  className="floatingCardImg"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=200&auto=format&fit=crop&q=80';
+                  }}
+                />
+                <div className="floatingCardText">
+                  <strong>{shop.shop_name}</strong>
+                  <span>{tag}</span>
+                </div>
+                <div className="floatingCardHoverAction">
+                  <ArrowRight size={14} />
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

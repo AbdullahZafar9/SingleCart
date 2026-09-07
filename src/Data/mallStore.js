@@ -2,9 +2,9 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v4',
-  PRODUCTS: 'sc_products_v4',
-  ORDERS: 'sc_orders_v4'
+  SHOPS: 'sc_shops_v5',
+  PRODUCTS: 'sc_products_v5',
+  ORDERS: 'sc_orders_v5'
 };
 
 // Safe LocalStorage helpers
@@ -28,7 +28,7 @@ const setStoredList = (key, data) => {
 
 // Initialize default storage on first load
 export const initializeLocalStorage = () => {
-  // Clean up legacy v1/v2/v3 data if needed
+  // Clean up legacy v1/v2/v3/v4 data if needed
   try {
     localStorage.removeItem('sc_shops_v1');
     localStorage.removeItem('sc_products_v1');
@@ -36,6 +36,8 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_products_v2');
     localStorage.removeItem('sc_shops_v3');
     localStorage.removeItem('sc_products_v3');
+    localStorage.removeItem('sc_shops_v4');
+    localStorage.removeItem('sc_products_v4');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {

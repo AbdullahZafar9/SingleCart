@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Phone, Plus, Check, Heart, ZoomIn } from 'lucide-react';
+import {
+  ArrowLeft,
+  Star,
+  MapPin,
+  Phone,
+  Plus,
+  Check,
+  Heart,
+  ZoomIn,
+  Clock,
+  ShieldCheck,
+  PackageCheck,
+  Store,
+  Building2
+} from 'lucide-react';
 import { getShopByIdSync, getProductsSync, getShopById, getProducts } from '../../Data/mallStore';
 import { SHOP_ITEM_CATEGORIES } from '../../Data/initialMallData';
 import MallNavbar from './MallNavbar';
 import FavoritesDrawer from './FavoritesDrawer';
 import ProductZoomModal from './ProductZoomModal';
-import MallFooter from '../Shared/MallFooter';
 
 const StorefrontDetail = ({
   cart,
@@ -34,7 +47,6 @@ const StorefrontDetail = ({
     let isMounted = true;
 
     const fetchStoreData = async () => {
-      // If we already have local data, don't show blocking loading screen
       const currentLocalShop = getShopByIdSync(storeId);
       if (!currentLocalShop) {
         setLoading(true);
@@ -146,18 +158,29 @@ const StorefrontDetail = ({
         onOpenFavorites={() => setIsFavoritesOpen(true)}
       />
 
-      <header className="store-detail-header">
-        <img
-          src={shop.banner_url}
-          alt={shop.shop_name}
-          className="store-detail-banner-img"
-        />
-
+      {/* RICH COLORED BOUTIQUE HEADER (Replaced washed-out image with vibrant color gradient) */}
+      <header
+        className="store-detail-header"
+        style={{
+          background: shop.header_gradient || 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
+        }}
+      >
         <div className="store-detail-header-inner">
-          <button className="back-to-mall-btn" onClick={() => navigate('/mall')}>
-            <ArrowLeft size={16} />
-            <span>Back to Mall Directory</span>
-          </button>
+          <div className="store-header-top-bar">
+            {/* Sleek arrow button with smooth hover effect */}
+            <button
+              className="back-arrow-btn"
+              onClick={() => navigate('/mall')}
+              aria-label="Back to Mall Directory"
+              title="Back to Mall Directory"
+            >
+              <ArrowLeft size={20} />
+            </button>
+
+            <span className="store-header-dept-tag">
+              {shop.department}
+            </span>
+          </div>
 
           <div className="store-profile-main">
             <img
@@ -187,7 +210,7 @@ const StorefrontDetail = ({
             </div>
           </div>
 
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '800px', fontSize: '0.98rem' }}>
+          <p className="store-header-description">
             {shop.description}
           </p>
         </div>
@@ -349,7 +372,99 @@ const StorefrontDetail = ({
         onAddToCart={onAddToCart}
       />
 
-      <MallFooter />
+      {/* BOUTIQUE DETAILS & TIMINGS FOOTER (Replaces generic mall footer on shop pages) */}
+      <footer className="boutique-info-footer">
+        <div className="boutique-info-inner">
+          {/* Column 1: Store Overview & Guarantees */}
+          <div className="boutique-col-about">
+            <div className="boutique-col-brand">
+              <img src={shop.logo_url} alt={shop.shop_name} className="boutique-footer-logo" />
+              <div>
+                <h4>{shop.shop_name}</h4>
+                <span className="boutique-footer-category">{shop.department}</span>
+              </div>
+            </div>
+            <p className="boutique-footer-desc">{shop.description}</p>
+            <div className="boutique-badges-list">
+              <span className="boutique-guarantee-pill">
+                <ShieldCheck size={14} />
+                100% Genuine Boutique Goods
+              </span>
+              <span className="boutique-guarantee-pill">
+                <Clock size={14} />
+                15-Min Express Mall Pickup
+              </span>
+              <span className="boutique-guarantee-pill">
+                <PackageCheck size={14} />
+                Direct Return & Exchange Desk
+              </span>
+            </div>
+          </div>
+
+          {/* Column 2: Hours & Timings */}
+          <div className="boutique-col-hours">
+            <h5 className="boutique-footer-heading">
+              <Clock size={16} />
+              Store Timings
+            </h5>
+            <div className="hours-status-badge">
+              <span className="pulse-indicator" />
+              Open Today: 10:00 AM – 9:00 PM
+            </div>
+            <ul className="hours-schedule-list">
+              <li>
+                <span>Monday – Friday:</span>
+                <strong>{shop.hours?.mon_fri || '10:00 AM – 9:00 PM'}</strong>
+              </li>
+              <li>
+                <span>Saturday:</span>
+                <strong>{shop.hours?.sat || '10:00 AM – 10:00 PM'}</strong>
+              </li>
+              <li>
+                <span>Sunday:</span>
+                <strong>{shop.hours?.sun || '11:00 AM – 8:00 PM'}</strong>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Location, Contact & Pickup Point */}
+          <div className="boutique-col-contact">
+            <h5 className="boutique-footer-heading">
+              <Store size={16} />
+              Location & Contact
+            </h5>
+            <div className="contact-details-list">
+              <div className="contact-detail-row">
+                <MapPin size={15} />
+                <div>
+                  <strong>Mall Location</strong>
+                  <p>{shop.location_in_mall}</p>
+                </div>
+              </div>
+              <div className="contact-detail-row">
+                <Phone size={15} />
+                <div>
+                  <strong>Direct Store Phone</strong>
+                  <p>{shop.phone || '+1 (555) 000-0000'}</p>
+                </div>
+              </div>
+              <div className="contact-detail-row">
+                <Building2 size={15} />
+                <div>
+                  <strong>Express Pickup Counter</strong>
+                  <p>{shop.pickup_counter || 'Front Boutique Desk Bay'}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom copyright line for the boutique */}
+        <div className="boutique-copyright-row">
+          <p>© 2026 {shop.shop_name} • SingleCart Verified Boutique Storefront</p>
+          <span>Floor verified boutique partner</span>
+        </div>
+      </footer>
     </div>
   );
 };

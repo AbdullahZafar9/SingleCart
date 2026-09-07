@@ -54,11 +54,18 @@ export const INITIAL_SHOPS = [
     reviews_count: 168,
     location_in_mall: 'Floor 2, West Promenade (Suite 204)',
     phone: '+1 (555) 302-8819',
+    pickup_counter: 'Promenade Express Bay 2A',
     description: 'High-concept urban streetwear, heavyweight boxy hoodies, Japanese selvedge denim, distressed tops, and limited graphic drops.',
     logo_url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
     accent_color: '#ea580c',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-1']
+    header_gradient: 'linear-gradient(135deg, #18181b 0%, #27272a 45%, #7c2d12 100%)',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-1'],
+    hours: {
+      mon_fri: '10:00 AM – 9:00 PM',
+      sat: '10:00 AM – 10:00 PM',
+      sun: '11:00 AM – 8:00 PM'
+    }
   },
   {
     id: 'retailer-2',
@@ -69,11 +76,18 @@ export const INITIAL_SHOPS = [
     reviews_count: 145,
     location_in_mall: 'Floor 1, Garden Court (Suite 118)',
     phone: '+1 (555) 672-0044',
+    pickup_counter: 'Garden Court Curbside Locker 1B',
     description: 'Clean dermatological formulas, botanical facial oils, squalane hydration serums, barrier creams, and reef-safe daily sunscreens.',
     logo_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&auto=format&fit=crop&q=80',
     accent_color: '#10b981',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-2']
+    header_gradient: 'linear-gradient(135deg, #022c22 0%, #064e3b 45%, #065f46 100%)',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-2'],
+    hours: {
+      mon_fri: '10:00 AM – 9:00 PM',
+      sat: '10:00 AM – 10:00 PM',
+      sun: '11:00 AM – 8:00 PM'
+    }
   },
   {
     id: 'retailer-3',
@@ -84,11 +98,18 @@ export const INITIAL_SHOPS = [
     reviews_count: 210,
     location_in_mall: 'Floor 1, North Concourse (Suite 142)',
     phone: '+1 (555) 441-8899',
+    pickup_counter: 'North Concourse Pickup Kiosk 14',
     description: 'Handcrafted formal oxfords, limited retro sneakers, high-rebound joggers, and shearling comfort slippers.',
     logo_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&auto=format&fit=crop&q=80',
     accent_color: '#d97706',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-3']
+    header_gradient: 'linear-gradient(135deg, #451a03 0%, #78350f 45%, #9a3412 100%)',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-3'],
+    hours: {
+      mon_fri: '10:00 AM – 9:00 PM',
+      sat: '10:00 AM – 10:00 PM',
+      sun: '11:00 AM – 8:00 PM'
+    }
   },
   {
     id: 'retailer-4',
@@ -99,11 +120,18 @@ export const INITIAL_SHOPS = [
     reviews_count: 132,
     location_in_mall: 'Floor 3, Innovation Hub (Suite 310)',
     phone: '+1 (555) 789-2211',
+    pickup_counter: 'Tech Hub Rapid Collect Bay 3',
     description: 'Audiophile ANC wireless earbuds, precision lightweight gaming mice, custom hot-swap mechanical keyboards, and 100W braided cables.',
     logo_url: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80',
     accent_color: '#3b82f6',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-4']
+    header_gradient: 'linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e3a8a 100%)',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-4'],
+    hours: {
+      mon_fri: '10:00 AM – 9:00 PM',
+      sat: '10:00 AM – 10:00 PM',
+      sun: '11:00 AM – 8:00 PM'
+    }
   },
   {
     id: 'retailer-5',
@@ -114,11 +142,18 @@ export const INITIAL_SHOPS = [
     reviews_count: 118,
     location_in_mall: 'Floor 2, South Promenade (Suite 228)',
     phone: '+1 (555) 901-4477',
+    pickup_counter: 'South Promenade Concierge Desk 2',
     description: 'Tactical EDC crossbody slings, Italian suede shoulder totes, structured full-grain handbags, and handcrafted leather goods.',
     logo_url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200&auto=format&fit=crop&q=80',
     banner_url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&auto=format&fit=crop&q=80',
     accent_color: '#8b5cf6',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-5']
+    header_gradient: 'linear-gradient(135deg, #1e0938 0%, #2e1065 45%, #581c87 100%)',
+    item_categories: SHOP_ITEM_CATEGORIES['retailer-5'],
+    hours: {
+      mon_fri: '10:00 AM – 9:00 PM',
+      sat: '10:00 AM – 10:00 PM',
+      sun: '11:00 AM – 8:00 PM'
+    }
   }
 ];
 

@@ -25,9 +25,9 @@ const FavoritesDrawer = ({
   if (!isOpen) return null;
 
   return (
-    <div className="drawer-overlay" onClick={onClose}>
+    <div className="drawer-backdrop" onClick={onClose}>
       <div
-        className="drawer-panel"
+        className="cart-drawer-panel favorites-drawer-panel"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -35,13 +35,13 @@ const FavoritesDrawer = ({
         <div className="drawer-header">
           <div className="drawer-header-left">
             <Heart size={20} fill="#ea580c" stroke="#ea580c" />
-            <h2>Liked Items</h2>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800 }}>Liked Items</h3>
             <span className="drawer-count-badge">
               {favorites.length} {favorites.length === 1 ? 'item' : 'items'}
             </span>
           </div>
           <button
-            className="drawer-close-btn"
+            className="close-drawer-btn"
             onClick={onClose}
             aria-label="Close liked items"
           >
@@ -49,24 +49,26 @@ const FavoritesDrawer = ({
           </button>
         </div>
 
-        <div className="drawer-body">
+        <div className="drawer-content">
           {favorites.length === 0 ? (
-            <div className="empty-cart-state">
-              <div className="empty-cart-icon">
-                <Heart size={44} stroke="#94a3b8" />
-              </div>
-              <h4>No liked items yet</h4>
-              <p>
+            <div className="empty-cart-view">
+              <Heart size={44} strokeWidth={1.5} color="var(--text-muted)" />
+              <h4 style={{ fontSize: '1.1rem', fontWeight: 700, margin: '8px 0 4px', color: 'var(--text-primary)' }}>
+                No liked items yet
+              </h4>
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', maxWidth: '280px', lineHeight: 1.5 }}>
                 Tap the heart icon on any product in a boutique to save your favorites for this session.
               </p>
               <button
-                className="explore-mall-btn"
+                className="checkout-btn"
+                style={{ marginTop: '16px', width: 'auto', padding: '10px 22px' }}
                 onClick={() => {
                   onClose();
                   navigate('/mall');
                 }}
               >
-                Browse Boutiques
+                <span>Browse Boutiques</span>
+                <ArrowRight size={16} />
               </button>
             </div>
           ) : (

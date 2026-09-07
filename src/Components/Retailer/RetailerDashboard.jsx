@@ -168,7 +168,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
         ) : (
           <div className="orders-pipeline-view">
             <div className="orders-pipeline-header">
-              <h3 style={{ fontSize: '1.25rem' }}>Incoming Kitchen & Store Queue</h3>
+              <h3 style={{ fontSize: '1.25rem' }}>Incoming Orders & Fulfillment Queue</h3>
 
               <div className="order-filter-chips">
                 {['All', 'Pending', 'Preparing', 'Ready', 'Completed'].map((st) => (
@@ -216,7 +216,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
 
                       <div className="order-note-box">
                         <MapPin size={14} />
-                        <span>Pickup: {order.delivery_notes}</span>
+                        <span>Doorstep: {order.delivery_notes}</span>
                       </div>
 
                       <div className="order-items-list">
@@ -244,7 +244,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                             className="action-btn prep"
                             onClick={() => handleStatusAdvance(order.id, 'Preparing')}
                           >
-                            <span>Accept & Start Prep</span>
+                            <span>Accept & Package Order</span>
                             <ChevronRight size={14} />
                           </button>
                         )}
@@ -254,7 +254,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                             className="action-btn ready"
                             onClick={() => handleStatusAdvance(order.id, 'Ready')}
                           >
-                            <span>Mark Ready for Pickup</span>
+                            <span>Dispatch for Delivery</span>
                             <ChevronRight size={14} />
                           </button>
                         )}
@@ -265,7 +265,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                             onClick={() => handleStatusAdvance(order.id, 'Completed')}
                           >
                             <CheckCircle size={14} />
-                            <span>Mark Order Completed</span>
+                            <span>Confirm Doorstep Delivery</span>
                           </button>
                         )}
 

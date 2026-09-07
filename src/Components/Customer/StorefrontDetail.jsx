@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
   Star,
-  MapPin,
   Phone,
   Plus,
   Check,
@@ -13,7 +12,8 @@ import {
   ShieldCheck,
   PackageCheck,
   Store,
-  Building2
+  Truck,
+  Globe
 } from 'lucide-react';
 import { getShopByIdSync, getProductsSync, getShopById, getProducts } from '../../Data/mallStore';
 import { SHOP_ITEM_CATEGORIES } from '../../Data/initialMallData';
@@ -197,8 +197,8 @@ const StorefrontDetail = ({
                   <strong>{shop.rating || 5.0}</strong> ({shop.reviews_count || 50}+ ratings)
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <MapPin size={14} />
-                  {shop.location_in_mall}
+                  <Truck size={14} />
+                  Doorstep Delivery
                 </span>
                 {shop.phone && (
                   <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -391,8 +391,8 @@ const StorefrontDetail = ({
                 100% Genuine Boutique Goods
               </span>
               <span className="boutique-guarantee-pill">
-                <Clock size={14} />
-                15-Min Express Mall Pickup
+                <Truck size={14} />
+                Tracked Doorstep Delivery
               </span>
               <span className="boutique-guarantee-pill">
                 <PackageCheck size={14} />
@@ -427,18 +427,18 @@ const StorefrontDetail = ({
             </ul>
           </div>
 
-          {/* Column 3: Location, Contact & Pickup Point */}
+          {/* Column 3: Location, Contact & Delivery Dispatch */}
           <div className="boutique-col-contact">
             <h5 className="boutique-footer-heading">
               <Store size={16} />
-              Location & Contact
+              Store & Delivery
             </h5>
             <div className="contact-details-list">
               <div className="contact-detail-row">
-                <MapPin size={15} />
+                <Globe size={15} />
                 <div>
-                  <strong>Mall Location</strong>
-                  <p>{shop.location_in_mall}</p>
+                  <strong>Store Profile</strong>
+                  <p>Verified Online Boutique</p>
                 </div>
               </div>
               <div className="contact-detail-row">
@@ -449,10 +449,10 @@ const StorefrontDetail = ({
                 </div>
               </div>
               <div className="contact-detail-row">
-                <Building2 size={15} />
+                <Truck size={15} />
                 <div>
-                  <strong>Express Pickup Counter</strong>
-                  <p>{shop.pickup_counter || 'Front Boutique Desk Bay'}</p>
+                  <strong>Shipping Method</strong>
+                  <p>Direct Doorstep Delivery (Tracked)</p>
                 </div>
               </div>
             </div>
@@ -462,7 +462,7 @@ const StorefrontDetail = ({
         {/* Bottom copyright line for the boutique */}
         <div className="boutique-copyright-row">
           <p>© 2026 {shop.shop_name} • SingleCart Verified Boutique Storefront</p>
-          <span>Floor verified boutique partner</span>
+          <span>Verified Online Boutique Partner</span>
         </div>
       </footer>
     </div>

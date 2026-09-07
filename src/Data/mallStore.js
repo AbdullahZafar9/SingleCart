@@ -2,9 +2,9 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v5',
-  PRODUCTS: 'sc_products_v5',
-  ORDERS: 'sc_orders_v5'
+  SHOPS: 'sc_shops_v6',
+  PRODUCTS: 'sc_products_v6',
+  ORDERS: 'sc_orders_v6'
 };
 
 // Safe LocalStorage helpers
@@ -28,7 +28,7 @@ const setStoredList = (key, data) => {
 
 // Initialize default storage on first load
 export const initializeLocalStorage = () => {
-  // Clean up legacy v1/v2/v3/v4 data if needed
+  // Clean up legacy storage versions
   try {
     localStorage.removeItem('sc_shops_v1');
     localStorage.removeItem('sc_products_v1');
@@ -38,6 +38,9 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_products_v3');
     localStorage.removeItem('sc_shops_v4');
     localStorage.removeItem('sc_products_v4');
+    localStorage.removeItem('sc_shops_v5');
+    localStorage.removeItem('sc_products_v5');
+    localStorage.removeItem('sc_orders_v5');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
@@ -111,9 +114,9 @@ export const createShop = async (shopData) => {
     department: shopData.department || 'Street Wear',
     rating: 5.0,
     reviews_count: 0,
-    location_in_mall: shopData.location_in_mall || 'Floor 1, Promenade',
+    location_in_mall: shopData.location_in_mall || 'Virtual Online Boutique',
     phone: shopData.phone || '+1 (555) 000-0000',
-    description: shopData.description || 'Welcome to our digital mall storefront.',
+    description: shopData.description || 'Welcome to our virtual boutique storefront.',
     logo_url: shopData.logo_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
     banner_url: shopData.banner_url || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
     accent_color: shopData.accent_color || '#ea580c',
@@ -302,7 +305,7 @@ export const placeOrder = async (orderData) => {
     retailer_id: orderData.retailer_id,
     customer_name: orderData.customer_name.trim(),
     customer_phone: orderData.customer_phone.trim(),
-    delivery_notes: orderData.delivery_notes?.trim() || 'Mall Pickup Counter',
+    delivery_notes: orderData.delivery_notes?.trim() || 'Doorstep Delivery',
     total_price: parseFloat(orderData.total_price) || 0,
     status: 'Pending',
     items: orderData.items || [],

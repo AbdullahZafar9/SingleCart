@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, MapPin, User, Phone } from 'lucide-react';
+import { X, CheckCircle, User, Phone, Home, Truck } from 'lucide-react';
 import { placeOrder } from '../../Data/mallStore';
 
 const CheckoutModal = ({
@@ -10,7 +10,7 @@ const CheckoutModal = ({
 }) => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [deliveryNotes, setDeliveryNotes] = useState('Table No. 4 (Food Court)');
+  const [deliveryNotes, setDeliveryNotes] = useState('Home (Leave at Front Door)');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -31,11 +31,15 @@ const CheckoutModal = ({
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
     if (!customerName.trim()) {
-      setErrorMessage('Please provide your name for pickup identification.');
+      setErrorMessage('Please provide your full name for doorstep delivery.');
       return;
     }
     if (!customerPhone.trim()) {
-      setErrorMessage('Please provide a contact phone number for live order status SMS.');
+      setErrorMessage('Please provide a contact phone number for delivery updates SMS.');
+      return;
+    }
+    if (!deliveryNotes.trim()) {
+      setErrorMessage('Please provide your doorstep delivery address.');
       return;
     }
 
@@ -58,38 +62,41 @@ const CheckoutModal = ({
             id: i.id,
             name: i.name,
             price: i.price,
-            quantity: i.quantity,
-            shop_name: i.shop_name
+            quantity: i.quantity
           }))
         };
 
-        const createdOrder = await placeOrder(orderData);
-        placedOrders.push(createdOrder);
+        const newOrder = await placeOrder(orderData);
+        placedOrders.push(newOrder);
       }
 
       setIsSubmitting(false);
       onClose();
-      if (placedOrders.length > 0) {
+
+      // Notify parent to open OrderTracker for the first created order
+      if (placedOrders.length > 0 && onOrderSuccess) {
         onOrderSuccess(placedOrders[0]);
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      setErrorMessage('Failed to place order. Please try again.');
+      setErrorMessage('Could not process orders. Please try again.');
       setIsSubmitting(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>Instant Checkout</h3>
-            <span style={{ fontSize: '0.78rem', color: 'var(--accent-emerald)', fontWeight: '600' }}>
-              ✓ Friction-Free • No Account Required
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>Express Doorstep Checkout</h3>
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              Online payment & direct delivery from {Object.keys(itemsByRetailer).length} boutique{Object.keys(itemsByRetailer).length > 1 ? 's' : ''}
             </span>
           </div>
-          <button className="close-drawer-btn" onClick={onClose} aria-label="Close modal">
+          <button className="close-drawer-btn" onClick={onClose} aria-label="Close checkout">
             <X size={20} />
           </button>
         </div>
@@ -98,12 +105,11 @@ const CheckoutModal = ({
           <div className="modal-body">
             {errorMessage && (
               <div style={{
-                background: 'rgba(244, 63, 94, 0.15)',
-                border: '1px solid rgba(244, 63, 94, 0.3)',
-                color: '#fb7185',
+                background: '#fee2e2',
+                color: '#b91c1c',
                 padding: '10px 14px',
                 borderRadius: '8px',
-                fontSize: '0.84rem',
+                fontSize: '0.85rem',
                 marginBottom: '16px'
               }}>
                 {errorMessage}
@@ -113,7 +119,7 @@ const CheckoutModal = ({
             <div className="form-group">
               <label className="form-label">
                 <User size={14} style={{ display: 'inline', marginRight: '6px' }} />
-                Your Full Name
+                Recipient Full Name
               </label>
               <input
                 type="text"
@@ -128,7 +134,7 @@ const CheckoutModal = ({
             <div className="form-group">
               <label className="form-label">
                 <Phone size={14} style={{ display: 'inline', marginRight: '6px' }} />
-                Phone Number (For Order Ready SMS)
+                Phone Number (For Courier SMS Updates)
               </label>
               <input
                 type="tel"
@@ -142,13 +148,13 @@ const CheckoutModal = ({
 
             <div className="form-group">
               <label className="form-label">
-                <MapPin size={14} style={{ display: 'inline', marginRight: '6px' }} />
-                Pickup Location or Table Note
+                <Home size={14} style={{ display: 'inline', marginRight: '6px' }} />
+                Doorstep Delivery Address
               </label>
               <input
                 type="text"
                 className="form-input"
-                placeholder="e.g., Table No. 4, Curbside Bay A, Counter Pickup"
+                placeholder="e.g., 742 Evergreen Terrace, Apt 4B, Springfield"
                 value={deliveryNotes}
                 onChange={(e) => setDeliveryNotes(e.target.value)}
                 required
@@ -158,10 +164,10 @@ const CheckoutModal = ({
             {/* Quick Location Presets */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '18px' }}>
               {[
-                'Food Court Table 4',
-                'Mall Counter Pickup',
-                'Curbside Bay A',
-                'Atrium Lounge Bench'
+                'Home (Leave at Front Door)',
+                'Apartment / Reception Lobby',
+                'Office / Work Desk',
+                'Hand Delivery to Recipient'
               ].map((preset) => (
                 <button
                   key={preset}
@@ -194,10 +200,11 @@ const CheckoutModal = ({
             }}>
               <div>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'block' }}>
-                  Total Items: {cart.reduce((a, b) => a + b.quantity, 0)} ({Object.keys(itemsByRetailer).length} shop)
+                  Total Items: {cart.reduce((a, b) => a + b.quantity, 0)} ({Object.keys(itemsByRetailer).length} boutique{Object.keys(itemsByRetailer).length > 1 ? 's' : ''})
                 </span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  Pay on pickup or digitally verified
+                <span style={{ fontSize: '0.75rem', color: 'var(--accent-emerald)', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
+                  <Truck size={12} />
+                  Free Tracked Doorstep Delivery Included
                 </span>
               </div>
               <span style={{ fontSize: '1.4rem', fontWeight: '800', color: 'var(--text-primary)', fontFamily: 'var(--font-display)' }}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, MapPin, ArrowRight } from 'lucide-react';
+import { Star, Truck, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const StorefrontCard = ({ shop }) => {
@@ -40,8 +40,8 @@ const StorefrontCard = ({ shop }) => {
 
         <div className="storefront-meta">
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <MapPin size={13} />
-            {shop.location_in_mall || 'Floor 1'}
+            <Truck size={13} />
+            Doorstep Delivery
           </span>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
             ({shop.reviews_count || 100}+ reviews)

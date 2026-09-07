@@ -142,7 +142,7 @@ const MallDirectory = ({
         <div className="section-header">
           <div className="section-title">
             <h3>Digital Mall Boutiques</h3>
-            <p>Direct storefront access with live inventory and fast pickup</p>
+            <p>Direct storefront access with live inventory and fast doorstep delivery</p>
           </div>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             Showing {filteredShops.length} boutique{filteredShops.length === 1 ? '' : 's'}

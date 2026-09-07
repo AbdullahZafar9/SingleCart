@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, ZoomIn, ZoomOut, RotateCcw, Plus, Check, Heart, MapPin, Store } from 'lucide-react';
+import { X, ZoomIn, ZoomOut, RotateCcw, Plus, Check, Heart, Truck, Store } from 'lucide-react';
 
 const ProductZoomModal = ({
   isOpen,
@@ -187,8 +187,8 @@ const ProductZoomModal = ({
                 <Store size={15} color="var(--primary)" />
                 <span className="shop-name-label">{shop.shop_name}</span>
                 <span className="shop-loc-label">
-                  <MapPin size={12} />
-                  {shop.location_in_mall}
+                  <Truck size={12} />
+                  Doorstep Delivery
                 </span>
               </div>
             )}
@@ -203,7 +203,7 @@ const ProductZoomModal = ({
                 </span>
               </div>
               <span className={`status-pill ${product.in_stock ? 'ready' : 'cancelled'}`}>
-                {product.in_stock ? 'In Stock & Ready for Pickup' : 'Currently Sold Out'}
+                {product.in_stock ? 'In Stock • Doorstep Delivery' : 'Currently Sold Out'}
               </span>
             </div>
 

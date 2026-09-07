@@ -12,8 +12,8 @@ const MallHero = ({ totalShops = 5, totalProducts = 15 }) => {
           </div>
           <h2>One Destination. Endless Boutiques. Zero Login.</h2>
           <p>
-            Experience seamless digital shopping across premier fashion houses, specialty cafes,
-            and tech innovators. Add items from any store to your single cart and checkout with instant table/curbside pickup.
+            Experience seamless digital shopping across premier fashion houses, skincare specialists,
+            and tech innovators. Add items from any store to your single cart and checkout with direct doorstep delivery.
           </p>
 
           <div className="hero-stats-row">
@@ -26,8 +26,8 @@ const MallHero = ({ totalShops = 5, totalProducts = 15 }) => {
               <span className="stat-label">Curated Drops</span>
             </div>
             <div className="hero-stat-box">
-              <span className="stat-number">Instant</span>
-              <span className="stat-label">Pickup & Dining</span>
+              <span className="stat-number">Tracked</span>
+              <span className="stat-label">Doorstep Delivery</span>
             </div>
           </div>
         </div>

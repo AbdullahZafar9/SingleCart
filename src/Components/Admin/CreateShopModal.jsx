@@ -35,12 +35,12 @@ const CreateShopModal = ({ isOpen, onClose, onShopCreated }) => {
       shop_name: shopName.trim(),
       department: department,
       category: matchedDept.id,
-      location_in_mall: locationInMall.trim() || 'Floor 1, Grand Promenade',
+      location_in_mall: locationInMall.trim() || 'Virtual Online Boutique',
       phone: phone.trim() || '+1 (555) 123-4567',
       description: description.trim() || 'Curated brand boutique inside SingleCart Digital Mall.',
       banner_url: bannerUrl,
       accent_color: '#f59e0b',
-      pickup_estimated: '10-15 mins'
+      delivery_estimated: '1-3 Business Days'
     });
 
     setIsSubmitting(false);
@@ -101,12 +101,12 @@ const CreateShopModal = ({ isOpen, onClose, onShopCreated }) => {
             <div className="form-group">
               <label className="form-label">
                 <MapPin size={13} style={{ display: 'inline', marginRight: '6px' }} />
-                Location Inside Mall
+                Storefront Profile / Location
               </label>
               <input
                 type="text"
                 className="form-input"
-                placeholder="e.g., Floor 2, Promenade Suite 214"
+                placeholder="e.g., Virtual Online Boutique or Flagship"
                 value={locationInMall}
                 onChange={(e) => setLocationInMall(e.target.value)}
               />

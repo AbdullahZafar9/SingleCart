@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle, Clock, ChefHat, BellRing, PackageCheck, MapPin } from 'lucide-react';
+import { X, CheckCircle, Clock, Truck, PackageCheck, Home } from 'lucide-react';
 import { subscribeToOrders } from '../../Data/mallStore';
 
 const STATUS_STEPS = [
-  { key: 'Pending', label: 'Received', icon: Clock, desc: 'Ticket sent to shop queue' },
-  { key: 'Preparing', label: 'Preparing', icon: ChefHat, desc: 'Shop staff is packaging your order' },
-  { key: 'Ready', label: 'Ready for Pickup', icon: BellRing, desc: 'Head over with your order number' },
-  { key: 'Completed', label: 'Completed', icon: PackageCheck, desc: 'Enjoy your selection!' }
+  { key: 'Pending', label: 'Order Confirmed', icon: Clock, desc: 'Order received & queued at boutique' },
+  { key: 'Preparing', label: 'Packaging', icon: PackageCheck, desc: 'Boutique is carefully packaging items' },
+  { key: 'Ready', label: 'Out for Delivery', icon: Truck, desc: 'Courier is en route to your doorstep' },
+  { key: 'Completed', label: 'Delivered', icon: CheckCircle, desc: 'Delivered to your doorstep. Enjoy!' }
 ];
 
 const OrderTrackerModal = ({
@@ -47,9 +47,9 @@ const OrderTrackerModal = ({
       <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: '800' }}>Live Order Tracker</h3>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: '800' }}>Live Delivery Tracker</h3>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              Ticket #{order.id} • Real-Time Stream
+              Ticket #{order.id} • Real-Time Courier Stream
             </span>
           </div>
           <button className="close-drawer-btn" onClick={onClose} aria-label="Close tracker">
@@ -64,7 +64,7 @@ const OrderTrackerModal = ({
             </div>
             <h3 style={{ fontSize: '1.35rem', marginBottom: '4px' }}>Order Placed Successfully!</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-              Thank you, <strong>{order.customer_name}</strong>! Your order has been dispatched directly to the store terminal.
+              Thank you, <strong>{order.customer_name}</strong>! Your items are being prepared for direct doorstep dispatch.
             </p>
           </div>
 
@@ -99,17 +99,17 @@ const OrderTrackerModal = ({
             marginBottom: '20px'
           }}>
             <span style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--accent-gold-light)', fontWeight: '700' }}>
-              Current Status
+              Delivery Status
             </span>
             <h4 style={{ fontSize: '1.2rem', margin: '4px 0', color: 'var(--text-primary)' }}>
               {STATUS_STEPS[currentStatusIndex]?.label || order.status}
             </h4>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              {STATUS_STEPS[currentStatusIndex]?.desc || 'Awaiting shop terminal action.'}
+              {STATUS_STEPS[currentStatusIndex]?.desc || 'Awaiting boutique terminal dispatch.'}
             </p>
           </div>
 
-          {/* Pickup Location Card */}
+          {/* Doorstep Delivery Address Card */}
           <div style={{
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid var(--border-subtle)',
@@ -120,10 +120,10 @@ const OrderTrackerModal = ({
             gap: '12px',
             marginBottom: '16px'
           }}>
-            <MapPin size={20} color="var(--accent-gold)" />
+            <Home size={20} color="var(--accent-gold)" />
             <div>
               <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', textTransform: 'uppercase' }}>
-                Delivery / Pickup Destination
+                Doorstep Delivery Address
               </span>
               <strong style={{ fontSize: '0.92rem', color: 'var(--text-primary)' }}>
                 {order.delivery_notes}

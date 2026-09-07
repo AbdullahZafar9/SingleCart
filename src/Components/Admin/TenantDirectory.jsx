@@ -11,7 +11,7 @@ const TenantDirectory = ({ shops = [] }) => {
         <div>
           <h3>Registered Mall Tenants Directory</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem' }}>
-            Live status of active digital storefronts across all galleria floors
+            Live status of active digital storefronts across the virtual mall
           </p>
         </div>
         <span style={{ fontSize: '0.85rem', color: 'var(--accent-gold)' }}>
@@ -25,7 +25,7 @@ const TenantDirectory = ({ shops = [] }) => {
             <tr>
               <th>Storefront</th>
               <th>Department</th>
-              <th>Location in Mall</th>
+              <th>Store Profile</th>
               <th>Rating</th>
               <th>Direct Actions</th>
             </tr>

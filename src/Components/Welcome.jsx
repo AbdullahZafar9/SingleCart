@@ -4,23 +4,23 @@ import {
   ArrowRight,
   ShoppingBag,
   Sparkles,
-  Coffee,
+  Truck,
   CheckCircle
 } from 'lucide-react';
 import { INITIAL_SHOPS } from '../Data/initialMallData';
 import { getShops } from '../Data/mallStore';
 import '../CSS/welcome.css';
 
-const storyText = `Step into a unified digital mall platform where premier fashion boutiques, specialty roasteries, and tech innovators connect under one roof.
+const storyText = `Step into a unified digital mall platform where premier fashion boutiques, skincare specialists, and tech innovators connect under one roof.
 
-Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy instant table or curbside pickup.`;
+Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy seamless tracked doorstep delivery.`;
 
 const SHOP_TAGS = {
-  'retailer-1': 'Floor 2 • Urban Streetwear',
-  'retailer-2': 'Floor 1 • Clean Skincare',
-  'retailer-3': 'Floor 1 • Shoes & Sneakers',
-  'retailer-4': 'Floor 3 • Tech Accessories',
-  'retailer-5': 'Floor 2 • Leathercraft & Bags'
+  'retailer-1': 'Boutique • Urban Streetwear',
+  'retailer-2': 'Boutique • Clean Skincare',
+  'retailer-3': 'Boutique • Shoes & Sneakers',
+  'retailer-4': 'Boutique • Tech Accessories',
+  'retailer-5': 'Boutique • Leathercraft & Bags'
 };
 
 const Welcome = () => {
@@ -89,8 +89,8 @@ const Welcome = () => {
               <span>Multi-Store Single Bag</span>
             </span>
             <span className="welcomeHighlightPill">
-              <Coffee size={14} color="#d97706" />
-              <span>Table & Curbside Pickup</span>
+              <Truck size={14} color="#d97706" />
+              <span>Express Doorstep Delivery</span>
             </span>
             <span className="welcomeHighlightPill">
               <CheckCircle size={14} color="#16a34a" />
@@ -178,9 +178,9 @@ const Welcome = () => {
           {shops.map((shop, index) => {
             const tag =
               SHOP_TAGS[shop.id] ||
-              (shop.location_in_mall
+              (shop.location_in_mall && !shop.location_in_mall.toLowerCase().includes('floor')
                 ? `${shop.location_in_mall.split(',')[0]} • ${shop.department || 'Boutique'}`
-                : 'Floor 1 • Boutique');
+                : `Boutique • ${shop.department || 'Curated'}`);
 
             return (
               <div

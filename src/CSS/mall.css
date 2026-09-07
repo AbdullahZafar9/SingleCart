@@ -50,9 +50,10 @@
 }
 
 .mall-brand-text h1 {
-  font-size: 1.35rem;
+  font-family: var(--font-stylish);
+  font-size: 1.42rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
@@ -204,25 +205,29 @@
 }
 
 .mall-center-heading {
-  font-size: 2.3rem;
+  font-size: clamp(2.8rem, 5.5vw, 3.5rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   color: var(--text-primary);
-  margin: 0 0 6px;
-  font-family: var(--font-display);
+  margin: 0 0 8px;
+  font-family: var(--font-stylish);
+  line-height: 1.12;
+  text-shadow: 0 2px 14px rgba(15, 23, 42, 0.04);
 }
 
 .mall-center-heading span {
-  background: linear-gradient(135deg, var(--accent-gold), #ea580c);
+  background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 800;
 }
 
 .mall-center-subheading {
-  font-size: 0.95rem;
-  color: var(--text-muted);
+  font-size: 1.14rem;
+  color: var(--text-secondary);
   font-weight: 500;
-  margin: 0 0 22px;
+  letter-spacing: 0.015em;
+  margin: 0 0 24px;
 }
 
 .mall-center-search-bar {

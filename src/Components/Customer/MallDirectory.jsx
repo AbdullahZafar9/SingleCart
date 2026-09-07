@@ -103,7 +103,7 @@ const MallDirectory = ({
             <input
               type="text"
               className="mall-center-search-input"
-              placeholder="Search boutiques, cafes, electronics, fashion..."
+              placeholder="Search boutiques, streetwear, skincare, sneakers, tech, bags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

@@ -96,6 +96,6 @@ USING (auth.uid() = retailer_id);
 ---
 
 ## 🚀 Tech Stack
-- **Frontend**: React 18 / Vite, Lucide Icons
+- **Frontend**: React 18 / Create React App (`react-scripts`), React Router DOM, Lucide Icons
 - **Backend & Database**: Supabase (PostgreSQL + Auth + Realtime + RLS)
-- **State Management**: React Context & Hooks
+- **State & Data**: Hybrid Persistence (Supabase + LocalStorage Fallback)

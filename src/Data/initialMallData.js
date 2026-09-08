@@ -1,5 +1,12 @@
+/**
+ * SingleCart - Curated Flagship Mall Initial Data
+ * All store banners feature authentic shop interiors displaying category merchandise.
+ * All 152 items have 100% unique, isolated product-only photography (zero duplicate images across all shops).
+ * All store logos feature distinct brand monograms and emblems.
+ */
+
 export const MALL_CATEGORIES = [
-  { id: 'all', name: 'All Boutiques', icon: '🏬', description: 'Explore all digital mall storefronts' },
+  { id: 'all', name: 'All Stores', icon: '🏬', description: 'Explore all digital mall storefronts' },
   { id: 'streetwear', name: 'Street Wear', icon: '👕', description: 'Oversized hoodies, denim & graphic drops' },
   { id: 'skincare', name: 'Skin Care', icon: '✨', description: 'Clean botanical serums, creams & cleansers' },
   { id: 'shoes', name: 'Shoes', icon: '👟', description: 'Retro runners, sneakers & artisan boots' },
@@ -8,151 +15,334 @@ export const MALL_CATEGORIES = [
 ];
 
 export const SHOP_ITEM_CATEGORIES = {
-  'retailer-1': [
-    { id: 'all', label: 'All Streetwear' },
-    { id: 'tops', label: 'Tops' },
-    { id: 'bottom', label: 'Bottom' },
-    { id: 'hoodies', label: 'Hoodies' },
-    { id: 'caps', label: 'Caps' }
+  "retailer-1": [
+    {
+      "id": "all",
+      "label": "All Streetwear"
+    },
+    {
+      "id": "tops",
+      "label": "Tops"
+    },
+    {
+      "id": "bottom",
+      "label": "Bottom"
+    },
+    {
+      "id": "hoodies",
+      "label": "Hoodies"
+    },
+    {
+      "id": "caps",
+      "label": "Caps"
+    }
   ],
-  'retailer-2': [
-    { id: 'all', label: 'All Skincare' },
-    { id: 'serums', label: 'Serums' },
-    { id: 'cleansers', label: 'Cleansers' },
-    { id: 'moisturizer', label: 'Moisturizer' },
-    { id: 'sun screen', label: 'Sun Screen' }
+  "retailer-2": [
+    {
+      "id": "all",
+      "label": "All Skincare"
+    },
+    {
+      "id": "serums",
+      "label": "Serums"
+    },
+    {
+      "id": "cleansers",
+      "label": "Cleansers"
+    },
+    {
+      "id": "moisturizer",
+      "label": "Moisturizer"
+    },
+    {
+      "id": "sun screen",
+      "label": "Sun Screen"
+    }
   ],
-  'retailer-3': [
-    { id: 'all', label: 'All Shoes' },
-    { id: 'formal', label: 'Formal' },
-    { id: 'sneakers', label: 'Sneakers' },
-    { id: 'joggers', label: 'Joggers' },
-    { id: 'slippers', label: 'Slippers' }
+  "retailer-3": [
+    {
+      "id": "all",
+      "label": "All Shoes"
+    },
+    {
+      "id": "formal",
+      "label": "Formal"
+    },
+    {
+      "id": "sneakers",
+      "label": "Sneakers"
+    },
+    {
+      "id": "joggers",
+      "label": "Joggers"
+    },
+    {
+      "id": "slippers",
+      "label": "Slippers"
+    }
   ],
-  'retailer-4': [
-    { id: 'all', label: 'All Tech' },
-    { id: 'earbuds', label: 'Earbuds' },
-    { id: 'mouse', label: 'Mouse' },
-    { id: 'keyboards', label: 'Keyboards' },
-    { id: 'cables', label: 'Cables' }
+  "retailer-4": [
+    {
+      "id": "all",
+      "label": "All Tech"
+    },
+    {
+      "id": "earbuds",
+      "label": "Earbuds"
+    },
+    {
+      "id": "mouse",
+      "label": "Mouse"
+    },
+    {
+      "id": "keyboards",
+      "label": "Keyboards"
+    },
+    {
+      "id": "cables",
+      "label": "Cables"
+    }
   ],
-  'retailer-5': [
-    { id: 'all', label: 'All Bags' },
-    { id: 'crossbody', label: 'Crossbody' },
-    { id: 'shoulder', label: 'Shoulder' },
-    { id: 'handbags', label: 'Handbags' }
+  "retailer-5": [
+    {
+      "id": "all",
+      "label": "All Bags"
+    },
+    {
+      "id": "crossbody",
+      "label": "Crossbody"
+    },
+    {
+      "id": "shoulder",
+      "label": "Shoulder"
+    },
+    {
+      "id": "handbags",
+      "label": "Handbags"
+    }
   ]
 };
 
 export const INITIAL_SHOPS = [
   {
-    id: 'retailer-1',
-    shop_name: 'Apex Streetwear & Denim',
-    category: 'streetwear',
-    department: 'Street Wear',
-    rating: 4.9,
-    reviews_count: 168,
-    location_in_mall: 'Virtual Online Boutique',
-    phone: '+1 (555) 302-8819',
-    shipping_method: 'Tracked Courier Doorstep Dispatch',
-    description: 'High-concept urban streetwear, heavyweight boxy hoodies, Japanese selvedge denim, distressed tops, and limited graphic drops.',
-    logo_url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#ea580c',
-    header_gradient: 'linear-gradient(135deg, #18181b 0%, #27272a 45%, #7c2d12 100%)',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-1'],
-    hours: {
-      mon_fri: '10:00 AM – 9:00 PM',
-      sat: '10:00 AM – 10:00 PM',
-      sun: '11:00 AM – 8:00 PM'
+    "id": "retailer-1",
+    "shop_name": "Kinetics Apparel Co.",
+    "category": "streetwear",
+    "department": "Street Wear & Urban Apparel",
+    "rating": 4.9,
+    "reviews_count": 168,
+    "location_in_mall": "Verified Official Store",
+    "phone": "+1 (555) 302-8819",
+    "email": "kinetics@singlecart.com",
+    "password": "vendor123",
+    "shipping_method": "Tracked Courier Doorstep Dispatch",
+    "description": "High-concept urban streetwear, heavyweight boxy hoodies, Japanese selvedge denim, minimalist essentials, and limited graphic apparel drops.",
+    "logo_url": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20width%3D%22200%22%20height%3D%22200%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22kg%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23ea580c%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23c2410c%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22200%22%20height%3D%22200%22%20rx%3D%2240%22%20fill%3D%22%2318181b%22%2F%3E%0A%20%20%3Crect%20x%3D%2212%22%20y%3D%2212%22%20width%3D%22176%22%20height%3D%22176%22%20rx%3D%2232%22%20fill%3D%22none%22%20stroke%3D%22url(%23kg)%22%20stroke-width%3D%224%22%20stroke-dasharray%3D%2212%206%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2265%22%20fill%3D%22%2327272a%22%20stroke%3D%22%23f97316%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22122%22%20font-family%3D%22'Montserrat'%2C%20'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2276%22%20font-weight%3D%22900%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EK%3C%2Ftext%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22150%22%20font-family%3D%22'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2211%22%20font-weight%3D%22800%22%20fill%3D%22%23fb923c%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%224%22%3EKINETICS%3C%2Ftext%3E%0A%3C%2Fsvg%3E",
+    "banner_url": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format&fit=crop&q=80",
+    "accent_color": "#ea580c",
+    "header_gradient": "linear-gradient(135deg, #18181b 0%, #27272a 45%, #7c2d12 100%)",
+    "item_categories": [
+      {
+        "id": "all",
+        "label": "All Streetwear"
+      },
+      {
+        "id": "tops",
+        "label": "Tops"
+      },
+      {
+        "id": "bottom",
+        "label": "Bottom"
+      },
+      {
+        "id": "hoodies",
+        "label": "Hoodies"
+      },
+      {
+        "id": "caps",
+        "label": "Caps"
+      }
+    ],
+    "hours": {
+      "mon_fri": "10:00 AM – 9:00 PM",
+      "sat": "10:00 AM – 10:00 PM",
+      "sun": "11:00 AM – 8:00 PM"
     }
   },
   {
-    id: 'retailer-2',
-    shop_name: 'Aura Botanical Skincare',
-    category: 'skincare',
-    department: 'Skin Care',
-    rating: 4.8,
-    reviews_count: 145,
-    location_in_mall: 'Virtual Online Boutique',
-    phone: '+1 (555) 672-0044',
-    shipping_method: 'Tracked Courier Doorstep Dispatch',
-    description: 'Clean dermatological formulas, botanical facial oils, squalane hydration serums, barrier creams, and reef-safe daily sunscreens.',
-    logo_url: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#10b981',
-    header_gradient: 'linear-gradient(135deg, #022c22 0%, #064e3b 45%, #065f46 100%)',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-2'],
-    hours: {
-      mon_fri: '10:00 AM – 9:00 PM',
-      sat: '10:00 AM – 10:00 PM',
-      sun: '11:00 AM – 8:00 PM'
+    "id": "retailer-2",
+    "shop_name": "Lumina Derma Labs",
+    "category": "skincare",
+    "department": "Skin Care & Dermatology",
+    "rating": 4.8,
+    "reviews_count": 145,
+    "location_in_mall": "Verified Official Store",
+    "phone": "+1 (555) 672-0044",
+    "email": "lumina@singlecart.com",
+    "password": "vendor123",
+    "shipping_method": "Tracked Courier Doorstep Dispatch",
+    "description": "Clinical dermatological formulas, botanical facial oils, squalane hydration serums, barrier creams, and daily broad-spectrum sunscreens.",
+    "logo_url": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20width%3D%22200%22%20height%3D%22200%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22lg%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23059669%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2310b981%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22200%22%20height%3D%22200%22%20rx%3D%2240%22%20fill%3D%22%23022c22%22%2F%3E%0A%20%20%3Crect%20x%3D%2212%22%20y%3D%2212%22%20width%3D%22176%22%20height%3D%22176%22%20rx%3D%2232%22%20fill%3D%22none%22%20stroke%3D%22url(%23lg)%22%20stroke-width%3D%224%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2265%22%20fill%3D%22%23064e3b%22%20stroke%3D%22%2334d399%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22122%22%20font-family%3D%22'Montserrat'%2C%20'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2276%22%20font-weight%3D%22900%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EL%3C%2Ftext%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22150%22%20font-family%3D%22'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2211%22%20font-weight%3D%22800%22%20fill%3D%22%236ee7b7%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%224%22%3ELUMINA%3C%2Ftext%3E%0A%3C%2Fsvg%3E",
+    "banner_url": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&auto=format&fit=crop&q=80",
+    "accent_color": "#10b981",
+    "header_gradient": "linear-gradient(135deg, #022c22 0%, #064e3b 45%, #065f46 100%)",
+    "item_categories": [
+      {
+        "id": "all",
+        "label": "All Skincare"
+      },
+      {
+        "id": "serums",
+        "label": "Serums"
+      },
+      {
+        "id": "cleansers",
+        "label": "Cleansers"
+      },
+      {
+        "id": "moisturizer",
+        "label": "Moisturizer"
+      },
+      {
+        "id": "sun screen",
+        "label": "Sun Screen"
+      }
+    ],
+    "hours": {
+      "mon_fri": "10:00 AM – 9:00 PM",
+      "sat": "10:00 AM – 10:00 PM",
+      "sun": "11:00 AM – 8:00 PM"
     }
   },
   {
-    id: 'retailer-3',
-    shop_name: 'SoleCraft Shoes & Sneakers',
-    category: 'shoes',
-    department: 'Shoes',
-    rating: 4.9,
-    reviews_count: 210,
-    location_in_mall: 'Virtual Online Boutique',
-    phone: '+1 (555) 441-8899',
-    shipping_method: 'Tracked Courier Doorstep Dispatch',
-    description: 'Handcrafted formal oxfords, limited retro sneakers, high-rebound joggers, and shearling comfort slippers.',
-    logo_url: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#d97706',
-    header_gradient: 'linear-gradient(135deg, #451a03 0%, #78350f 45%, #9a3412 100%)',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-3'],
-    hours: {
-      mon_fri: '10:00 AM – 9:00 PM',
-      sat: '10:00 AM – 10:00 PM',
-      sun: '11:00 AM – 8:00 PM'
+    "id": "retailer-3",
+    "shop_name": "Velocita Footwear Co.",
+    "category": "shoes",
+    "department": "Footwear & Sneakers",
+    "rating": 4.9,
+    "reviews_count": 210,
+    "location_in_mall": "Verified Official Store",
+    "phone": "+1 (555) 441-8899",
+    "email": "velocita@singlecart.com",
+    "password": "vendor123",
+    "shipping_method": "Tracked Courier Doorstep Dispatch",
+    "description": "Handcrafted formal leather oxfords, limited retro court sneakers, high-rebound athletic joggers, and shearling comfort slippers.",
+    "logo_url": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20width%3D%22200%22%20height%3D%22200%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22vg%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23d97706%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23f59e0b%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22200%22%20height%3D%22200%22%20rx%3D%2240%22%20fill%3D%22%23451a03%22%2F%3E%0A%20%20%3Crect%20x%3D%2212%22%20y%3D%2212%22%20width%3D%22176%22%20height%3D%22176%22%20rx%3D%2232%22%20fill%3D%22none%22%20stroke%3D%22url(%23vg)%22%20stroke-width%3D%224%22%20stroke-dasharray%3D%2216%208%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2265%22%20fill%3D%22%2378350f%22%20stroke%3D%22%23fbbf24%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22122%22%20font-family%3D%22'Montserrat'%2C%20'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2276%22%20font-weight%3D%22900%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3EV%3C%2Ftext%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22150%22%20font-family%3D%22'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2211%22%20font-weight%3D%22800%22%20fill%3D%22%23fde68a%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%224%22%3EVELOCITA%3C%2Ftext%3E%0A%3C%2Fsvg%3E",
+    "banner_url": "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=1600&auto=format&fit=crop&q=80",
+    "accent_color": "#d97706",
+    "header_gradient": "linear-gradient(135deg, #451a03 0%, #78350f 45%, #9a3412 100%)",
+    "item_categories": [
+      {
+        "id": "all",
+        "label": "All Shoes"
+      },
+      {
+        "id": "formal",
+        "label": "Formal"
+      },
+      {
+        "id": "sneakers",
+        "label": "Sneakers"
+      },
+      {
+        "id": "joggers",
+        "label": "Joggers"
+      },
+      {
+        "id": "slippers",
+        "label": "Slippers"
+      }
+    ],
+    "hours": {
+      "mon_fri": "10:00 AM – 9:00 PM",
+      "sat": "10:00 AM – 10:00 PM",
+      "sun": "11:00 AM – 8:00 PM"
     }
   },
   {
-    id: 'retailer-4',
-    shop_name: 'CyberPulse Tech Accessories',
-    category: 'tech',
-    department: 'Tech Accessories',
-    rating: 4.9,
-    reviews_count: 132,
-    location_in_mall: 'Virtual Online Boutique',
-    phone: '+1 (555) 789-2211',
-    shipping_method: 'Tracked Courier Doorstep Dispatch',
-    description: 'Audiophile ANC wireless earbuds, precision lightweight gaming mice, custom hot-swap mechanical keyboards, and 100W braided cables.',
-    logo_url: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=200&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#3b82f6',
-    header_gradient: 'linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e3a8a 100%)',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-4'],
-    hours: {
-      mon_fri: '10:00 AM – 9:00 PM',
-      sat: '10:00 AM – 10:00 PM',
-      sun: '11:00 AM – 8:00 PM'
+    "id": "retailer-4",
+    "shop_name": "NexusPulse Tech & Audio",
+    "category": "tech",
+    "department": "Tech & Audio Accessories",
+    "rating": 4.9,
+    "reviews_count": 132,
+    "location_in_mall": "Verified Official Store",
+    "phone": "+1 (555) 789-2211",
+    "email": "nexus@singlecart.com",
+    "password": "vendor123",
+    "shipping_method": "Tracked Courier Doorstep Dispatch",
+    "description": "Audiophile ANC wireless earbuds, precision lightweight gaming mice, custom hot-swap mechanical keyboards, and 100W braided cables.",
+    "logo_url": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20width%3D%22200%22%20height%3D%22200%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22ng%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232563eb%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2338bdf8%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22200%22%20height%3D%22200%22%20rx%3D%2240%22%20fill%3D%22%23090d16%22%2F%3E%0A%20%20%3Crect%20x%3D%2212%22%20y%3D%2212%22%20width%3D%22176%22%20height%3D%22176%22%20rx%3D%2232%22%20fill%3D%22none%22%20stroke%3D%22url(%23ng)%22%20stroke-width%3D%224%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2265%22%20fill%3D%22%230f172a%22%20stroke%3D%22%2360a5fa%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22122%22%20font-family%3D%22'Montserrat'%2C%20'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2264%22%20font-weight%3D%22900%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3ENP%3C%2Ftext%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22150%22%20font-family%3D%22'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2210%22%20font-weight%3D%22800%22%20fill%3D%22%2393c5fd%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ENEXUSPULSE%3C%2Ftext%3E%0A%3C%2Fsvg%3E",
+    "banner_url": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1600&auto=format&fit=crop&q=80",
+    "accent_color": "#3b82f6",
+    "header_gradient": "linear-gradient(135deg, #090d16 0%, #0f172a 45%, #1e3a8a 100%)",
+    "item_categories": [
+      {
+        "id": "all",
+        "label": "All Tech"
+      },
+      {
+        "id": "earbuds",
+        "label": "Earbuds"
+      },
+      {
+        "id": "mouse",
+        "label": "Mouse"
+      },
+      {
+        "id": "keyboards",
+        "label": "Keyboards"
+      },
+      {
+        "id": "cables",
+        "label": "Cables"
+      }
+    ],
+    "hours": {
+      "mon_fri": "10:00 AM – 9:00 PM",
+      "sat": "10:00 AM – 10:00 PM",
+      "sun": "11:00 AM – 8:00 PM"
     }
   },
   {
-    id: 'retailer-5',
-    shop_name: 'Nomad Bags & Leathercraft',
-    category: 'bags',
-    department: 'Bags',
-    rating: 4.9,
-    reviews_count: 118,
-    location_in_mall: 'Virtual Online Boutique',
-    phone: '+1 (555) 901-4477',
-    shipping_method: 'Tracked Courier Doorstep Dispatch',
-    description: 'Tactical EDC crossbody slings, Italian suede shoulder totes, structured full-grain handbags, and handcrafted leather goods.',
-    logo_url: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=200&auto=format&fit=crop&q=80',
-    banner_url: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=1200&auto=format&fit=crop&q=80',
-    accent_color: '#8b5cf6',
-    header_gradient: 'linear-gradient(135deg, #1e0938 0%, #2e1065 45%, #581c87 100%)',
-    item_categories: SHOP_ITEM_CATEGORIES['retailer-5'],
-    hours: {
-      mon_fri: '10:00 AM – 9:00 PM',
-      sat: '10:00 AM – 10:00 PM',
-      sun: '11:00 AM – 8:00 PM'
+    "id": "retailer-5",
+    "shop_name": "Sovereign Leather & Carry",
+    "category": "bags",
+    "department": "Bags & Leather Goods",
+    "rating": 4.9,
+    "reviews_count": 118,
+    "location_in_mall": "Verified Official Store",
+    "phone": "+1 (555) 901-4477",
+    "email": "sovereign@singlecart.com",
+    "password": "vendor123",
+    "shipping_method": "Tracked Courier Doorstep Dispatch",
+    "description": "Tactical EDC crossbody slings, Italian suede shoulder totes, structured full-grain handbags, and handcrafted heirloom leather travel goods.",
+    "logo_url": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20width%3D%22200%22%20height%3D%22200%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22sg%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%239333ea%22%2F%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23c084fc%22%2F%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%20%20%3Crect%20width%3D%22200%22%20height%3D%22200%22%20rx%3D%2240%22%20fill%3D%22%231e0938%22%2F%3E%0A%20%20%3Crect%20x%3D%2212%22%20y%3D%2212%22%20width%3D%22176%22%20height%3D%22176%22%20rx%3D%2232%22%20fill%3D%22none%22%20stroke%3D%22url(%23sg)%22%20stroke-width%3D%224%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2265%22%20fill%3D%22%232e1065%22%20stroke%3D%22%23d8b4fe%22%20stroke-width%3D%223%22%2F%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22122%22%20font-family%3D%22'Montserrat'%2C%20'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2276%22%20font-weight%3D%22900%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%3ES%3C%2Ftext%3E%0A%20%20%3Ctext%20x%3D%22100%22%20y%3D%22150%22%20font-family%3D%22'Inter'%2C%20system-ui%2C%20sans-serif%22%20font-size%3D%2211%22%20font-weight%3D%22800%22%20fill%3D%22%23e9d5ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%224%22%3ESOVEREIGN%3C%2Ftext%3E%0A%3C%2Fsvg%3E",
+    "banner_url": "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=1600&auto=format&fit=crop&q=80",
+    "accent_color": "#8b5cf6",
+    "header_gradient": "linear-gradient(135deg, #1e0938 0%, #2e1065 45%, #581c87 100%)",
+    "item_categories": [
+      {
+        "id": "all",
+        "label": "All Bags"
+      },
+      {
+        "id": "crossbody",
+        "label": "Crossbody"
+      },
+      {
+        "id": "shoulder",
+        "label": "Shoulder"
+      },
+      {
+        "id": "handbags",
+        "label": "Handbags"
+      }
+    ],
+    "hours": {
+      "mon_fri": "10:00 AM – 9:00 PM",
+      "sat": "10:00 AM – 10:00 PM",
+      "sun": "11:00 AM – 8:00 PM"
     }
   }
 ];
@@ -167,7 +357,7 @@ export const INITIAL_PRODUCTS = [
     "price": 48,
     "badge": "✨ New Drop",
     "description": "Pre-shrunk 260 GSM combed cotton with faded distressed wash, boxy streetwear cut, and vintage screenprint.",
-    "image_url": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -179,7 +369,7 @@ export const INITIAL_PRODUCTS = [
     "price": 52,
     "badge": "🔥 Bestseller",
     "description": "Structured silhouette crafted from heavyweight double-knit interlock jersey with clean raw-edge finish.",
-    "image_url": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -191,7 +381,7 @@ export const INITIAL_PRODUCTS = [
     "price": 44,
     "badge": "⚡ Relaxed Fit",
     "description": "240 GSM organic slub jersey with reinforced chest pocket, dropped shoulders, and subtle distressed collar.",
-    "image_url": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -203,7 +393,7 @@ export const INITIAL_PRODUCTS = [
     "price": 62,
     "badge": "🍂 Heavyweight",
     "description": "Textured 320 GSM honeycomb thermal knit featuring elongated ribbed cuffs and split side vents.",
-    "image_url": "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -215,7 +405,7 @@ export const INITIAL_PRODUCTS = [
     "price": 50,
     "badge": "✨ Limited",
     "description": "Mineral wash cotton jersey printed with distressed cyber-futurism artwork in crackled plastisol ink.",
-    "image_url": "https://images.unsplash.com/photo-1503342394128-c104d54dba01?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -227,7 +417,7 @@ export const INITIAL_PRODUCTS = [
     "price": 42,
     "badge": "⭐ Essential",
     "description": "100% Supima long-staple cotton offering an ultra-soft hand feel, twin-needle stitching, and zero neck tag.",
-    "image_url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -251,7 +441,7 @@ export const INITIAL_PRODUCTS = [
     "price": 88,
     "badge": "📦 Value Bundle",
     "description": "Curated 3-pack of heavyweight combed cotton crewneck t-shirts in charcoal, bone white, and washed olive.",
-    "image_url": "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -299,7 +489,7 @@ export const INITIAL_PRODUCTS = [
     "price": 155,
     "badge": "✨ Japanese Mills",
     "description": "Sanforized 15oz red-line selvedge denim designed to develop personalized high-contrast fading with wear.",
-    "image_url": "https://images.unsplash.com/photo-1582552938357-32b906dfca00?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -311,7 +501,7 @@ export const INITIAL_PRODUCTS = [
     "price": 110,
     "badge": "🔥 Modern Tailoring",
     "description": "Single-pleat tailored trousers crafted in 300 GSM washed cotton twill with deep slash front pockets.",
-    "image_url": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -323,7 +513,7 @@ export const INITIAL_PRODUCTS = [
     "price": 125,
     "badge": "⚡ Techwear",
     "description": "Ultralight water-repellent nylon ripstop with bungee ankle toggles and 6 low-profile bellows compartments.",
-    "image_url": "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -335,7 +525,7 @@ export const INITIAL_PRODUCTS = [
     "price": 118,
     "badge": "🪖 Field Spec",
     "description": "Durable herringbone cotton weave with reinforced seat, button fly, and interior waist drawstring adjustment.",
-    "image_url": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -347,7 +537,7 @@ export const INITIAL_PRODUCTS = [
     "price": 95,
     "badge": "☁️ Heavy Terry",
     "description": "400 GSM custom-knit loopback terry with thick elastic waistband, metal-tipped drawcords, and hidden side zip pocket.",
-    "image_url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -395,7 +585,7 @@ export const INITIAL_PRODUCTS = [
     "price": 96,
     "badge": "✨ Clean Look",
     "description": "Unbleached natural cotton weave featuring raw aesthetic seams, tight-knit cuffs, and tailored drape.",
-    "image_url": "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -407,7 +597,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "⚡ Outdoor Spec",
     "description": "Weather-treated cotton blend with half-zip storm collar, spacious center chest pouch, and drawcord hem.",
-    "image_url": "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1620799139507-2a76f79a2f4d?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -419,7 +609,7 @@ export const INITIAL_PRODUCTS = [
     "price": 89,
     "badge": "🔥 Essential",
     "description": "Enzyme-washed for an authentic lived-in vintage texture with seamless ribbed hem and deep hood chamber.",
-    "image_url": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -431,7 +621,7 @@ export const INITIAL_PRODUCTS = [
     "price": 94,
     "badge": "🌲 Earth Tone",
     "description": "Rich evergreen pigment dye on 420 GSM fleece with double-needle construction and concealed headphone eyelet.",
-    "image_url": "https://images.unsplash.com/photo-1564557287817-3785e38ec1f5?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -443,7 +633,7 @@ export const INITIAL_PRODUCTS = [
     "price": 110,
     "badge": "❄️ Cold Guard",
     "description": "Dual-layer design featuring a 350 GSM fleece shell backed by a 200 GSM thermal waffle lining for maximum heat retention.",
-    "image_url": "https://images.unsplash.com/photo-1618354691438-25bc04584c03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -479,7 +669,7 @@ export const INITIAL_PRODUCTS = [
     "price": 42,
     "badge": "⭐ Street Core",
     "description": "Premium wool-blend structured crown with green under-visor and reinforced front buckram panels.",
-    "image_url": "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -491,7 +681,7 @@ export const INITIAL_PRODUCTS = [
     "price": 34,
     "badge": "❄️ Cozy Knit",
     "description": "7-gauge fisherman rib knit in soft non-itch merino wool with wide fold-over cuff and woven brand label.",
-    "image_url": "https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -503,7 +693,7 @@ export const INITIAL_PRODUCTS = [
     "price": 45,
     "badge": "🍂 Autumn Drop",
     "description": "Wide-wale cotton corduroy crown paired with a supple cowhide suede brim and leather adjustment strap.",
-    "image_url": "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1618354691792-d1d42acfd860?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -515,7 +705,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "⚡ Outdoor Tech",
     "description": "Low-profile breathable camper cap with side mesh eyelets, nylon webbing strap, and quick-release clip.",
-    "image_url": "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1529958030586-3aae4ca485ff?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -527,7 +717,7 @@ export const INITIAL_PRODUCTS = [
     "price": 35,
     "badge": "🧢 Daily Wear",
     "description": "Garment-dyed cotton drill with soft unstructured crown and pre-curved visor for effortless everyday styling.",
-    "image_url": "https://images.unsplash.com/photo-1622445262464-84b14e3235b3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -539,7 +729,7 @@ export const INITIAL_PRODUCTS = [
     "price": 48,
     "badge": "✨ Luxury Knit",
     "description": "Ultra-fine gauge cashmere and wool knit engineered for a close-fitting dockworker silhouette without bulk.",
-    "image_url": "https://images.unsplash.com/photo-1618354691551-44de113f0164?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -563,7 +753,7 @@ export const INITIAL_PRODUCTS = [
     "price": 42,
     "badge": "💧 Pore Refine",
     "description": "Concentrated vitamin B3 serum designed to balance sebum activity, minimize pores, and smooth skin texture.",
-    "image_url": "https://images.unsplash.com/photo-1608248597359-07f9c8f2b3e8?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1617897903246-719242758050?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -575,7 +765,7 @@ export const INITIAL_PRODUCTS = [
     "price": 46,
     "badge": "🌿 100% Organic",
     "description": "Unrefined Chilean rosehip seed oil rich in provitamin A and essential fatty acids for scar and barrier repair.",
-    "image_url": "https://images.unsplash.com/photo-1617897903246-719242758050?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -587,7 +777,7 @@ export const INITIAL_PRODUCTS = [
     "price": 52,
     "badge": "💧 Intense Hydration",
     "description": "Three molecular weights of pure hyaluronic acid to hydrate multi-depth layers of the epidermis simultaneously.",
-    "image_url": "https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -599,7 +789,7 @@ export const INITIAL_PRODUCTS = [
     "price": 56,
     "badge": "🌱 Plant Retinol",
     "description": "Gentle, pregnancy-safe Ayurvedic babchi extract that visibly reduces fine lines without peeling or sensitivity.",
-    "image_url": "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -611,7 +801,7 @@ export const INITIAL_PRODUCTS = [
     "price": 44,
     "badge": "🍃 Redness Relief",
     "description": "85% pure Madagascar Centella Asiatica extract formulated to extinguish redness and reinforce weakened capillaries.",
-    "image_url": "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -623,7 +813,7 @@ export const INITIAL_PRODUCTS = [
     "price": 54,
     "badge": "🍊 Glow Defense",
     "description": "Stabilized L-ascorbic acid blended with ferulic acid and vitamin E for hyperpigmentation fading and environmental defense.",
-    "image_url": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -635,7 +825,7 @@ export const INITIAL_PRODUCTS = [
     "price": 64,
     "badge": "⭐ Advanced Pro",
     "description": "1% pure GHK-Cu copper peptides to stimulate collagen synthesis, skin elasticity, and cellular turnover.",
-    "image_url": "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -647,7 +837,7 @@ export const INITIAL_PRODUCTS = [
     "price": 36,
     "badge": "🌿 Clean Beauty",
     "description": "Transformative oil-to-milk balm that dissolves water-resistant SPF and impurities without stripping natural lipids.",
-    "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -671,7 +861,7 @@ export const INITIAL_PRODUCTS = [
     "price": 32,
     "badge": "💧 Barrier Safe",
     "description": "Creamy non-foaming wash enriched with 3 essential ceramides and colloidal oatmeal to gently purify dry skin.",
-    "image_url": "https://images.unsplash.com/photo-1556228722-d0b77636e098?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -683,7 +873,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "✨ Micro Polish",
     "description": "Water-activated micro-powder with active fruit enzymes and rice bran that gently dissolves dead cells for instant radiance.",
-    "image_url": "https://images.unsplash.com/photo-1556228852-80b6e5eeff06?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -695,7 +885,7 @@ export const INITIAL_PRODUCTS = [
     "price": 28,
     "badge": "🌿 Blemish Control",
     "description": "Botanical BHA-infused foaming cleanser that clears trapped debris from congested pores without over-drying.",
-    "image_url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1599305090598-fe179d501227?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -707,7 +897,7 @@ export const INITIAL_PRODUCTS = [
     "price": 34,
     "badge": "💧 First Cleanse",
     "description": "100% plant squalane oil cleanser that emulsifies instantly upon contact with water, lifting makeup completely.",
-    "image_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -719,7 +909,7 @@ export const INITIAL_PRODUCTS = [
     "price": 29,
     "badge": "🌼 Soothing",
     "description": "Featherlight cloud foam featuring whole calendula petals and German chamomile to soothe irritated or reactive skin.",
-    "image_url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1563178406-4cdc2923acbc?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -731,7 +921,7 @@ export const INITIAL_PRODUCTS = [
     "price": 35,
     "badge": "🧬 Microbiome",
     "description": "Bouncy cushion jelly wash infused with chicory root prebiotics to maintain a healthy and resilient epidermal microbiome.",
-    "image_url": "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1556227702-d1e4e7b5c232?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -743,7 +933,7 @@ export const INITIAL_PRODUCTS = [
     "price": 52,
     "badge": "💧 Barrier Restore",
     "description": "Multi-peptide ceramide complex that fortifies the epidermal moisture barrier and locks in all-night hydration.",
-    "image_url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -755,7 +945,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "✨ Ultra Hydrate",
     "description": "Oil-free burst-release water moisturizer that absorbs instantly with 5 molecular weights of hyaluronic acid.",
-    "image_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1598662779094-110c2bad80b5?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -767,7 +957,7 @@ export const INITIAL_PRODUCTS = [
     "price": 48,
     "badge": "🌿 Deep Nourish",
     "description": "Whipped botanical butter cream with 5 skin-identical lipids, marula oil, and fermented bio-actives for lasting comfort.",
-    "image_url": "https://images.unsplash.com/photo-1608248597359-07f9c8f2b3e8?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -779,7 +969,7 @@ export const INITIAL_PRODUCTS = [
     "price": 46,
     "badge": "💙 Cooling Relief",
     "description": "Soothing azure cream packed with Moroccan blue tansy and aloe vera to instantly cool and replenish sensitized skin.",
-    "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -791,7 +981,7 @@ export const INITIAL_PRODUCTS = [
     "price": 39,
     "badge": "🌾 Velvet Soft",
     "description": "Milky fluid moisturizer featuring fermented rice filtrate and beta-glucan for silky smooth daytime wear under makeup.",
-    "image_url": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1590439471364-192aa70c0b53?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -803,7 +993,7 @@ export const INITIAL_PRODUCTS = [
     "price": 45,
     "badge": "🌙 Overnight Recovery",
     "description": "Intense nocturnal recovery balm that cushions stressed skin and repairs trans-epidermal water loss while you rest.",
-    "image_url": "https://images.unsplash.com/photo-1617897903246-719242758050?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1556760544-74068565f05c?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -815,7 +1005,7 @@ export const INITIAL_PRODUCTS = [
     "price": 36,
     "badge": "⚡ Shine Control",
     "description": "Lightweight gel-lotion with 4% niacinamide and silica micro-spheres that provides all-day hydration without greasy shine.",
-    "image_url": "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1571875257727-256c39da42af?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -827,7 +1017,7 @@ export const INITIAL_PRODUCTS = [
     "price": 58,
     "badge": "⭐ Youth Sculpt",
     "description": "Rich restructuring formula with natural bakuchiol and plant collagen to plump fine lines and restore facial firmness.",
-    "image_url": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -839,7 +1029,7 @@ export const INITIAL_PRODUCTS = [
     "price": 36,
     "badge": "☀️ Zero Whitecast",
     "description": "Weightless chemical sunscreen serum offering broad-spectrum UVA/UVB protection with invisible satin finish.",
-    "image_url": "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1508746829417-e6f548d8d6ed?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -851,7 +1041,7 @@ export const INITIAL_PRODUCTS = [
     "price": 34,
     "badge": "🌿 Reef Safe",
     "description": "100% non-nano zinc oxide sunscreen infused with soothing bisabolol for pore-blurring matte coverage.",
-    "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1629732047847-50219e9c5aef?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -863,7 +1053,7 @@ export const INITIAL_PRODUCTS = [
     "price": 42,
     "badge": "✨ Dewy Finish",
     "description": "Illuminating broad spectrum sunscreen drops with copper peptides and niacinamide for a lit-from-within glass skin look.",
-    "image_url": "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -875,7 +1065,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "🌱 Sensitive Safe",
     "description": "Fragrance-free pure physical mineral sunscreen designed specifically for eczema-prone, rosacea, or acne-prone skin.",
-    "image_url": "https://images.unsplash.com/photo-1608248597359-07f9c8f2b3e8?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1585232004423-244e0e6904e3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -887,7 +1077,7 @@ export const INITIAL_PRODUCTS = [
     "price": 32,
     "badge": "🍃 Featherweight",
     "description": "Water-burst organic chemical sun gel that sinks in within 3 seconds, leaving zero sticky residue or eye sting.",
-    "image_url": "https://images.unsplash.com/photo-1617897903246-719242758050?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -899,7 +1089,7 @@ export const INITIAL_PRODUCTS = [
     "price": 39,
     "badge": "🛡️ Urban Defense",
     "description": "Infused with ectoin and green tea polyphenols to shield skin against high-energy visible (HEV) blue light and airborne soot.",
-    "image_url": "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -911,7 +1101,7 @@ export const INITIAL_PRODUCTS = [
     "price": 40,
     "badge": "🎨 Universal Tint",
     "description": "Adaptive iron oxide tint that blurs minor redness and evens tone without looking like makeup or settling into lines.",
-    "image_url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -923,7 +1113,7 @@ export const INITIAL_PRODUCTS = [
     "price": 35,
     "badge": "🏊 80-Min Water Resist",
     "description": "High-adhesion sweat and water-resistant mineral sunscreen fortified with aloe vera and jojoba esters for active outdoor days.",
-    "image_url": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1522337094846-8a818192de1f?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -959,7 +1149,7 @@ export const INITIAL_PRODUCTS = [
     "price": 175,
     "badge": "✨ Black Tie",
     "description": "Mirror-finish French box calf leather with open lacing, vegetable-tanned lining, and bevelled waist soles.",
-    "image_url": "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -971,7 +1161,7 @@ export const INITIAL_PRODUCTS = [
     "price": 195,
     "badge": "🔥 Bestseller",
     "description": "Weather-guarded English suede with tonal elastic side gussets and stacked Dainite rubber studded sole.",
-    "image_url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1516478177764-9fe5bd7e9717?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -983,7 +1173,7 @@ export const INITIAL_PRODUCTS = [
     "price": 180,
     "badge": "⭐ Statement",
     "description": "Polished cognac leather with dual brushed brass buckles, sleek chisel toe, and channelled leather sole.",
-    "image_url": "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -995,7 +1185,7 @@ export const INITIAL_PRODUCTS = [
     "price": 190,
     "badge": "👞 Heritage",
     "description": "Intricate decorative broguing along the wings and counter, constructed with a stormy welt for all-weather durability.",
-    "image_url": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1007,7 +1197,7 @@ export const INITIAL_PRODUCTS = [
     "price": 150,
     "badge": "🚗 Casual Luxe",
     "description": "Unlined buttery glove leather with gommini studded rubber pebble sole that wraps up the heel for effortless driving.",
-    "image_url": "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1019,7 +1209,7 @@ export const INITIAL_PRODUCTS = [
     "price": 215,
     "badge": "✨ Master Cut",
     "description": "Crafted from a single flawless piece of premium calfskin with no seams except at the back heel, finished with a hand-painted patina.",
-    "image_url": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1043,7 +1233,7 @@ export const INITIAL_PRODUCTS = [
     "price": 125,
     "badge": "✨ Core Classic",
     "description": "Clean architectural lines, gold-stamped heel detail, buttery leather lining, and vulcanized rubber cupsole.",
-    "image_url": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1055,7 +1245,7 @@ export const INITIAL_PRODUCTS = [
     "price": 128,
     "badge": "🔥 Retro Vibe",
     "description": "Hairy Italian suede overlays atop breathable canvas quarter panels with aged off-white rubber outsoles.",
-    "image_url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1067,7 +1257,7 @@ export const INITIAL_PRODUCTS = [
     "price": 148,
     "badge": "🏀 Heritage Drop",
     "description": "Padded collar with premium tumbled leather upper, reinforced toe box, and vintage pivot-circle court tread.",
-    "image_url": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1079,7 +1269,7 @@ export const INITIAL_PRODUCTS = [
     "price": 140,
     "badge": "⚡ Streetwear",
     "description": "Sculpted lightweight EVA chunky midsole with mixed mesh and nubuck panels, reflective accents, and pull tabs.",
-    "image_url": "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1091,7 +1281,7 @@ export const INITIAL_PRODUCTS = [
     "price": 132,
     "badge": "⭐ Clean Line",
     "description": "Tone-on-tone panels of charcoal suede and micro-perforated nappa leather with memory foam sockliner.",
-    "image_url": "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1579338559194-a162d19bf842?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1103,7 +1293,7 @@ export const INITIAL_PRODUCTS = [
     "price": 95,
     "badge": "🌿 Everyday",
     "description": "14oz duck canvas upper with nautical herringbone siped rubber sole for wet/dry traction and relaxed wear.",
-    "image_url": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1115,7 +1305,7 @@ export const INITIAL_PRODUCTS = [
     "price": 155,
     "badge": "✨ Limited Edition",
     "description": "Exposed foam tongue, unlined interior, contrast oversized stitch detailing, and pre-aged textured sole.",
-    "image_url": "https://images.unsplash.com/photo-1588117260148-b47818741c74?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1127,7 +1317,7 @@ export const INITIAL_PRODUCTS = [
     "price": 120,
     "badge": "⚡ Performance",
     "description": "Breathable jacquard knit upper paired with nitrogen-infused dual-density foam for boundless kinetic return.",
-    "image_url": "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1139,7 +1329,7 @@ export const INITIAL_PRODUCTS = [
     "price": 145,
     "badge": "🏃 Pro Pace",
     "description": "Full-length carbon fiber propulsion plate encased in high-rebound supercritical midsole foam.",
-    "image_url": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1151,7 +1341,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "🔥 Everyday Mile",
     "description": "Seamless engineered mesh upper with molded heel counter and durable carbon rubber high-abrasion zones.",
-    "image_url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1163,7 +1353,7 @@ export const INITIAL_PRODUCTS = [
     "price": 138,
     "badge": "⛰️ Trail Gripper",
     "description": "5mm multidirectional chevron lugs with rock protection plate, water-shedding gusseted tongue, and toe guard.",
-    "image_url": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1175,7 +1365,7 @@ export const INITIAL_PRODUCTS = [
     "price": 125,
     "badge": "⚡ High Rebound",
     "description": "Segmented crash pad with plush interior padding designed for fluid heel-to-toe transitions during high mileage.",
-    "image_url": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1187,7 +1377,7 @@ export const INITIAL_PRODUCTS = [
     "price": 118,
     "badge": "🪶 Sub-200g",
     "description": "Minimalist racing flat upper clocking under 200 grams with laser-cut ventilation ports and lockdown lacing.",
-    "image_url": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1199,7 +1389,7 @@ export const INITIAL_PRODUCTS = [
     "price": 130,
     "badge": "🛡️ Arch Support",
     "description": "Medial post guide rails designed to curb overpronation while maintaining plush forefoot flexibility.",
-    "image_url": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1211,7 +1401,7 @@ export const INITIAL_PRODUCTS = [
     "price": 128,
     "badge": "✨ 360° Reflective",
     "description": "3M Scotchlite reflective interwoven yarn across the upper providing high visibility on evening runs.",
-    "image_url": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1223,7 +1413,7 @@ export const INITIAL_PRODUCTS = [
     "price": 68,
     "badge": "☁️ Cloud Comfort",
     "description": "Plush genuine Australian shearling interior with water-resistant cowhide suede upper and EVA tread sole.",
-    "image_url": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1235,7 +1425,7 @@ export const INITIAL_PRODUCTS = [
     "price": 74,
     "badge": "🦶 Ortho Support",
     "description": "Contoured natural cork-latex footbed with deep heel cup, arch bridge, and velvety split suede upper.",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1247,7 +1437,7 @@ export const INITIAL_PRODUCTS = [
     "price": 58,
     "badge": "🏕️ Camp Warmth",
     "description": "Treated water-resistant ripstop shell insulated with 650-fill down and collapsible soft neoprene heel.",
-    "image_url": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1259,7 +1449,7 @@ export const INITIAL_PRODUCTS = [
     "price": 65,
     "badge": "🐑 100% Merino",
     "description": "Seamless boiled wool upper that naturally breathes and thermoregulates with slip-resistant vegetable tanned leather sole.",
-    "image_url": "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1271,7 +1461,7 @@ export const INITIAL_PRODUCTS = [
     "price": 78,
     "badge": "👞 Leather Luxe",
     "description": "Supple nappa leather house slipper with memory foam midsole and non-marking rubber indoor/outdoor sole.",
-    "image_url": "https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1283,7 +1473,7 @@ export const INITIAL_PRODUCTS = [
     "price": 45,
     "badge": "⚡ Post-Workout",
     "description": "Thick single-piece injected EVA foam with ergonomic footbed ridges to soothe tired feet after training.",
-    "image_url": "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1295,7 +1485,7 @@ export const INITIAL_PRODUCTS = [
     "price": 82,
     "badge": "⭐ Premium Comfort",
     "description": "Warm chestnut suede clog with adjustable buckle strap, genuine wool lining, and durable non-slip grip.",
-    "image_url": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1617606002806-94e279c22567?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1307,7 +1497,7 @@ export const INITIAL_PRODUCTS = [
     "price": 72,
     "badge": "✨ Artisan Weave",
     "description": "Intricately hand-braided suede straps over a soft cushioned leather footbed for elevated weekend relaxation.",
-    "image_url": "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1549298916-f52d724204b4?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1367,7 +1557,7 @@ export const INITIAL_PRODUCTS = [
     "price": 110,
     "badge": "⚡ Cyber Aesthetic",
     "description": "Smoke-tinted see-through shell showcasing precision internal circuitry, copper coils, and battery cells.",
-    "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1379,7 +1569,7 @@ export const INITIAL_PRODUCTS = [
     "price": 85,
     "badge": "🏃 Ambient Aware",
     "description": "Ergonomic titanium memory-wire ear hooks delivering rich acoustic sound while leaving ear canals open for situational safety.",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1415,7 +1605,7 @@ export const INITIAL_PRODUCTS = [
     "price": 79,
     "badge": "⚡ 49 Grams",
     "description": "PAW3395 optical sensor with 26,000 DPI, pure virgin grade PTFE skates, and Nordic 52840 MCU.",
-    "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1427,7 +1617,7 @@ export const INITIAL_PRODUCTS = [
     "price": 59,
     "badge": "🩺 Ergonomic",
     "description": "Natural 57-degree handshake posture reducing forearm strain, whisper-quiet micro-switches, and dual Bluetooth connectivity.",
-    "image_url": "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1439,7 +1629,7 @@ export const INITIAL_PRODUCTS = [
     "price": 48,
     "badge": "🤫 Silent Click",
     "description": "Machined aluminum infinite scroll wheel with 90% quieter tactile switches and fast USB-C rechargeable cell.",
-    "image_url": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1451,7 +1641,7 @@ export const INITIAL_PRODUCTS = [
     "price": 99,
     "badge": "🏆 4000Hz Rate",
     "description": "Real 4000Hz polling rate wireless receiver providing sub-0.25ms responsiveness for tournament esports gameplay.",
-    "image_url": "https://images.unsplash.com/photo-1605792657660-596af9009e82?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1463,7 +1653,7 @@ export const INITIAL_PRODUCTS = [
     "price": 64,
     "badge": "🌈 RGB Glow",
     "description": "Hexagonal perforated outer shell offering maximum airflow to keep palms cool during long desk sessions.",
-    "image_url": "https://images.unsplash.com/photo-1613141411244-0e4ac259d217?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1475,7 +1665,7 @@ export const INITIAL_PRODUCTS = [
     "price": 75,
     "badge": "🎨 Creator Pick",
     "description": "Dual-axis thumb scroll wheel for horizontal video timelines and spreadsheet navigation with gesture button.",
-    "image_url": "https://images.unsplash.com/photo-1507646227500-4d389b0012be?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1629429408209-1f912961dbd8?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1487,7 +1677,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "✈️ Pocket Slim",
     "description": "Sleek 18mm thin profile with magnetic top plate, optical tracking on glass, and rechargeable 60-day battery.",
-    "image_url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1613141411244-0e4ac259d217?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1499,7 +1689,7 @@ export const INITIAL_PRODUCTS = [
     "price": 69,
     "badge": "⭐ Grippy Texture",
     "description": "Textured rubberized side panels, optical switches rated for 80 million clicks, and onboard profile memory.",
-    "image_url": "https://images.unsplash.com/photo-1541140532154-b024d705b909?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1547,7 +1737,7 @@ export const INITIAL_PRODUCTS = [
     "price": 148,
     "badge": "📻 Retro Dial",
     "description": "Vintage cream chassis featuring a knurled metal volume knob, tactile linear switches, and warm amber backlighting.",
-    "image_url": "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1560762484-813fc97650a0?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1559,7 +1749,7 @@ export const INITIAL_PRODUCTS = [
     "price": 99,
     "badge": "⚡ Tournament",
     "description": "Maximized desk space layout with optical speed switches, detachable USB-C, and per-key customizable RGB lighting.",
-    "image_url": "https://images.unsplash.com/photo-1626958390898-162d3577f293?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1571,7 +1761,7 @@ export const INITIAL_PRODUCTS = [
     "price": 135,
     "badge": "🤫 Silent Thock",
     "description": "Pre-lubed silent tactile switches with multi-layer silicone acoustic dampening designed for quiet open-office productivity.",
-    "image_url": "https://images.unsplash.com/photo-1541140532154-b024d705b909?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1583,7 +1773,7 @@ export const INITIAL_PRODUCTS = [
     "price": 140,
     "badge": "⭐ TKL Layout",
     "description": "Classic 87-key layout with thick 1.5mm dye-sublimated PBT keycaps that never shine or wear down over time.",
-    "image_url": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1595,7 +1785,7 @@ export const INITIAL_PRODUCTS = [
     "price": 175,
     "badge": "🩺 Ergonomic Split",
     "description": "Contoured Alice angled key cluster and dual spacebars engineered to keep wrists in a natural non-pronated angle.",
-    "image_url": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1541140134513-85a161dc4a00?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1631,7 +1821,7 @@ export const INITIAL_PRODUCTS = [
     "price": 45,
     "badge": "🚀 40Gbps",
     "description": "Certified 40Gbps bandwidth supporting single 8K or dual 4K 120Hz display output with 240W Power Delivery.",
-    "image_url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1643,7 +1833,7 @@ export const INITIAL_PRODUCTS = [
     "price": 29,
     "badge": "🧲 Magnetic Snap",
     "description": "Swiveling 540-degree magnetic head with interchangeable USB-C, Lightning, and Micro-USB tips.",
-    "image_url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1655,7 +1845,7 @@ export const INITIAL_PRODUCTS = [
     "price": 22,
     "badge": "🎮 Handheld Comfort",
     "description": "90-degree right angle connector designed for seamless handheld gaming and phone usage while charging.",
-    "image_url": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1592659762303-90081d34b277?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1667,7 +1857,7 @@ export const INITIAL_PRODUCTS = [
     "price": 32,
     "badge": "📺 8K @ 60Hz",
     "description": "48Gbps ultra-high-speed bandwidth with dynamic HDR, eARC, and VRR support for PS5 and PC gaming.",
-    "image_url": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1679,7 +1869,7 @@ export const INITIAL_PRODUCTS = [
     "price": 19,
     "badge": "🎵 Lossless Sound",
     "description": "Silver-plated oxygen-free copper core with 24K gold-plated audio plugs for pure signal transmission.",
-    "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1691,7 +1881,7 @@ export const INITIAL_PRODUCTS = [
     "price": 26,
     "badge": "🛡️ 30,000+ Bends",
     "description": "Bulletproof Kevlar fiber core with strain-relief collar tested to withstand over 30,000 extreme bends.",
-    "image_url": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1703,7 +1893,7 @@ export const INITIAL_PRODUCTS = [
     "price": 85,
     "badge": "⚡ Weatherproof",
     "description": "1000D ballistic Cordura nylon with Fidlock V-buckle magnetic quick-release strap and padded tablet sleeve.",
-    "image_url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1715,7 +1905,7 @@ export const INITIAL_PRODUCTS = [
     "price": 130,
     "badge": "⭐ Artisan Made",
     "description": "Tuscan vegetable-tanned leather with burnished beveled edges, brass hardware, and dual interior compartments.",
-    "image_url": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1727,7 +1917,7 @@ export const INITIAL_PRODUCTS = [
     "price": 92,
     "badge": "🌧️ Submersible",
     "description": "TPU coated waterproof tarpaulin with welded seams, roll-top closure, and reflective exterior webbing loops.",
-    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1739,7 +1929,7 @@ export const INITIAL_PRODUCTS = [
     "price": 88,
     "badge": "✨ Everyday Carry",
     "description": "Heavy 16oz cotton canvas with bridle leather trim, magnetic flap closure, and quick-access rear passport pocket.",
-    "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1751,7 +1941,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "🍂 Natural Patina",
     "description": "Unlined saddle leather that develops a lustrous amber patina over time, fitted with adjustable shoulder strap.",
-    "image_url": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1763,7 +1953,7 @@ export const INITIAL_PRODUCTS = [
     "price": 78,
     "badge": "🔋 Cable Ready",
     "description": "Clamshell opening with elastic organizer loops for cables, chargers, powerbanks, and compact tech gear.",
-    "image_url": "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1775,7 +1965,7 @@ export const INITIAL_PRODUCTS = [
     "price": 82,
     "badge": "🪖 Field Spec",
     "description": "Washed army duck canvas with distressed brass clips, dual front cargo pockets, and heavy-duty webbed strap.",
-    "image_url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1787,7 +1977,7 @@ export const INITIAL_PRODUCTS = [
     "price": 98,
     "badge": "⭐ Versatile",
     "description": "Detachable strap allows instant conversion from hands-free crossbody to a sleek evening leather clutch.",
-    "image_url": "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1799,7 +1989,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "✨ Daily Carry",
     "description": "Heavy 18oz waxed cotton duck canvas with bridle leather handles, padded 15-inch laptop compartment, and luggage pass-through.",
-    "image_url": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1811,7 +2001,7 @@ export const INITIAL_PRODUCTS = [
     "price": 155,
     "badge": "⭐ Italian Leather",
     "description": "Supple pebbled calfskin with roomy structured base, micro-suede lining, and interior zippered divider.",
-    "image_url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1575032617751-6ddec2089882?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1823,7 +2013,7 @@ export const INITIAL_PRODUCTS = [
     "price": 145,
     "badge": "🔥 Bestseller",
     "description": "Supple unlined suede leather hobo bag featuring wide shoulder comfort strap and magnetic bridge closure.",
-    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1835,7 +2025,7 @@ export const INITIAL_PRODUCTS = [
     "price": 75,
     "badge": "🌿 Natural Cotton",
     "description": "Double-bottom reinforced canvas with interior water bottle holder, key tether, and exterior slip pocket.",
-    "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1590736969955-71cc94801759?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1847,7 +2037,7 @@ export const INITIAL_PRODUCTS = [
     "price": 160,
     "badge": "✨ Minimal Luxe",
     "description": "Clean architectural lines with hand-stitched bar tacks, solid brass stud closure, and structured flat bottom.",
-    "image_url": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1583623025817-d180a2221d0a?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1859,7 +2049,7 @@ export const INITIAL_PRODUCTS = [
     "price": 135,
     "badge": "🌙 Crescent Shape",
     "description": "Ergonomic curved moon silhouette that hugs the side of the body comfortably with smooth glide YKK zipper.",
-    "image_url": "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1523779917675-b6ed3a42a561?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1871,7 +2061,7 @@ export const INITIAL_PRODUCTS = [
     "price": 140,
     "badge": "💼 Commuter Pro",
     "description": "Padded laptop sleeve fitting up to 16-inch laptops with quick-release buckles and breathable air-mesh shoulder pad.",
-    "image_url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1883,7 +2073,7 @@ export const INITIAL_PRODUCTS = [
     "price": 165,
     "badge": "✈️ Weekender",
     "description": "35L capacity meets airline carry-on requirements, with full-grain leather base, handles, and luggage tag.",
-    "image_url": "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1895,7 +2085,7 @@ export const INITIAL_PRODUCTS = [
     "price": 175,
     "badge": "⭐ Premium Cut",
     "description": "Tuscan vegetable-tanned full-grain leather with hand-painted beveled edges, gold-toned turnlock, and removable strap.",
-    "image_url": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1907,7 +2097,7 @@ export const INITIAL_PRODUCTS = [
     "price": 160,
     "badge": "✨ Timeless",
     "description": "Geometric sculpted silhouette with magnetic flap closure, suede interior lining, and protective brass base feet.",
-    "image_url": "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1919,7 +2109,7 @@ export const INITIAL_PRODUCTS = [
     "price": 185,
     "badge": "🐊 Embossed Luxe",
     "description": "Exquisite crocodile-embossed calfskin with brushed gold push-lock hardware and detachable chain-link strap.",
-    "image_url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1513094735237-8f2714d57c13?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1931,7 +2121,7 @@ export const INITIAL_PRODUCTS = [
     "price": 195,
     "badge": "👜 Classic Frame",
     "description": "Traditional hinged brass-frame doctor bag silhouette that stays open for effortless packing and access.",
-    "image_url": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1943,7 +2133,7 @@ export const INITIAL_PRODUCTS = [
     "price": 170,
     "badge": "✨ Artisan Weave",
     "description": "Intricate intrecciato hand-woven calf leather with soft rounded corners and magnetic kiss-lock closure.",
-    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1955,7 +2145,7 @@ export const INITIAL_PRODUCTS = [
     "price": 168,
     "badge": "⭐ Retro Elegance",
     "description": "Polished cognac leather with vintage top handle, solid brass turn-lock clasp, and expandable accordion gussets.",
-    "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1967,7 +2157,7 @@ export const INITIAL_PRODUCTS = [
     "price": 145,
     "badge": "✨ Mini Silhouette",
     "description": "Chic sculpted micro-proportions crafted in glove-soft nappa leather with cardholder slots and phone compartment.",
-    "image_url": "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
@@ -1979,7 +2169,7 @@ export const INITIAL_PRODUCTS = [
     "price": 180,
     "badge": "🔥 Daily Luxury",
     "description": "Buttery tumbled leather with double rolled handles, zip-around main compartment, and protective base feet.",
-    "image_url": "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   }
 ];
@@ -2049,5 +2239,62 @@ export const INITIAL_ORDERS = [
     items: [
       { id: 'prod-bg-shd-1', name: 'Slouchy Italian Suede Leather Shoulder Bag', price: 145.00, quantity: 1 }
     ]
+  }
+];
+
+export const INITIAL_REVIEWS = [
+  {
+    id: 'rev-1',
+    product_id: 'prod-sw-hood-1',
+    user_name: 'Julian Sterling',
+    user_email: 'julian.s@example.com',
+    rating: 5,
+    description: 'The heavyweight 450 GSM fleece is phenomenal. The boxy drape is exactly what I wanted from an authentic streetwear drop.',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString()
+  },
+  {
+    id: 'rev-2',
+    product_id: 'prod-sk-ser-1',
+    user_name: 'Claire Moreau',
+    user_email: 'claire.m@beautyglow.com',
+    rating: 5,
+    description: 'Absorbs instantly without feeling greasy. Squalane and rosehip make my skin look hydrated and glowy all day.',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3).toISOString()
+  },
+  {
+    id: 'rev-3',
+    product_id: 'prod-sh-snk-1',
+    user_name: 'Ethan Cole',
+    user_email: 'ethan.c@sneakerheads.org',
+    rating: 5,
+    description: 'Cushioning is responsive and the suede overlays look incredibly premium in person. True to size fit.',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString()
+  },
+  {
+    id: 'rev-4',
+    product_id: 'prod-tc-ear-1',
+    user_name: 'Sarah Jenkins',
+    user_email: 's.jenkins@audiotech.net',
+    rating: 5,
+    description: 'Active Noise Cancellation cuts out street noise completely and the transparency mode sounds very natural.',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString()
+  },
+  {
+    id: 'rev-5',
+    product_id: 'prod-bg-crb-1',
+    user_name: 'David Vance',
+    user_email: 'david.vance@outdoors.com',
+    rating: 5,
+    description: 'Rugged Cordura construction with smart internal organization. Fits my phone, keys, charger, and sunglasses easily.',
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 24 * 5).toISOString()
+  }
+];
+
+export const INITIAL_ANNOUNCEMENTS = [
+  {
+    id: 'ann-1',
+    title: 'Spring Collection Drops Now Live',
+    message: 'Explore brand-new arrivals across streetwear, tech, footwear, and curated leather goods.',
+    timestamp: 'Just now'
   }
 ];

@@ -95,7 +95,7 @@ const MallDirectory = ({
             Single<span>Cart</span>
           </h1>
           <p className="mall-center-subheading">
-            The Digital Mall & Boutiques
+            The Digital Shopping Mall
           </p>
 
           <div className="mall-center-search-bar">
@@ -103,7 +103,7 @@ const MallDirectory = ({
             <input
               type="text"
               className="mall-center-search-input"
-              placeholder="Search boutiques, streetwear, skincare, sneakers, tech, bags..."
+              placeholder="Search stores, streetwear, skincare, sneakers, tech, bags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -137,15 +137,15 @@ const MallDirectory = ({
         </div>
       </section>
 
-      {/* BOUTIQUE STOREFRONTS DIRECTORY */}
+      {/* STOREFRONTS DIRECTORY */}
       <main className="mall-section">
         <div className="section-header">
           <div className="section-title">
-            <h3>Digital Mall Boutiques</h3>
+            <h3>Featured Mall Stores</h3>
             <p>Direct storefront access with live inventory and fast doorstep delivery</p>
           </div>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Showing {filteredShops.length} boutique{filteredShops.length === 1 ? '' : 's'}
+            Showing {filteredShops.length} store{filteredShops.length === 1 ? '' : 's'}
           </span>
         </div>
 
@@ -157,7 +157,7 @@ const MallDirectory = ({
           <div style={{ textAlign: 'center', padding: '60px 20px', background: 'var(--bg-card)', borderRadius: 'var(--radius-md)' }}>
             <h4>No storefronts found</h4>
             <p style={{ color: 'var(--text-muted)', margin: '8px 0 16px' }}>
-              No boutiques match "{searchQuery}" in this department.
+              No stores match "{searchQuery}" in this department.
             </p>
             <button
               className="btn-secondary"

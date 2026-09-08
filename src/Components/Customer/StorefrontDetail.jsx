@@ -7,15 +7,22 @@ import {
   Plus,
   Check,
   Heart,
-  ZoomIn,
   Clock,
   ShieldCheck,
   PackageCheck,
   Store,
   Truck,
-  Globe
+  Globe,
+  MessageSquare
 } from 'lucide-react';
-import { getShopByIdSync, getProductsSync, getShopById, getProducts } from '../../Data/mallStore';
+import {
+  getShopByIdSync,
+  getProductsSync,
+  getShopById,
+  getProducts,
+  getProductRatingSummary,
+  subscribeToReviews
+} from '../../Data/mallStore';
 import { SHOP_ITEM_CATEGORIES } from '../../Data/initialMallData';
 import MallNavbar from './MallNavbar';
 import FavoritesDrawer from './FavoritesDrawer';
@@ -41,9 +48,12 @@ const StorefrontDetail = ({
   const [recentlyAddedId, setRecentlyAddedId] = useState(null);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
   const [zoomedProduct, setZoomedProduct] = useState(null);
+  const [openReviewOnCard, setOpenReviewOnCard] = useState(false);
+  const [, setReviewsTick] = useState(0);
 
-  // Background non-blocking sync
+  // Background non-blocking sync & scroll to top on store entry
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     let isMounted = true;
 
     const fetchStoreData = async () => {
@@ -72,9 +82,14 @@ const StorefrontDetail = ({
       setProducts(refreshedProds);
     };
 
+    const unsubscribeReviews = subscribeToReviews(() => {
+      setReviewsTick((t) => t + 1);
+    });
+
     window.addEventListener('sc:products_updated', handleProductsUpdated);
     return () => {
       isMounted = false;
+      unsubscribeReviews();
       window.removeEventListener('sc:products_updated', handleProductsUpdated);
     };
   }, [storeId]);
@@ -84,7 +99,7 @@ const StorefrontDetail = ({
     if (!product.in_stock) return;
     onAddToCart({
       ...product,
-      shop_name: shop?.shop_name || 'Mall Boutique'
+      shop_name: shop?.shop_name || 'Verified Store'
     });
     setRecentlyAddedId(product.id);
     setTimeout(() => {
@@ -94,7 +109,7 @@ const StorefrontDetail = ({
 
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Determine subcategories for this boutique
+  // Determine subcategories for this store
   const availableCategories =
     shop?.item_categories ||
     SHOP_ITEM_CATEGORIES[storeId] ||
@@ -121,7 +136,7 @@ const StorefrontDetail = ({
           onOpenFavorites={() => setIsFavoritesOpen(true)}
         />
         <div style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
-          <p>Opening boutique storefront...</p>
+          <p>Opening store storefront...</p>
         </div>
       </div>
     );
@@ -139,7 +154,7 @@ const StorefrontDetail = ({
         <div style={{ padding: '80px 24px', textAlign: 'center' }}>
           <h2>Storefront Not Found</h2>
           <p style={{ color: 'var(--text-muted)', margin: '12px 0 24px' }}>
-            The requested boutique could not be located in the mall directory.
+            The requested store could not be located in the mall directory.
           </p>
           <button className="btn-primary" onClick={() => navigate('/mall')}>
             Back to Mall Directory
@@ -158,11 +173,16 @@ const StorefrontDetail = ({
         onOpenFavorites={() => setIsFavoritesOpen(true)}
       />
 
-      {/* RICH COLORED BOUTIQUE HEADER (Replaced washed-out image with vibrant color gradient) */}
+      {/* AUTHENTIC STORE INTERIOR BANNER HEADER */}
       <header
         className="store-detail-header"
         style={{
-          background: shop.header_gradient || 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'
+          backgroundImage: shop.banner_url
+            ? `linear-gradient(180deg, rgba(12, 16, 28, 0.76) 0%, rgba(12, 16, 28, 0.88) 100%), url(${shop.banner_url})`
+            : (shop.header_gradient || 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'),
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
         }}
       >
         <div className="store-detail-header-inner">
@@ -216,7 +236,7 @@ const StorefrontDetail = ({
         </div>
       </header>
 
-      {/* BOUTIQUE CATEGORIES BAR */}
+      {/* STORE CATEGORIES BAR */}
       <section className="store-categories-section">
         <div className="store-categories-pills">
           {availableCategories.map((cat) => (
@@ -235,8 +255,8 @@ const StorefrontDetail = ({
       <main className="mall-section" style={{ paddingTop: '20px' }}>
         <div className="section-header">
           <div className="section-title">
-            <h3>Boutique Catalog</h3>
-            <p>Click any item or its image to magnify & zoom in on details</p>
+            <h3>Store Catalog</h3>
+            <p>Click any product card to open details, zoom image & read reviews</p>
           </div>
           <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
             Showing {filteredProducts.length} item{filteredProducts.length === 1 ? '' : 's'}
@@ -261,15 +281,19 @@ const StorefrontDetail = ({
               const isLiked = favorites.some(
                 (item) => String(item.id) === String(product.id)
               );
+              const ratingInfo = getProductRatingSummary(product.id);
 
               return (
                 <div
                   key={product.id}
                   className="product-card interactive-product-card"
-                  onClick={() => setZoomedProduct(product)}
+                  onClick={() => {
+                    setOpenReviewOnCard(false);
+                    setZoomedProduct(product);
+                  }}
                   role="button"
                   tabIndex={0}
-                  title="Click to view & zoom image"
+                  title={`${product.name} - Click to view specifications & zoom`}
                 >
                   <div className="product-image-wrap">
                     <img
@@ -288,14 +312,6 @@ const StorefrontDetail = ({
                         {product.item_category}
                       </span>
                     )}
-
-                    {/* Zoom Click Indicator Overlay */}
-                    <div className="product-zoom-hint-overlay">
-                      <span className="zoom-hint-pill">
-                        <ZoomIn size={14} />
-                        Zoom
-                      </span>
-                    </div>
 
                     {/* Like / Favorite heart icon button directly on each item */}
                     <button
@@ -318,6 +334,28 @@ const StorefrontDetail = ({
                   <div className="product-body">
                     <h5>{product.name}</h5>
                     <p className="product-desc">{product.description}</p>
+
+                    {/* RATINGS & REVIEWS ROW ON CARD */}
+                    <div className="product-card-reviews-row">
+                      <div className="product-card-rating">
+                        <Star size={13} fill="#fbbf24" stroke="#fbbf24" />
+                        <strong>{ratingInfo.average.toFixed(1)}</strong>
+                        <span>({ratingInfo.count})</span>
+                      </div>
+
+                      <button
+                        className="btn-card-add-review"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenReviewOnCard(true);
+                          setZoomedProduct(product);
+                        }}
+                        title="Add a review for this product"
+                      >
+                        <MessageSquare size={12} />
+                        <span>Add Review</span>
+                      </button>
+                    </div>
 
                     <div className="product-bottom-row">
                       <span className="product-price">
@@ -352,15 +390,19 @@ const StorefrontDetail = ({
         )}
       </main>
 
-      {/* Interactive Product Image Zoom Lightbox Modal */}
+      {/* Interactive Product Image Zoom & Reviews Lightbox Modal */}
       <ProductZoomModal
         isOpen={Boolean(zoomedProduct)}
-        onClose={() => setZoomedProduct(null)}
+        onClose={() => {
+          setZoomedProduct(null);
+          setOpenReviewOnCard(false);
+        }}
         product={zoomedProduct}
         shop={shop}
         isLiked={zoomedProduct ? favorites.some((item) => String(item.id) === String(zoomedProduct.id)) : false}
         onToggleFavorite={onToggleFavorite}
         onAddToCart={onAddToCart}
+        initialOpenReview={openReviewOnCard}
       />
 
       {/* Favorites Drawer for Storefront View */}
@@ -372,7 +414,7 @@ const StorefrontDetail = ({
         onAddToCart={onAddToCart}
       />
 
-      {/* BOUTIQUE DETAILS & TIMINGS FOOTER (Replaces generic mall footer on shop pages) */}
+      {/* STORE DETAILS & TIMINGS FOOTER */}
       <footer className="boutique-info-footer">
         <div className="boutique-info-inner">
           {/* Column 1: Store Overview & Guarantees */}
@@ -388,7 +430,7 @@ const StorefrontDetail = ({
             <div className="boutique-badges-list">
               <span className="boutique-guarantee-pill">
                 <ShieldCheck size={14} />
-                100% Genuine Boutique Goods
+                100% Genuine Certified Goods
               </span>
               <span className="boutique-guarantee-pill">
                 <Truck size={14} />
@@ -438,7 +480,7 @@ const StorefrontDetail = ({
                 <Globe size={15} />
                 <div>
                   <strong>Store Profile</strong>
-                  <p>Verified Online Boutique</p>
+                  <p>Verified Official Store</p>
                 </div>
               </div>
               <div className="contact-detail-row">
@@ -459,10 +501,10 @@ const StorefrontDetail = ({
           </div>
         </div>
 
-        {/* Bottom copyright line for the boutique */}
+        {/* Bottom copyright line for the store */}
         <div className="boutique-copyright-row">
-          <p>© 2026 {shop.shop_name} • SingleCart Verified Boutique Storefront</p>
-          <span>Verified Online Boutique Partner</span>
+          <p>© 2026 {shop.shop_name} • SingleCart Verified Storefront</p>
+          <span>Verified Official Retail Partner</span>
         </div>
       </footer>
     </div>

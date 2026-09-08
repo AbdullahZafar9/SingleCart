@@ -20,8 +20,20 @@ const MallNavbar = ({
     } catch (e) {}
   }, [theme]);
 
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      if (e.detail && typeof e.detail === 'string') {
+        setTheme(e.detail);
+      }
+    };
+    window.addEventListener('sc:theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+  }, []);
+
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: next }));
   };
 
   return (

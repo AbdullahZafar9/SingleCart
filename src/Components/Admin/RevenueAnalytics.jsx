@@ -8,10 +8,7 @@ const RevenueAnalytics = ({ analytics }) => {
     <div className="analytics-section">
       <div className="analytics-header">
         <div>
-          <h3>Real-Time Revenue per Boutique</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem' }}>
-            Calculated exclusively from finalized orders (<code>status = 'Completed'</code>)
-          </p>
+          <h3>Real-Time Revenue per Store</h3>
         </div>
 
         <div style={{

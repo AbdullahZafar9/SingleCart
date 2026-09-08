@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Welcome from './Components/Welcome';
 import MallDirectory from './Components/Customer/MallDirectory';
 import StorefrontDetail from './Components/Customer/StorefrontDetail';
@@ -13,7 +13,32 @@ import AdminDashboard from './Components/Admin/AdminDashboard';
 import './CSS/App.css';
 import './CSS/mall.css';
 
+// Global scroll restoration helper on route navigation
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
+  // Global theme synchronization
+  useEffect(() => {
+    const activeTheme = localStorage.getItem('sc_theme') || localStorage.getItem('sc_admin_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', activeTheme);
+
+    const handleThemeChange = (e) => {
+      const newTheme = (typeof e.detail === 'string' ? e.detail : e.detail?.theme) || localStorage.getItem('sc_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+    };
+
+    window.addEventListener('sc:theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+  }, []);
+
   // Shopping cart state with localStorage persistence
   const [cart, setCart] = useState(() => {
     try {
@@ -81,7 +106,7 @@ function App() {
           ...prev,
           {
             ...product,
-            shop_name: product.shop_name || shop?.shop_name || 'Mall Boutique'
+            shop_name: product.shop_name || shop?.shop_name || 'Verified Store'
           }
         ];
       }
@@ -154,6 +179,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="App">
         <Routes>
           {/* 1. Warming Welcome Screen */}

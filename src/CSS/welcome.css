@@ -482,3 +482,126 @@
     margin: 0 !important;
   }
 }
+
+/* TOP RIGHT THEME TOGGLE BUTTON ON WELCOME PAGE */
+.welcomeThemeBtn {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(194, 65, 12, 0.22);
+  color: #7c2d12;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(124, 45, 18, 0.1);
+  transition: all 0.2s ease;
+  z-index: 50;
+}
+
+.welcomeThemeBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(124, 45, 18, 0.18);
+  background: #ffffff;
+  color: #ea580c;
+}
+
+/* ============================================================
+   WELCOME PAGE DARK MODE OVERRIDES (Warm Obsidian - ZERO NAVY BLUE)
+   ============================================================ */
+[data-theme="dark"] .welcomePage {
+  background: linear-gradient(135deg, #121110 0%, #1a1816 40%, #161412 100%);
+}
+
+[data-theme="dark"] .welcomePage::before {
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.18) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .welcomePage::after {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .welcomeMainHeading {
+  color: #faf5f0;
+}
+
+[data-theme="dark"] .welcomeSubHeading {
+  color: #fdba74;
+}
+
+[data-theme="dark"] .welcomeDescription {
+  color: #d6ccc2;
+}
+
+[data-theme="dark"] .welcomeTag {
+  background: rgba(234, 88, 12, 0.15);
+  border-color: rgba(234, 88, 12, 0.35);
+  color: #fb923c;
+}
+
+[data-theme="dark"] .welcomeHighlightPill {
+  background: rgba(28, 26, 24, 0.88);
+  border-color: #332d27;
+  color: #faf5f0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .welcomeContactBar {
+  border-top-color: #292522;
+}
+
+[data-theme="dark"] .contactLabel {
+  color: #fdba74;
+}
+
+[data-theme="dark"] .socialIconBtn {
+  background: #1c1a18;
+  border-color: #332d27;
+  color: #d6ccc2;
+}
+
+[data-theme="dark"] .socialIconBtn:hover {
+  background: #262320;
+  color: #faf5f0;
+}
+
+[data-theme="dark"] .welcomeRightOverlay {
+  background: linear-gradient(to right, #121110 0%, rgba(18, 17, 16, 0.3) 25%, transparent 65%);
+}
+
+[data-theme="dark"] .floatingCard {
+  background: rgba(28, 26, 24, 0.92);
+  border-color: #332d27;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .floatingCard:hover {
+  background: rgba(38, 35, 32, 0.98);
+  border-color: #ea580c;
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.8);
+}
+
+[data-theme="dark"] .floatingCardText strong {
+  color: #faf5f0;
+}
+
+[data-theme="dark"] .floatingCardText span {
+  color: #fb923c;
+}
+
+[data-theme="dark"] .welcomeThemeBtn {
+  background: rgba(28, 26, 24, 0.88);
+  border-color: #332d27;
+  color: #faf5f0;
+}
+
+[data-theme="dark"] .welcomeThemeBtn:hover {
+  background: #262320;
+  border-color: #ea580c;
+  color: #fbbf24;
+}

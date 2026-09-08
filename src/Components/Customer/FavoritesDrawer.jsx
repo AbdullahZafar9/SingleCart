@@ -57,7 +57,7 @@ const FavoritesDrawer = ({
                 No liked items yet
               </h4>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem', maxWidth: '280px', lineHeight: 1.5 }}>
-                Tap the heart icon on any product in a boutique to save your favorites for this session.
+                Tap the heart icon on any product in a store to save your favorites for this session.
               </p>
               <button
                 className="checkout-btn"
@@ -67,7 +67,7 @@ const FavoritesDrawer = ({
                   navigate('/mall');
                 }}
               >
-                <span>Browse Boutiques</span>
+                <span>Browse Stores</span>
                 <ArrowRight size={16} />
               </button>
             </div>
@@ -82,7 +82,7 @@ const FavoritesDrawer = ({
                   />
                   <div className="fav-item-info">
                     <h4>{item.name}</h4>
-                    <span className="fav-item-dept">{item.shop_name || 'Mall Boutique'}</span>
+                    <span className="fav-item-dept">{item.shop_name || 'Verified Store'}</span>
                     <span className="fav-item-price">
                       ${Number(item.price).toFixed(2)}
                     </span>

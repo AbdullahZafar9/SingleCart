@@ -93,7 +93,7 @@ const CheckoutModal = ({
           <div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: '800' }}>Express Doorstep Checkout</h3>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              Online payment & direct delivery from {Object.keys(itemsByRetailer).length} boutique{Object.keys(itemsByRetailer).length > 1 ? 's' : ''}
+              Online payment & direct delivery from {Object.keys(itemsByRetailer).length} store{Object.keys(itemsByRetailer).length > 1 ? 's' : ''}
             </span>
           </div>
           <button className="close-drawer-btn" onClick={onClose} aria-label="Close checkout">
@@ -200,7 +200,7 @@ const CheckoutModal = ({
             }}>
               <div>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'block' }}>
-                  Total Items: {cart.reduce((a, b) => a + b.quantity, 0)} ({Object.keys(itemsByRetailer).length} boutique{Object.keys(itemsByRetailer).length > 1 ? 's' : ''})
+                  Total Items: {cart.reduce((a, b) => a + b.quantity, 0)} ({Object.keys(itemsByRetailer).length} store{Object.keys(itemsByRetailer).length > 1 ? 's' : ''})
                 </span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--accent-emerald)', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: '600' }}>
                   <Truck size={12} />

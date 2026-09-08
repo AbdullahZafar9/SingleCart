@@ -10,7 +10,7 @@ const MallHero = ({ totalShops = 5, totalProducts = 15 }) => {
             <Sparkles size={14} />
             <span>Multi-Tenant Digital Galleria</span>
           </div>
-          <h2>One Destination. Endless Boutiques. Zero Login.</h2>
+          <h2>One Destination. Endless Stores. Zero Login.</h2>
           <p>
             Experience seamless digital shopping across premier fashion houses, skincare specialists,
             and tech innovators. Add items from any store to your single cart and checkout with direct doorstep delivery.
@@ -19,7 +19,7 @@ const MallHero = ({ totalShops = 5, totalProducts = 15 }) => {
           <div className="hero-stats-row">
             <div className="hero-stat-box">
               <span className="stat-number">{totalShops}+</span>
-              <span className="stat-label">Premier Boutiques</span>
+              <span className="stat-label">Premier Stores</span>
             </div>
             <div className="hero-stat-box">
               <span className="stat-number">{totalProducts}+</span>

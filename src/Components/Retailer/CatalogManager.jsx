@@ -1,19 +1,29 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Trash2, Check, X, Package } from 'lucide-react';
-import { getProducts, saveProduct, toggleProductStock, deleteProduct } from '../../Data/mallStore';
+import { Plus, Trash2, Check, X, Package, Star, MessageSquare, Mail, User } from 'lucide-react';
+import {
+  getProducts,
+  saveProduct,
+  toggleProductStock,
+  deleteProduct,
+  getProductRatingSummary,
+  getReviewsSync,
+  subscribeToReviews
+} from '../../Data/mallStore';
 
 const CatalogManager = ({ retailerId, shopName }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [activeReviewProduct, setActiveReviewProduct] = useState(null);
+  const [, setReviewsTick] = useState(0);
 
   // New product form state
   const [newName, setNewName] = useState('');
   const [newPrice, setNewPrice] = useState('');
   const [newCategory, setNewCategory] = useState('General');
-  const [newBadge, setNewBadge] = useState('✨ Chef Special');
+  const [newBadge, setNewBadge] = useState('✨ New Drop');
   const [newDesc, setNewDesc] = useState('');
-  const [newImg, setNewImg] = useState('https://images.unsplash.com/photo-1541167760496-1628856ab772?w=800&auto=format&fit=crop&q=80');
+  const [newImg, setNewImg] = useState('https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=900&auto=format&fit=crop&q=80');
 
   const fetchShopProducts = useCallback(async () => {
     setLoading(true);
@@ -29,9 +39,16 @@ const CatalogManager = ({ retailerId, shopName }) => {
       fetchShopProducts();
     };
 
+    const unsubscribeReviews = subscribeToReviews(() => {
+      setReviewsTick((t) => t + 1);
+    }, null, retailerId);
+
     window.addEventListener('sc:products_updated', handleProductsUpdated);
-    return () => window.removeEventListener('sc:products_updated', handleProductsUpdated);
-  }, [fetchShopProducts]);
+    return () => {
+      unsubscribeReviews();
+      window.removeEventListener('sc:products_updated', handleProductsUpdated);
+    };
+  }, [fetchShopProducts, retailerId]);
 
   const handleToggleStock = async (product) => {
     await toggleProductStock(product.id, !product.in_stock);
@@ -41,7 +58,7 @@ const CatalogManager = ({ retailerId, shopName }) => {
   };
 
   const handleDelete = async (productId) => {
-    if (window.confirm('Are you sure you want to remove this item from your boutique catalog?')) {
+    if (window.confirm('Are you sure you want to remove this item from your catalog?')) {
       await deleteProduct(productId);
       setProducts((prev) => prev.filter((p) => p.id !== productId));
     }
@@ -76,7 +93,7 @@ const CatalogManager = ({ retailerId, shopName }) => {
         <div>
           <h3>Store Catalog & Stock Control</h3>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem' }}>
-            Toggle product availability in real-time or add new drops to your storefront.
+            Toggle product availability in real-time, view verified customer reviews, or add new drops.
           </p>
         </div>
 
@@ -107,58 +124,193 @@ const CatalogManager = ({ retailerId, shopName }) => {
                 <th>Category</th>
                 <th>Price</th>
                 <th>Status / Live Stock</th>
+                <th>Customer Reviews</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {products.map((prod) => (
-                <tr key={prod.id}>
-                  <td>
-                    <div className="product-cell">
-                      <img src={prod.image_url} alt={prod.name} />
-                      <div>
-                        <strong>{prod.name}</strong>
-                        {prod.badge && (
-                          <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--accent-gold)' }}>
-                            {prod.badge}
-                          </span>
-                        )}
+              {products.map((prod) => {
+                const ratingInfo = getProductRatingSummary(prod.id);
+
+                return (
+                  <tr key={prod.id}>
+                    <td>
+                      <div className="product-cell">
+                        <img src={prod.image_url} alt={prod.name} />
+                        <div>
+                          <strong>{prod.name}</strong>
+                          {prod.badge && (
+                            <span style={{ display: 'block', fontSize: '0.72rem', color: 'var(--accent-gold)' }}>
+                              {prod.badge}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span style={{ textTransform: 'capitalize', color: 'var(--text-secondary)' }}>
-                      {prod.category}
-                    </span>
-                  </td>
-                  <td>
-                    <strong style={{ fontFamily: 'var(--font-display)', fontSize: '1rem' }}>
-                      ${Number(prod.price).toFixed(2)}
-                    </strong>
-                  </td>
-                  <td>
-                    <button
-                      className={`stock-toggle-switch ${prod.in_stock ? 'in-stock' : 'out-of-stock'}`}
-                      onClick={() => handleToggleStock(prod)}
-                      title="Click to toggle in/out of stock"
-                    >
-                      {prod.in_stock ? <Check size={13} /> : <X size={13} />}
-                      <span>{prod.in_stock ? 'In Stock (Live)' : 'Sold Out'}</span>
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleDelete(prod.id)}
-                      style={{ color: 'var(--text-muted)', padding: '6px', cursor: 'pointer' }}
-                      title="Delete Product"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                    <td>
+                      <span style={{ textTransform: 'capitalize', color: 'var(--text-secondary)' }}>
+                        {prod.category}
+                      </span>
+                    </td>
+                    <td>
+                      <strong style={{ fontFamily: 'var(--font-display)', fontSize: '1rem' }}>
+                        ${Number(prod.price).toFixed(2)}
+                      </strong>
+                    </td>
+                    <td>
+                      <button
+                        className={`stock-toggle-switch ${prod.in_stock ? 'in-stock' : 'out-of-stock'}`}
+                        onClick={() => handleToggleStock(prod)}
+                        title="Click to toggle in/out of stock"
+                      >
+                        {prod.in_stock ? <Check size={13} /> : <X size={13} />}
+                        <span>{prod.in_stock ? 'In Stock (Live)' : 'Sold Out'}</span>
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="catalog-review-badge-btn"
+                        onClick={() => setActiveReviewProduct(prod)}
+                        title={`View ${ratingInfo.count} reviews for ${prod.name}`}
+                      >
+                        <Star size={13} fill={ratingInfo.count > 0 ? '#fbbf24' : 'none'} stroke="#fbbf24" />
+                        <strong>{ratingInfo.average.toFixed(1)}</strong>
+                        <span>({ratingInfo.count})</span>
+                        <MessageSquare size={12} style={{ marginLeft: '4px', opacity: 0.7 }} />
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleDelete(prod.id)}
+                        style={{ color: 'var(--text-muted)', padding: '6px', cursor: 'pointer' }}
+                        title="Delete Product"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* VIEW PRODUCT REVIEWS MODAL */}
+      {activeReviewProduct && (
+        <div className="modal-backdrop" onClick={() => setActiveReviewProduct(null)}>
+          <div
+            className="modal-dialog"
+            style={{ maxWidth: '640px' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <img
+                  src={activeReviewProduct.image_url}
+                  alt={activeReviewProduct.name}
+                  style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover' }}
+                />
+                <div>
+                  <h3 style={{ fontSize: '1.05rem', margin: 0 }}>
+                    {activeReviewProduct.name}
+                  </h3>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                    Customer Reviews & Feedback
+                  </span>
+                </div>
+              </div>
+              <button
+                className="close-drawer-btn"
+                onClick={() => setActiveReviewProduct(null)}
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+              {(() => {
+                const prodReviews = getReviewsSync(activeReviewProduct.id);
+                if (prodReviews.length === 0) {
+                  return (
+                    <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)' }}>
+                      <MessageSquare size={36} style={{ margin: '0 auto 10px', opacity: 0.4 }} />
+                      <p style={{ margin: 0, fontWeight: 600 }}>No reviews received yet for this product drop.</p>
+                      <span style={{ fontSize: '0.82rem' }}>
+                        Customer reviews submitted on the store will display here automatically.
+                      </span>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                    {prodReviews.map((rev) => (
+                      <div
+                        key={rev.id}
+                        style={{
+                          background: 'var(--bg-hover)',
+                          border: '1px solid var(--border-subtle)',
+                          borderRadius: '10px',
+                          padding: '14px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                          <div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <User size={13} color="var(--primary)" />
+                              <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                                {rev.user_name}
+                              </strong>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '2px' }}>
+                              <Mail size={12} color="var(--text-muted)" />
+                              <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                {rev.user_email}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                            {[1, 2, 3, 4, 5].map((s) => (
+                              <Star
+                                key={s}
+                                size={13}
+                                fill={s <= (rev.rating || 5) ? '#fbbf24' : 'none'}
+                                stroke={s <= (rev.rating || 5) ? '#fbbf24' : '#cbd5e1'}
+                              />
+                            ))}
+                          </div>
+                        </div>
+
+                        <p style={{ margin: '6px 0', fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.45 }}>
+                          {rev.description}
+                        </p>
+
+                        <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+                          Submitted: {rev.created_at ? new Date(rev.created_at).toLocaleDateString(undefined, {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          }) : 'Recently'}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setActiveReviewProduct(null)}
+              >
+                Close Reviews
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -205,7 +357,7 @@ const CatalogManager = ({ retailerId, shopName }) => {
                   <input
                     type="text"
                     className="form-input"
-                    placeholder="e.g., Specialty Coffee, Apparel, Audio"
+                    placeholder="e.g., Apparel, Footwear, Audio, Skincare"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
                     required
@@ -217,7 +369,7 @@ const CatalogManager = ({ retailerId, shopName }) => {
                   <input
                     type="text"
                     className="form-input"
-                    placeholder="e.g., 🔥 Hot Drop, ⭐ Barista Choice"
+                    placeholder="e.g., 🔥 Hot Drop, ⭐ Featured"
                     value={newBadge}
                     onChange={(e) => setNewBadge(e.target.value)}
                   />
@@ -239,7 +391,7 @@ const CatalogManager = ({ retailerId, shopName }) => {
                   <textarea
                     className="form-input"
                     rows={3}
-                    placeholder="Detailed craftsmanship notes, materials, taste profile..."
+                    placeholder="Detailed craftsmanship notes, materials, specifications..."
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                   />

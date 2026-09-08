@@ -1,10 +1,11 @@
 import { supabase, isSupabaseConfigured } from '../supabaseClient';
-import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS } from './initialMallData';
+import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_REVIEWS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v7',
-  PRODUCTS: 'sc_products_v7',
-  ORDERS: 'sc_orders_v7'
+  SHOPS: 'sc_shops_v10',
+  PRODUCTS: 'sc_products_v10',
+  ORDERS: 'sc_orders_v10',
+  REVIEWS: 'sc_reviews_v10'
 };
 
 // Safe LocalStorage helpers
@@ -44,6 +45,17 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_shops_v6');
     localStorage.removeItem('sc_products_v6');
     localStorage.removeItem('sc_orders_v6');
+    localStorage.removeItem('sc_shops_v7');
+    localStorage.removeItem('sc_products_v7');
+    localStorage.removeItem('sc_orders_v7');
+    localStorage.removeItem('sc_shops_v8');
+    localStorage.removeItem('sc_products_v8');
+    localStorage.removeItem('sc_orders_v8');
+    localStorage.removeItem('sc_reviews_v8');
+    localStorage.removeItem('sc_shops_v9');
+    localStorage.removeItem('sc_products_v9');
+    localStorage.removeItem('sc_orders_v9');
+    localStorage.removeItem('sc_reviews_v9');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
@@ -54,6 +66,9 @@ export const initializeLocalStorage = () => {
   }
   if (!localStorage.getItem(STORAGE_KEYS.ORDERS)) {
     setStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.REVIEWS)) {
+    setStoredList(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS || []);
   }
 };
 
@@ -110,19 +125,50 @@ export const getShopById = async (shopId) => {
 };
 
 export const createShop = async (shopData) => {
+  const initials = shopData.shop_name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('');
+
+  const brandSvgLogo =
+    'data:image/svg+xml;utf8,' +
+    encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="40" fill="#0f172a"/>
+  <rect x="12" y="12" width="176" height="176" rx="32" fill="none" stroke="url(#g1)" stroke-width="4"/>
+  <circle cx="100" cy="100" r="65" fill="#1e293b" stroke="#60a5fa" stroke-width="3"/>
+  <text x="100" y="124" font-family="'Montserrat', 'Inter', system-ui, sans-serif" font-size="64" font-weight="900" fill="#ffffff" text-anchor="middle">${initials || 'SC'}</text>
+</svg>
+`.trim());
+
+  const defaultBanner =
+    shopData.banner_url ||
+    'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format&fit=crop&q=80';
+
   const newShop = {
     id: shopData.id || `retailer-${Date.now()}`,
     shop_name: shopData.shop_name.trim(),
-    category: shopData.category || 'streetwear',
-    department: shopData.department || 'Street Wear',
+    category: shopData.category || 'general',
+    department: shopData.department || 'General Store',
     rating: 5.0,
     reviews_count: 0,
-    location_in_mall: shopData.location_in_mall || 'Virtual Online Boutique',
+    location_in_mall: 'Verified Online Store',
     phone: shopData.phone || '+1 (555) 000-0000',
-    description: shopData.description || 'Welcome to our virtual boutique storefront.',
-    logo_url: shopData.logo_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=200&auto=format&fit=crop&q=80',
-    banner_url: shopData.banner_url || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&auto=format&fit=crop&q=80',
-    accent_color: shopData.accent_color || '#ea580c',
+    email: (shopData.email || '').trim().toLowerCase(),
+    password: shopData.password || 'vendor123',
+    description: shopData.description || 'Welcome to our verified official online storefront.',
+    logo_url: shopData.logo_url || brandSvgLogo,
+    banner_url: defaultBanner,
+    accent_color: shopData.accent_color || '#3b82f6',
+    header_gradient: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
     created_at: new Date().toISOString()
   };
 
@@ -135,14 +181,16 @@ export const createShop = async (shopData) => {
   if (isSupabaseConfigured && supabase) {
     try {
       await withTimeout(
-        supabase.from('profiles').insert([{
-          id: newShop.id,
-          shop_name: newShop.shop_name,
-          role: 'retailer',
-          category: newShop.category,
-          description: newShop.description,
-          banner_url: newShop.banner_url
-        }])
+        supabase.from('profiles').insert([
+          {
+            id: newShop.id,
+            shop_name: newShop.shop_name,
+            role: 'retailer',
+            category: newShop.category,
+            description: newShop.description,
+            banner_url: newShop.banner_url
+          }
+        ])
       );
     } catch (e) {
       console.warn('Supabase shop insert fallback:', e);
@@ -154,6 +202,113 @@ export const createShop = async (shopData) => {
   }
 
   return newShop;
+};
+
+export const updateShop = async (shopId, updates) => {
+  const currentShops = getStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
+  let updatedShop = null;
+
+  const updatedShops = currentShops.map((shop) => {
+    if (String(shop.id) === String(shopId)) {
+      updatedShop = { ...shop, ...updates };
+      return updatedShop;
+    }
+    return shop;
+  });
+
+  if (updatedShop) {
+    setStoredList(STORAGE_KEYS.SHOPS, updatedShops);
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await withTimeout(
+          supabase
+            .from('profiles')
+            .update({
+              shop_name: updatedShop.shop_name,
+              banner_url: updatedShop.banner_url,
+              description: updatedShop.description
+            })
+            .eq('id', shopId)
+        );
+      } catch (e) {
+        console.warn('Supabase shop update fallback:', e);
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('sc:shops_updated', { detail: updatedShop }));
+    }
+  }
+
+  return updatedShop;
+};
+
+export const deleteShop = async (shopId) => {
+  const currentShops = getStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
+  const updatedShops = currentShops.filter((s) => String(s.id) !== String(shopId));
+  setStoredList(STORAGE_KEYS.SHOPS, updatedShops);
+
+  // Also clean up products belonging to this shop
+  const currentProducts = getStoredList(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
+  const updatedProducts = currentProducts.filter((p) => String(p.retailer_id) !== String(shopId));
+  setStoredList(STORAGE_KEYS.PRODUCTS, updatedProducts);
+
+  // Supabase sync if enabled
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await withTimeout(
+        supabase.from('products').delete().eq('retailer_id', shopId)
+      );
+      await withTimeout(
+        supabase.from('profiles').delete().eq('id', shopId)
+      );
+    } catch (e) {
+      console.warn('Supabase shop delete fallback:', e);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('sc:shops_updated', { detail: { id: shopId, deleted: true } }));
+  }
+
+  return true;
+};
+
+export const normalizePhone = (phoneStr) => {
+  if (!phoneStr) return '';
+  return String(phoneStr).replace(/\D/g, '');
+};
+
+export const findShopByCredentials = (identifier, password) => {
+  if (!identifier) return null;
+  const cleanId = String(identifier).trim().toLowerCase();
+  const cleanPhone = normalizePhone(identifier);
+  const shops = getStoredList(STORAGE_KEYS.SHOPS, INITIAL_SHOPS);
+
+  const matched = shops.find((s) => {
+    const shopEmail = (s.email || '').toLowerCase().trim();
+    const shopPhone = normalizePhone(s.phone);
+    const shopName = (s.shop_name || '').toLowerCase().trim();
+
+    const matchesEmail = shopEmail && shopEmail === cleanId;
+    const matchesPhone =
+      cleanPhone.length >= 7 &&
+      shopPhone &&
+      (shopPhone === cleanPhone ||
+        shopPhone.endsWith(cleanPhone) ||
+        cleanPhone.endsWith(shopPhone));
+    const matchesName = shopName && shopName === cleanId;
+
+    if (matchesEmail || matchesPhone || matchesName) {
+      if (!password) return true;
+      const expectedPassword = s.password || 'vendor123';
+      return expectedPassword === password.trim();
+    }
+    return false;
+  });
+
+  return matched || null;
 };
 
 // ==========================================
@@ -362,6 +517,54 @@ export const updateOrderStatus = async (orderId, newStatus) => {
   }
 };
 
+export const deleteOrdersByDateRange = async (startDate, endDate) => {
+  const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  const startMs = new Date(startDate).getTime();
+  const endMs = new Date(endDate).getTime();
+
+  const remainingOrders = [];
+  let deletedCount = 0;
+  let deletedRevenue = 0;
+
+  currentOrders.forEach((o) => {
+    const orderTime = new Date(o.created_at).getTime();
+    if (orderTime >= startMs && orderTime <= endMs) {
+      deletedCount += 1;
+      if (o.status === 'Completed') {
+        deletedRevenue += Number(o.total_price) || 0;
+      }
+    } else {
+      remainingOrders.push(o);
+    }
+  });
+
+  setStoredList(STORAGE_KEYS.ORDERS, remainingOrders);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await withTimeout(
+        supabase
+          .from('orders')
+          .delete()
+          .gte('created_at', new Date(startDate).toISOString())
+          .lte('created_at', new Date(endDate).toISOString())
+      );
+    } catch (e) {
+      console.warn('Supabase delete orders by range fallback:', e);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('sc:orders_updated', {
+        detail: { deletedRange: true, deletedCount, deletedRevenue }
+      })
+    );
+  }
+
+  return { success: true, deletedCount, deletedRevenue };
+};
+
 // ==========================================
 // 4. ADMIN REVENUE ANALYTICS AGGREGATION
 // ==========================================
@@ -463,3 +666,76 @@ export const subscribeToOrders = (onUpdate, retailerId = null) => {
     }
   };
 };
+
+// ==========================================
+// 6. PRODUCT REVIEWS (SYNC & ASYNC)
+// ==========================================
+
+export const getReviewsSync = (productId = null, retailerId = null) => {
+  const allReviews = getStoredList(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS || []);
+  return allReviews.filter((r) => {
+    const matchesProduct = !productId || String(r.product_id) === String(productId);
+    const matchesRetailer = !retailerId || String(r.retailer_id) === String(retailerId);
+    return matchesProduct && matchesRetailer;
+  });
+};
+
+export const getReviews = async (productId = null, retailerId = null) => {
+  return getReviewsSync(productId, retailerId);
+};
+
+export const getProductRatingSummary = (productId) => {
+  const productReviews = getReviewsSync(productId);
+  if (productReviews.length === 0) {
+    return { average: 5.0, count: 0, reviews: [] };
+  }
+  const sum = productReviews.reduce((acc, r) => acc + (Number(r.rating) || 5), 0);
+  const average = Number((sum / productReviews.length).toFixed(1));
+  return { average, count: productReviews.length, reviews: productReviews };
+};
+
+export const addReview = async (reviewData) => {
+  const newReview = {
+    id: `rev-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+    product_id: reviewData.productId || reviewData.product_id,
+    retailer_id: reviewData.retailerId || reviewData.retailer_id || '',
+    user_name: (reviewData.userName || reviewData.user_name || 'Verified Shopper').trim(),
+    user_email: (reviewData.userEmail || reviewData.user_email || '').trim(),
+    rating: Number(reviewData.rating) || 5,
+    description: (reviewData.description || reviewData.review || '').trim(),
+    created_at: new Date().toISOString()
+  };
+
+  const currentReviews = getStoredList(STORAGE_KEYS.REVIEWS, INITIAL_REVIEWS || []);
+  const updatedReviews = [newReview, ...currentReviews];
+  setStoredList(STORAGE_KEYS.REVIEWS, updatedReviews);
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('sc:reviews_updated', {
+      detail: { review: newReview, productId: newReview.product_id, retailerId: newReview.retailer_id }
+    }));
+  }
+
+  return newReview;
+};
+
+export const subscribeToReviews = (onUpdate, productId = null, retailerId = null) => {
+  const handleCustomEvent = (e) => {
+    const detail = e.detail;
+    if (!detail) return;
+    if (productId && String(detail.productId) !== String(productId)) return;
+    if (retailerId && String(detail.retailerId) !== String(retailerId)) return;
+    onUpdate(detail);
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('sc:reviews_updated', handleCustomEvent);
+  }
+
+  return () => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('sc:reviews_updated', handleCustomEvent);
+    }
+  };
+};
+

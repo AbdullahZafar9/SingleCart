@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Store, ArrowLeft, ArrowRight, Lock, Mail } from 'lucide-react';
+import { Store, ArrowLeft, ArrowRight, Lock, Smartphone } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../../supabaseClient';
-import { getShops } from '../../Data/mallStore';
+import { getShops, findShopByCredentials } from '../../Data/mallStore';
 import '../../CSS/retailer.css';
 
 const RetailerLogin = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -21,43 +21,71 @@ const RetailerLogin = ({ onLoginSuccess }) => {
     fetchShops();
   }, []);
 
-  const handleSupabaseLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage('');
     setLoading(true);
 
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password: password
-        });
+    const cleanId = identifier.trim();
+    const cleanPass = password.trim();
 
-        if (error) {
-          setErrorMessage(error.message);
-        } else if (data?.user) {
-          onLoginSuccess({
-            id: data.user.id,
-            email: data.user.email,
-            shop_name: data.user.user_metadata?.shop_name || 'My Boutique'
-          });
-          navigate('/retailer');
-        }
-      } catch (err) {
-        setErrorMessage('Authentication service error.');
-      }
-    } else {
-      // Demo fallback login
-      const matched = availableShops.find(s => s.shop_name.toLowerCase().includes(email.toLowerCase())) || availableShops[1] || availableShops[0];
-      onLoginSuccess(matched);
+    // 1. Direct match against local & synchronized shop credentials (Email OR Mobile Phone)
+    const localMatched = findShopByCredentials(cleanId, cleanPass);
+    if (localMatched) {
+      if (onLoginSuccess) onLoginSuccess(localMatched);
       navigate('/retailer');
+      setLoading(false);
+      return;
     }
 
+    // 2. If Supabase is configured and input is an email, attempt Supabase Auth
+    if (isSupabaseConfigured && supabase && cleanId.includes('@')) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: cleanId,
+          password: cleanPass
+        });
+
+        if (!error && data?.user) {
+          const shopProfile = availableShops.find(
+            (s) => s.id === data.user.id || (s.email && s.email.toLowerCase() === cleanId.toLowerCase())
+          ) || {
+            id: data.user.id,
+            email: data.user.email,
+            shop_name: data.user.user_metadata?.shop_name || 'My Store',
+            department: 'Online Storefront'
+          };
+
+          if (onLoginSuccess) onLoginSuccess(shopProfile);
+          navigate('/retailer');
+          setLoading(false);
+          return;
+        }
+      } catch (err) {
+        console.warn('Supabase auth attempt error:', err);
+      }
+    }
+
+    // 3. Fallback: match shop by name or default demo shop if in demo testing
+    const fallbackMatch = availableShops.find(
+      (s) => (s.shop_name && s.shop_name.toLowerCase() === cleanId.toLowerCase())
+    );
+
+    if (fallbackMatch && cleanPass === (fallbackMatch.password || 'vendor123')) {
+      if (onLoginSuccess) onLoginSuccess(fallbackMatch);
+      navigate('/retailer');
+      setLoading(false);
+      return;
+    }
+
+    setErrorMessage(
+      'Invalid credentials. Please enter the valid Email or Mobile Number and Password assigned by the mall admin.'
+    );
     setLoading(false);
   };
 
   const handleQuickDemoSwitch = (shop) => {
-    onLoginSuccess(shop);
+    if (onLoginSuccess) onLoginSuccess(shop);
     navigate('/retailer');
   };
 
@@ -67,7 +95,17 @@ const RetailerLogin = ({ onLoginSuccess }) => {
         <div className="retailer-login-card">
           <button
             onClick={() => navigate('/')}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--text-muted)', fontSize: '0.84rem', marginBottom: '20px' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              color: 'var(--text-muted)',
+              fontSize: '0.84rem',
+              marginBottom: '20px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer'
+            }}
           >
             <ArrowLeft size={15} />
             <span>Back to Digital Mall</span>
@@ -78,37 +116,52 @@ const RetailerLogin = ({ onLoginSuccess }) => {
               <Store size={28} />
             </div>
             <h2>Retailer Vendor Portal</h2>
-            <p>Access your live kitchen or store terminal to process incoming customer orders</p>
+            <p>Access your live store terminal to manage products, orders, and storefront settings</p>
           </div>
 
           {errorMessage && (
-            <div style={{
-              background: 'rgba(244, 63, 94, 0.15)',
-              border: '1px solid rgba(244, 63, 94, 0.3)',
-              color: '#fb7185',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              fontSize: '0.84rem',
-              marginBottom: '16px'
-            }}>
+            <div
+              style={{
+                background: 'rgba(244, 63, 94, 0.15)',
+                border: '1px solid rgba(244, 63, 94, 0.3)',
+                color: '#fb7185',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                fontSize: '0.84rem',
+                marginBottom: '16px'
+              }}
+            >
               {errorMessage}
             </div>
           )}
 
-          <form onSubmit={handleSupabaseLogin}>
+          <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label className="form-label">
-                <Mail size={13} style={{ display: 'inline', marginRight: '6px' }} />
-                Retailer Email
+              <label className="form-label" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>
+                  <Smartphone size={13} style={{ display: 'inline', marginRight: '6px' }} />
+                  Retailer Email or Mobile Number
+                </span>
               </label>
               <input
-                type="email"
+                type="text"
                 className="form-input"
-                placeholder="store-manager@singlecart.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="e.g., manager@store.com or +1 (555) 302-8819"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 required
+                autoFocus
               />
+              <span
+                style={{
+                  fontSize: '0.74rem',
+                  color: 'var(--text-muted)',
+                  marginTop: '4px',
+                  display: 'block'
+                }}
+              >
+                Enter either your registered manager email or store mobile phone.
+              </span>
             </div>
 
             <div className="form-group">
@@ -140,17 +193,25 @@ const RetailerLogin = ({ onLoginSuccess }) => {
           {/* Quick Demo Store Selector */}
           <div className="demo-selector-section">
             <h4>Quick Switch Demo Accounts</h4>
-            {availableShops.slice(0, 3).map((shop) => (
-              <button
-                key={shop.id}
-                type="button"
-                className="demo-shop-btn"
-                onClick={() => handleQuickDemoSwitch(shop)}
-              >
-                <span>{shop.shop_name}</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--accent-gold)' }}>Login as Shop →</span>
-              </button>
-            ))}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {availableShops.slice(0, 4).map((shop) => (
+                <button
+                  key={shop.id}
+                  type="button"
+                  className="demo-shop-btn"
+                  onClick={() => handleQuickDemoSwitch(shop)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                  <div style={{ textAlign: 'left' }}>
+                    <strong style={{ display: 'block', fontSize: '0.86rem' }}>{shop.shop_name}</strong>
+                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                      {shop.email || 'vendor'} • {shop.phone || '+1 555-0100'}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--accent-gold)' }}>Login →</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

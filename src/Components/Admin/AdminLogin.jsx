@@ -5,21 +5,33 @@ import '../../CSS/admin.css';
 
 const AdminLogin = ({ onLoginSuccess }) => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('admin@singlecart.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('furqannasir561@gmail.com');
+  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password.length < 4) {
-      setErrorMessage('Please enter a valid administrator password.');
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPass = password.trim();
+
+    const isAuthorizedEmail =
+      cleanEmail === 'furqannasir561@gmail.com' ||
+      cleanEmail === 'qazia7513@gmail.com' ||
+      cleanEmail === 'admin@singlecart.com';
+
+    const isAuthorizedPass = cleanPass === 'qazi@123' || cleanPass === 'admin123';
+
+    if (!isAuthorizedEmail || !isAuthorizedPass) {
+      setErrorMessage(
+        'Invalid executive credentials. Please enter the registered administrator email and correct password.'
+      );
       return;
     }
 
     // Role verified
     onLoginSuccess({
       role: 'admin',
-      email: email.trim(),
+      email: cleanEmail,
       name: 'Global Mall Operations Master'
     });
     navigate('/admin');
@@ -41,7 +53,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
             <ShieldCheck size={32} />
           </div>
           <h2>Mall Executive Portal</h2>
-          <p>Sign in to access global tenant management, revenue analytics, and boutique provisioning</p>
+          <p>Sign in with verified administrator credentials to provision stores and dispatch credentials</p>
         </div>
 
         {errorMessage && (
@@ -69,6 +81,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
               className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="e.g., furqannasir561@gmail.com"
               required
             />
           </div>
@@ -76,14 +89,16 @@ const AdminLogin = ({ onLoginSuccess }) => {
           <div className="form-group">
             <label className="form-label">
               <Lock size={13} style={{ display: 'inline', marginRight: '6px' }} />
-              Admin Access Key
+              Admin Password
             </label>
             <input
               type="password"
               className="form-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your admin password"
               required
+              autoFocus
             />
           </div>
 
@@ -100,14 +115,14 @@ const AdminLogin = ({ onLoginSuccess }) => {
         <div style={{
           marginTop: '20px',
           padding: '12px',
-          background: 'rgba(59, 130, 246, 0.08)',
-          border: '1px solid rgba(59, 130, 246, 0.2)',
+          background: 'rgba(234, 88, 12, 0.08)',
+          border: '1px solid rgba(234, 88, 12, 0.25)',
           borderRadius: '8px',
           fontSize: '0.78rem',
-          color: '#93c5fd',
+          color: 'var(--text-secondary)',
           textAlign: 'center'
         }}>
-          💡 Quick Demo: Ready to sign in with pre-filled master admin credentials.
+          💡 Executive Account: <strong style={{ color: 'var(--text-primary)' }}>furqannasir561@gmail.com</strong>
         </div>
       </div>
     </div>

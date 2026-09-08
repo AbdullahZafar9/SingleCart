@@ -8,7 +8,10 @@ const StorefrontCard = ({ shop }) => {
   return (
     <div
       className="storefront-card"
-      onClick={() => navigate(`/store/${shop.id}`)}
+      onClick={() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        navigate(`/store/${shop.id}`);
+      }}
       role="button"
       tabIndex={0}
     >
@@ -20,7 +23,7 @@ const StorefrontCard = ({ shop }) => {
           loading="lazy"
         />
         <div className="storefront-banner-overlay" />
-        <span className="storefront-badge">{shop.department || 'Boutique'}</span>
+        <span className="storefront-badge">{shop.department || 'Store'}</span>
 
         <img
           src={shop.logo_url}
@@ -54,7 +57,7 @@ const StorefrontCard = ({ shop }) => {
           <span className="storefront-status-open">Open Now</span>
 
           <button className="enter-store-btn">
-            <span>Explore Boutique</span>
+            <span>Explore Store</span>
             <ArrowRight size={14} />
           </button>
         </div>

@@ -1,21 +1,26 @@
 /* ============================================================
-   SingleCart Design System - Virtual Mall Platform (Light Theme)
+   SingleCart Design System - Virtual Mall Platform
+   Welcome-Page Warm Luxury Theme (Light) & Warm Obsidian (Dark)
    ============================================================ */
 
 :root {
-  --bg-main: #f8fafc;
+  --bg-main: #fcf8f4;
   --bg-surface: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-hover: #fbfcfe;
+  --bg-card-hover: #fdfbf7;
   --bg-glass: rgba(255, 255, 255, 0.88);
   
-  --border-subtle: #e2e8f0;
-  --border-focus: #f59e0b;
-  --border-glass: rgba(226, 232, 240, 0.8);
+  --border-subtle: #eedfd4;
+  --border-focus: #ea580c;
+  --border-glass: rgba(238, 223, 212, 0.85);
+
+  --accent-terracotta: #ea580c;
+  --accent-terracotta-dark: #c2410c;
+  --accent-terracotta-glow: rgba(234, 88, 12, 0.28);
 
   --accent-gold: #d97706;
   --accent-gold-light: #f59e0b;
-  --accent-gold-glow: rgba(217, 119, 6, 0.2);
+  --accent-gold-glow: rgba(217, 119, 6, 0.22);
 
   --accent-blue: #2563eb;
   --accent-blue-light: #3b82f6;
@@ -26,9 +31,9 @@
 
   --accent-rose: #e11d48;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-primary: #1c1917;
+  --text-secondary: #574438;
+  --text-muted: #8a7568;
   --text-inverse: #ffffff;
 
   --radius-sm: 8px;
@@ -36,10 +41,10 @@
   --radius-lg: 20px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 6px 20px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 14px 34px -6px rgba(15, 23, 42, 0.1), 0 8px 12px -4px rgba(15, 23, 42, 0.05);
-  --shadow-glow: 0 0 20px var(--accent-gold-glow);
+  --shadow-sm: 0 1px 3px rgba(44, 30, 20, 0.05), 0 1px 2px rgba(44, 30, 20, 0.03);
+  --shadow-md: 0 6px 20px -4px rgba(44, 30, 20, 0.07), 0 4px 6px -2px rgba(44, 30, 20, 0.03);
+  --shadow-lg: 0 14px 34px -6px rgba(44, 30, 20, 0.09), 0 8px 12px -4px rgba(44, 30, 20, 0.04);
+  --shadow-glow: 0 0 20px var(--accent-terracotta-glow);
 
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-stylish: 'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -57,7 +62,7 @@
 }
 
 body {
-  background-color: #fcf8f4;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -69,8 +74,9 @@ body {
     radial-gradient(circle at 12% 10%, rgba(245, 158, 11, 0.14) 0%, transparent 45%),
     radial-gradient(circle at 88% 18%, rgba(234, 88, 12, 0.10) 0%, transparent 42%),
     radial-gradient(circle at 50% 80%, rgba(194, 65, 12, 0.07) 0%, transparent 50%),
-    linear-gradient(180deg, #fefaf6 0%, #f8f1e9 100%);
+    linear-gradient(180deg, #fdf9f4 0%, #f7ede1 100%);
   background-attachment: fixed;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -104,14 +110,14 @@ input, textarea, select {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f7eee4;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d8c3b2;
   border-radius: var(--radius-full);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #bfa592;
 }
 
 /* Utility Animations */
@@ -121,8 +127,8 @@ input, textarea, select {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(217, 119, 6, 0.4); }
+  0%, 100% { box-shadow: 0 0 15px rgba(234, 88, 12, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(234, 88, 12, 0.4); }
 }
 
 /* Status Badges */
@@ -157,9 +163,9 @@ input, textarea, select {
 }
 
 .status-pill.completed {
-  background: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background: #fbf5ef;
+  color: #574438;
+  border: 1px solid #eedfd4;
 }
 
 .status-pill.cancelled {
@@ -169,48 +175,58 @@ input, textarea, select {
 }
 
 /* ============================================================
-   Dark Mode Theme Overrides
+   Dark Mode Theme Overrides (Warm Obsidian & Charcoal - Zero Navy Blue)
    ============================================================ */
 
 [data-theme="dark"] {
-  --bg-main: #0b0f19;
-  --bg-surface: #131b2e;
-  --bg-card: #182238;
-  --bg-card-hover: #1e2c47;
-  --bg-glass: rgba(19, 27, 46, 0.9);
+  --bg-main: #121110;
+  --bg-surface: #1a1816;
+  --bg-card: #1f1c1a;
+  --bg-card-hover: #292522;
+  --bg-glass: rgba(26, 24, 22, 0.92);
   
-  --border-subtle: #27354f;
-  --border-focus: #f59e0b;
-  --border-glass: rgba(39, 53, 79, 0.8);
+  --border-subtle: #332d27;
+  --border-focus: #f97316;
+  --border-glass: rgba(255, 255, 255, 0.08);
 
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-inverse: #0b0f19;
+  --accent-gold: #fbbf24;
+  --accent-gold-light: #fde68a;
+  --accent-gold-glow: rgba(251, 191, 36, 0.22);
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.6);
+  --accent-blue: #60a5fa;
+  --accent-emerald: #34d399;
+  --accent-rose: #f87171;
+
+  --text-primary: #faf5f0;
+  --text-secondary: #d6ccc2;
+  --text-muted: #9e8e82;
+  --text-inverse: #121110;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 14px 34px -6px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
 [data-theme="dark"] body {
-  background-color: #0b0f19;
-  color: #f8fafc;
+  background-color: #121110;
+  color: #faf5f0;
   background-image: 
     radial-gradient(circle at 12% 10%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
     radial-gradient(circle at 88% 18%, rgba(234, 88, 12, 0.06) 0%, transparent 42%),
-    linear-gradient(180deg, #0b0f19 0%, #111827 100%);
+    radial-gradient(circle at 50% 80%, rgba(194, 65, 12, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #121110 0%, #181614 100%);
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #181614;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #38312a;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #4f463c;
 }
 

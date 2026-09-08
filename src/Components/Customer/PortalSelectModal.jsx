@@ -59,7 +59,7 @@ const PortalSelectModal = ({ isOpen, onClose }) => {
                 <h3>Retailer Portal</h3>
                 <span className="portal-tag retailer">Shop Owners</span>
               </div>
-              <p>Manage your boutique storefront, update inventory catalog, and fulfill live customer orders.</p>
+              <p>Manage your store operations, update inventory catalog, and fulfill live customer orders.</p>
             </div>
             <div className="portal-option-arrow">
               <ArrowRight size={20} />
@@ -82,7 +82,7 @@ const PortalSelectModal = ({ isOpen, onClose }) => {
                 <h3>Mall Admin Console</h3>
                 <span className="portal-tag admin">Super Admin</span>
               </div>
-              <p>Platform control center for boutique tenant onboarding, tenant directory, and global revenue analytics.</p>
+              <p>Platform control center for store tenant onboarding, tenant directory, and global revenue analytics.</p>
             </div>
             <div className="portal-option-arrow">
               <ArrowRight size={20} />
@@ -92,7 +92,7 @@ const PortalSelectModal = ({ isOpen, onClose }) => {
 
         <div className="portal-modal-footer">
           <Sparkles size={14} color="#d97706" />
-          <span>Customers can shop all boutiques with zero account friction.</span>
+          <span>Customers can shop all stores with zero account friction.</span>
         </div>
       </div>
     </div>

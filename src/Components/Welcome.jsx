@@ -5,22 +5,24 @@ import {
   ShoppingBag,
   Sparkles,
   Truck,
-  CheckCircle
+  CheckCircle,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { INITIAL_SHOPS } from '../Data/initialMallData';
 import { getShops } from '../Data/mallStore';
 import '../CSS/welcome.css';
 
-const storyText = `Step into a unified digital mall platform where premier fashion boutiques, skincare specialists, and tech innovators connect under one roof.
+const storyText = `Step into a unified digital mall platform where premier fashion brands, skincare specialists, and tech innovators connect under one roof.
 
 Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy seamless tracked doorstep delivery.`;
 
 const SHOP_TAGS = {
-  'retailer-1': 'Boutique • Urban Streetwear',
-  'retailer-2': 'Boutique • Clean Skincare',
-  'retailer-3': 'Boutique • Shoes & Sneakers',
-  'retailer-4': 'Boutique • Tech Accessories',
-  'retailer-5': 'Boutique • Leathercraft & Bags'
+  'retailer-1': 'Store • Urban Streetwear',
+  'retailer-2': 'Store • Clean Skincare',
+  'retailer-3': 'Store • Shoes & Sneakers',
+  'retailer-4': 'Store • Tech Accessories',
+  'retailer-5': 'Store • Leathercraft & Bags'
 };
 
 const Welcome = () => {
@@ -54,8 +56,36 @@ const Welcome = () => {
       .catch(() => {});
   }, []);
 
+  const [theme, setTheme] = useState(() => localStorage.getItem('sc_theme') || 'light');
+
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      if (e.detail && typeof e.detail === 'string') {
+        setTheme(e.detail);
+      }
+    };
+    window.addEventListener('sc:theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    localStorage.setItem('sc_theme', next);
+    document.documentElement.setAttribute('data-theme', next);
+    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: next }));
+  };
+
   return (
     <div className="welcomePage">
+      <button
+        className="welcomeThemeBtn"
+        onClick={toggleTheme}
+        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        aria-label="Toggle theme"
+      >
+        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      </button>
       <div className="welcomeLeft">
         <div className="welcomeLeftContent">
           {/* Eyebrow Tag */}
@@ -179,8 +209,8 @@ const Welcome = () => {
             const tag =
               SHOP_TAGS[shop.id] ||
               (shop.location_in_mall && !shop.location_in_mall.toLowerCase().includes('floor')
-                ? `${shop.location_in_mall.split(',')[0]} • ${shop.department || 'Boutique'}`
-                : `Boutique • ${shop.department || 'Curated'}`);
+                ? `${shop.location_in_mall.split(',')[0]} • ${shop.department || 'Store'}`
+                : `Store • ${shop.department || 'Curated'}`);
 
             return (
               <div

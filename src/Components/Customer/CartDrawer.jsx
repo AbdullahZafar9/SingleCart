@@ -31,7 +31,7 @@ const CartDrawer = ({
             <div className="empty-cart-view">
               <ShoppingBag size={48} strokeWidth={1.5} color="var(--text-muted)" />
               <h4>Your cart is empty</h4>
-              <p>Explore our premier boutiques and drop signature items into your bag.</p>
+              <p>Explore our premier stores and drop signature items into your bag.</p>
             </div>
           ) : (
             cart.map((item) => (

@@ -3,8 +3,8 @@ import { X, CheckCircle, Clock, Truck, PackageCheck, Home } from 'lucide-react';
 import { subscribeToOrders } from '../../Data/mallStore';
 
 const STATUS_STEPS = [
-  { key: 'Pending', label: 'Order Confirmed', icon: Clock, desc: 'Order received & queued at boutique' },
-  { key: 'Preparing', label: 'Packaging', icon: PackageCheck, desc: 'Boutique is carefully packaging items' },
+  { key: 'Pending', label: 'Order Confirmed', icon: Clock, desc: 'Order received & queued at store' },
+  { key: 'Preparing', label: 'Packaging', icon: PackageCheck, desc: 'Store is carefully packaging items' },
   { key: 'Ready', label: 'Out for Delivery', icon: Truck, desc: 'Courier is en route to your doorstep' },
   { key: 'Completed', label: 'Delivered', icon: CheckCircle, desc: 'Delivered to your doorstep. Enjoy!' }
 ];
@@ -105,7 +105,7 @@ const OrderTrackerModal = ({
               {STATUS_STEPS[currentStatusIndex]?.label || order.status}
             </h4>
             <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              {STATUS_STEPS[currentStatusIndex]?.desc || 'Awaiting boutique terminal dispatch.'}
+              {STATUS_STEPS[currentStatusIndex]?.desc || 'Awaiting store dispatch.'}
             </p>
           </div>
 

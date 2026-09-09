@@ -1,6 +1,7 @@
 -- ============================================================
 -- SingleCart - Virtual Mall Platform Database Initialization
 -- Execute this script in your Supabase SQL Editor
+-- Completely idempotent: safe to run multiple times
 -- ============================================================
 
 -- 1. Create custom Role Type for dashboard security
@@ -52,61 +53,6 @@ CREATE TABLE IF NOT EXISTS public.orders (
 -- Ensure delivery_otp column exists if upgrading existing tables
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_otp TEXT;
 
--- ============================================================
--- ROW LEVEL SECURITY (RLS) POLICIES
--- ============================================================
-
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
-
--- PROFILES POLICIES
-CREATE POLICY "Anyone can view retailer profiles" 
-ON public.profiles FOR SELECT 
-USING (true);
-
-CREATE POLICY "Users can edit their own profile" 
-ON public.profiles FOR UPDATE 
-USING (auth.uid() = id);
-
--- PRODUCTS POLICIES
-CREATE POLICY "Anyone can browse products" 
-ON public.products FOR SELECT 
-USING (true);
-
-CREATE POLICY "Retailers can modify their own products" 
-ON public.products FOR ALL 
-USING (auth.uid() = retailer_id);
-
--- ORDERS POLICIES
-CREATE POLICY "Anonymous customers can place orders" 
-ON public.orders FOR INSERT 
-WITH CHECK (true);
-
-CREATE POLICY "Retailers can only view their own store orders" 
-ON public.orders FOR SELECT 
-USING (
-  auth.uid() = retailer_id 
-  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
-);
-
-CREATE POLICY "Retailers can update their order statuses" 
-ON public.orders FOR UPDATE 
-USING (
-  auth.uid() = retailer_id
-  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
-);
-
-CREATE POLICY "Retailers or Admins can delete orders" 
-ON public.orders FOR DELETE 
-USING (
-  auth.uid() = retailer_id
-  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
-);
-
--- Enable Realtime on orders for instantaneous dashboard updates
-ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
-
 -- 5. Store Registration Applications Table (Retailer Self-Registration)
 CREATE TABLE IF NOT EXISTS public.store_applications (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -120,15 +66,102 @@ CREATE TABLE IF NOT EXISTS public.store_applications (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
+-- ============================================================
+-- ROW LEVEL SECURITY (RLS) POLICIES (IDEMPOTENT)
+-- ============================================================
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.store_applications ENABLE ROW LEVEL SECURITY;
 
+-- PROFILES POLICIES
+DROP POLICY IF EXISTS "Anyone can view retailer profiles" ON public.profiles;
+CREATE POLICY "Anyone can view retailer profiles" 
+ON public.profiles FOR SELECT 
+USING (true);
+
+DROP POLICY IF EXISTS "Users can insert profiles" ON public.profiles;
+CREATE POLICY "Users can insert profiles" 
+ON public.profiles FOR INSERT 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Users can edit their own profile" ON public.profiles;
+CREATE POLICY "Users can edit their own profile" 
+ON public.profiles FOR UPDATE 
+USING (auth.uid() = id);
+
+-- PRODUCTS POLICIES
+DROP POLICY IF EXISTS "Anyone can browse products" ON public.products;
+CREATE POLICY "Anyone can browse products" 
+ON public.products FOR SELECT 
+USING (true);
+
+DROP POLICY IF EXISTS "Retailers can modify their own products" ON public.products;
+CREATE POLICY "Retailers can modify their own products" 
+ON public.products FOR ALL 
+USING (auth.uid() = retailer_id);
+
+-- ORDERS POLICIES
+DROP POLICY IF EXISTS "Anonymous customers can place orders" ON public.orders;
+CREATE POLICY "Anonymous customers can place orders" 
+ON public.orders FOR INSERT 
+WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Retailers can only view their own store orders" ON public.orders;
+CREATE POLICY "Retailers can only view their own store orders" 
+ON public.orders FOR SELECT 
+USING (
+  auth.uid() = retailer_id 
+  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
+);
+
+DROP POLICY IF EXISTS "Retailers can update their order statuses" ON public.orders;
+CREATE POLICY "Retailers can update their order statuses" 
+ON public.orders FOR UPDATE 
+USING (
+  auth.uid() = retailer_id
+  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
+);
+
+DROP POLICY IF EXISTS "Retailers or Admins can delete orders" ON public.orders;
+CREATE POLICY "Retailers or Admins can delete orders" 
+ON public.orders FOR DELETE 
+USING (
+  auth.uid() = retailer_id
+  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
+);
+
+-- STORE APPLICATIONS POLICIES
+DROP POLICY IF EXISTS "Anyone can submit store application" ON public.store_applications;
 CREATE POLICY "Anyone can submit store application" 
 ON public.store_applications FOR INSERT 
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Admins can view and manage store applications" ON public.store_applications;
 CREATE POLICY "Admins can view and manage store applications" 
 ON public.store_applications FOR ALL 
 USING (true);
 
-ALTER PUBLICATION supabase_realtime ADD TABLE public.store_applications;
+-- ============================================================
+-- REALTIME SUBSCRIPTIONS (IDEMPOTENT)
+-- ============================================================
 
+DO $$ 
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+    IF NOT EXISTS (
+      SELECT 1 FROM pg_publication_tables 
+      WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'orders'
+    ) THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
+    END IF;
+
+    IF NOT EXISTS (
+      SELECT 1 FROM pg_publication_tables 
+      WHERE pubname = 'supabase_realtime' AND schemaname = 'public' AND tablename = 'store_applications'
+    ) THEN
+      ALTER PUBLICATION supabase_realtime ADD TABLE public.store_applications;
+    END IF;
+  END IF;
+END $$;

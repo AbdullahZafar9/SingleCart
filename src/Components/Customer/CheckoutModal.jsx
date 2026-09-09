@@ -49,6 +49,7 @@ const CheckoutModal = ({
     try {
       // Create orders for each shop represented in the cart
       const placedOrders = [];
+      const sharedOtp = Math.floor(1000 + Math.random() * 9000).toString();
 
       for (const [retailerId, items] of Object.entries(itemsByRetailer)) {
         const subtotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
@@ -58,6 +59,7 @@ const CheckoutModal = ({
           customer_phone: customerPhone.trim(),
           delivery_notes: deliveryNotes.trim(),
           total_price: subtotal,
+          delivery_otp: sharedOtp,
           items: items.map(i => ({
             id: i.id,
             name: i.name,

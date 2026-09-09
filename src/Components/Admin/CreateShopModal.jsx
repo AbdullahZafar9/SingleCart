@@ -13,7 +13,7 @@ import {
   Send,
   Sparkles
 } from 'lucide-react';
-import { createShop } from '../../Data/mallStore';
+import { createShop, updateStoreApplicationStatus } from '../../Data/mallStore';
 import { sendRetailerCredentialsEmail } from '../../Services/emailService';
 
 const DEPARTMENT_OPTIONS = [
@@ -25,7 +25,7 @@ const DEPARTMENT_OPTIONS = [
   { id: 'custom', name: '+ Custom Department...' }
 ];
 
-const CreateShopModal = ({ isOpen, onClose, onShopCreated }) => {
+const CreateShopModal = ({ isOpen, onClose, onShopCreated, initialData = null }) => {
   const [shopName, setShopName] = useState('');
   const [selectedDeptOption, setSelectedDeptOption] = useState('Fashion & Apparel');
   const [customDepartment, setCustomDepartment] = useState('');
@@ -36,6 +36,24 @@ const CreateShopModal = ({ isOpen, onClose, onShopCreated }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successData, setSuccessData] = useState(null);
   const [copied, setCopied] = useState(false);
+
+  React.useEffect(() => {
+    if (initialData && isOpen) {
+      setShopName(initialData.storeName || initialData.store_name || '');
+      setPhone(initialData.phone || '');
+      setEmail(initialData.email || '');
+      setDescription(initialData.description || '');
+
+      const dept = initialData.department || 'Fashion & Apparel';
+      const matched = DEPARTMENT_OPTIONS.find((d) => d.name.toLowerCase() === dept.toLowerCase());
+      if (matched) {
+        setSelectedDeptOption(matched.name);
+      } else {
+        setSelectedDeptOption('+ Custom Department...');
+        setCustomDepartment(dept);
+      }
+    }
+  }, [initialData, isOpen]);
 
   if (!isOpen) return null;
 
@@ -112,6 +130,12 @@ Log in using either your Email or Mobile Number.`;
         loginUrl: `${window.location.origin}/retailer/login`,
         adminEmail: 'furqannasir561@gmail.com'
       });
+
+      // 3. If tied to an application, mark application as Approved
+      if (initialData && (initialData.id || initialData.applicationId)) {
+        const appId = initialData.id || initialData.applicationId;
+        await updateStoreApplicationStatus(appId, 'Approved');
+      }
 
       setSuccessData({
         shopName: newShop.shop_name,

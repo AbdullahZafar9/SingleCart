@@ -111,19 +111,6 @@ const AdminLogin = ({ onLoginSuccess }) => {
             <ArrowRight size={16} />
           </button>
         </form>
-
-        <div style={{
-          marginTop: '20px',
-          padding: '12px',
-          background: 'rgba(234, 88, 12, 0.08)',
-          border: '1px solid rgba(234, 88, 12, 0.25)',
-          borderRadius: '8px',
-          fontSize: '0.78rem',
-          color: 'var(--text-secondary)',
-          textAlign: 'center'
-        }}>
-          💡 Executive Account: <strong style={{ color: 'var(--text-primary)' }}>furqannasir561@gmail.com</strong>
-        </div>
       </div>
     </div>
   );

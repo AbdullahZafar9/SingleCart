@@ -69,11 +69,11 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
       <div className="tenants-header">
         <div>
           <h3>Registered Mall Tenants Directory</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem' }}>
+          <p style={{ color: 'var(--admin-text-muted)', fontSize: '0.86rem' }}>
             Live status of active digital storefronts across the virtual mall
           </p>
         </div>
-        <span style={{ fontSize: '0.85rem', color: 'var(--accent-gold)' }}>
+        <span style={{ fontSize: '0.85rem', color: 'var(--admin-gold)', fontWeight: '700' }}>
           {shops.length} Active Stores
         </span>
       </div>
@@ -122,10 +122,10 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                       style={{ width: '38px', height: '38px', borderRadius: '8px', objectFit: 'cover' }}
                     />
                     <div>
-                      <strong style={{ fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+                      <strong style={{ fontSize: '0.92rem', color: 'var(--admin-text-primary)' }}>
                         {shop.shop_name}
                       </strong>
-                      <span style={{ display: 'block', fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+                      <span style={{ display: 'block', fontSize: '0.74rem', color: 'var(--admin-text-muted)' }}>
                         ID: {shop.id}
                       </span>
                     </div>
@@ -133,14 +133,7 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                 </td>
 
                 <td>
-                  <span style={{
-                    fontSize: '0.78rem',
-                    padding: '4px 10px',
-                    borderRadius: '9999px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid var(--border-subtle)',
-                    color: 'var(--text-secondary)'
-                  }}>
+                  <span className="tenant-dept-pill">
                     {shop.department || shop.category}
                   </span>
                 </td>
@@ -153,13 +146,13 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                 </td>
 
                 <td>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--admin-text-secondary)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Mail size={11} color="var(--text-muted)" />
+                      <Mail size={11} color="var(--admin-text-muted)" />
                       <span>{shop.email || 'manager@singlecart.com'}</span>
                     </div>
                     {shop.phone && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px', color: 'var(--text-muted)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px', color: 'var(--admin-text-muted)' }}>
                         <Phone size={11} />
                         <span>{shop.phone}</span>
                       </div>
@@ -177,20 +170,8 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                 <td>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <button
+                      className="tenant-action-btn view"
                       onClick={() => navigate(`/store/${shop.id}`)}
-                      style={{
-                        padding: '6px 12px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '6px',
-                        fontSize: '0.78rem',
-                        fontWeight: '600',
-                        color: 'var(--text-primary)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        cursor: 'pointer'
-                      }}
                       title="View Customer Storefront"
                     >
                       <ExternalLink size={12} />
@@ -198,21 +179,8 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                     </button>
 
                     <button
+                      className="tenant-action-btn delete"
                       onClick={() => handleOpenDeleteModal(shop)}
-                      style={{
-                        padding: '6px 10px',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        border: '1px solid rgba(239, 68, 68, 0.25)',
-                        borderRadius: '6px',
-                        fontSize: '0.78rem',
-                        fontWeight: '600',
-                        color: '#ef4444',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
-                      }}
                       title={`Delete ${shop.shop_name}`}
                     >
                       <Trash2 size={12} />
@@ -251,10 +219,10 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                   <AlertTriangle size={20} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+                  <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--admin-text-primary)' }}>
                     Confirm Store Deletion
                   </h3>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)' }}>
                     Requires administrator authentication
                   </span>
                 </div>
@@ -308,7 +276,7 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
                     required
                     autoFocus
                   />
-                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
+                  <span style={{ fontSize: '0.74rem', color: 'var(--admin-text-muted)', marginTop: '4px', display: 'block' }}>
                     Only verified mall administrators can delete tenant stores.
                   </span>
                 </div>

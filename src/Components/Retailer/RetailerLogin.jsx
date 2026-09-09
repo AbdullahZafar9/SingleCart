@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Store, ArrowLeft, ArrowRight, Lock, Smartphone } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../../supabaseClient';
 import { getShops, findShopByCredentials } from '../../Data/mallStore';
+import RetailerApplicationModal from './RetailerApplicationModal';
 import '../../CSS/retailer.css';
 
 const RetailerLogin = ({ onLoginSuccess }) => {
@@ -12,6 +13,7 @@ const RetailerLogin = ({ onLoginSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [availableShops, setAvailableShops] = useState([]);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchShops = async () => {
@@ -190,6 +192,44 @@ const RetailerLogin = ({ onLoginSuccess }) => {
             </button>
           </form>
 
+          {/* Apply to open a store banner */}
+          <div
+            style={{
+              marginTop: '20px',
+              padding: '14px 16px',
+              background: 'rgba(234, 88, 12, 0.08)',
+              border: '1px dashed rgba(234, 88, 12, 0.35)',
+              borderRadius: '12px',
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px'
+            }}
+          >
+            <span style={{ fontSize: '0.86rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+              Want to open a boutique in SingleCart?
+            </span>
+            <button
+              type="button"
+              onClick={() => setIsApplyModalOpen(true)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--primary)',
+                fontWeight: '700',
+                fontSize: '0.84rem',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '5px'
+              }}
+            >
+              <span>Apply to Register Your Store</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
+
           {/* Quick Demo Store Selector */}
           <div className="demo-selector-section">
             <h4>Quick Switch Demo Accounts</h4>
@@ -215,6 +255,12 @@ const RetailerLogin = ({ onLoginSuccess }) => {
           </div>
         </div>
       </div>
+
+      {/* RETAILER APPLICATION MODAL */}
+      <RetailerApplicationModal
+        isOpen={isApplyModalOpen}
+        onClose={() => setIsApplyModalOpen(false)}
+      />
     </div>
   );
 };

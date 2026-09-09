@@ -44,9 +44,13 @@ CREATE TABLE IF NOT EXISTS public.orders (
   delivery_notes TEXT, -- e.g., 'Table No. 5', 'Curbside Bay A', 'Pickup counter'
   total_price NUMERIC NOT NULL,
   status TEXT DEFAULT 'Pending' NOT NULL, -- 'Pending', 'Preparing', 'Ready', 'Completed', 'Cancelled'
+  delivery_otp TEXT, -- 4-digit security PIN for doorstep Cash-on-Delivery verification
   items JSONB NOT NULL DEFAULT '[]'::jsonb,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
+
+-- Ensure delivery_otp column exists if upgrading existing tables
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS delivery_otp TEXT;
 
 -- ============================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -93,5 +97,38 @@ USING (
   OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
 );
 
+CREATE POLICY "Retailers or Admins can delete orders" 
+ON public.orders FOR DELETE 
+USING (
+  auth.uid() = retailer_id
+  OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin'
+);
+
 -- Enable Realtime on orders for instantaneous dashboard updates
 ALTER PUBLICATION supabase_realtime ADD TABLE public.orders;
+
+-- 5. Store Registration Applications Table (Retailer Self-Registration)
+CREATE TABLE IF NOT EXISTS public.store_applications (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  applicant_name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT NOT NULL,
+  store_name TEXT NOT NULL,
+  department TEXT NOT NULL,
+  description TEXT,
+  status TEXT DEFAULT 'Pending' NOT NULL, -- 'Pending', 'Approved', 'Rejected'
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
+);
+
+ALTER TABLE public.store_applications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can submit store application" 
+ON public.store_applications FOR INSERT 
+WITH CHECK (true);
+
+CREATE POLICY "Admins can view and manage store applications" 
+ON public.store_applications FOR ALL 
+USING (true);
+
+ALTER PUBLICATION supabase_realtime ADD TABLE public.store_applications;
+

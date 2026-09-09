@@ -88,7 +88,7 @@ export const SHOP_ITEM_CATEGORIES = {
     },
     {
       "id": "earbuds",
-      "label": "Earbuds"
+      "label": "Earbuds & Headphones"
     },
     {
       "id": "mouse",
@@ -283,7 +283,7 @@ export const INITIAL_SHOPS = [
       },
       {
         "id": "earbuds",
-        "label": "Earbuds"
+        "label": "Earbuds & Headphones"
       },
       {
         "id": "mouse",
@@ -549,7 +549,7 @@ export const INITIAL_PRODUCTS = [
     "price": 98,
     "badge": "🔥 Fan Favorite",
     "description": "Ultra-dense organic French terry cotton with double-layered crossover hood and drop-shoulder aesthetic.",
-    "image_url": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/KHM034166-001_P_16145153_Front-thumbnail-2000.jpg?v=1774978762",
     "in_stock": true
   },
   {
@@ -561,7 +561,7 @@ export const INITIAL_PRODUCTS = [
     "price": 105,
     "badge": "✨ Streetwear",
     "description": "Pigment-dyed heavyweight zip hoodie with heavy-gauge 2-way antique silver zipper and kangaroo pockets.",
-    "image_url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/ESSRW00388-0146-Detail.jpg?v=1788892541",
     "in_stock": true
   },
   {
@@ -573,7 +573,7 @@ export const INITIAL_PRODUCTS = [
     "price": 92,
     "badge": "☁️ Fleece Comfort",
     "description": "Plush brushed interior with ribbed side gussets for enhanced freedom of movement and minimal aesthetic.",
-    "image_url": "https://images.unsplash.com/photo-1556906781-9a412961c28c?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/KHM034166-002-Front.jpg?v=1774978760",
     "in_stock": true
   },
   {
@@ -585,7 +585,7 @@ export const INITIAL_PRODUCTS = [
     "price": 96,
     "badge": "✨ Clean Look",
     "description": "Unbleached natural cotton weave featuring raw aesthetic seams, tight-knit cuffs, and tailored drape.",
-    "image_url": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/KHMA030119-105-Detail.jpg?v=1787688021",
     "in_stock": true
   },
   {
@@ -597,7 +597,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "⚡ Outdoor Spec",
     "description": "Weather-treated cotton blend with half-zip storm collar, spacious center chest pouch, and drawcord hem.",
-    "image_url": "https://images.unsplash.com/photo-1620799139507-2a76f79a2f4d?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/KHMA030178-014-Detail.jpg?v=1787688024",
     "in_stock": true
   },
   {
@@ -609,7 +609,7 @@ export const INITIAL_PRODUCTS = [
     "price": 89,
     "badge": "🔥 Essential",
     "description": "Enzyme-washed for an authentic lived-in vintage texture with seamless ribbed hem and deep hood chamber.",
-    "image_url": "https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/KHMA030177-211-Detail.jpg?v=1787688030",
     "in_stock": true
   },
   {
@@ -621,7 +621,7 @@ export const INITIAL_PRODUCTS = [
     "price": 94,
     "badge": "🌲 Earth Tone",
     "description": "Rich evergreen pigment dye on 420 GSM fleece with double-needle construction and concealed headphone eyelet.",
-    "image_url": "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/STO5100033S00TBV005G-Detail.jpg?v=1788276561",
     "in_stock": true
   },
   {
@@ -633,7 +633,7 @@ export const INITIAL_PRODUCTS = [
     "price": 110,
     "badge": "❄️ Cold Guard",
     "description": "Dual-layer design featuring a 350 GSM fleece shell backed by a 200 GSM thermal waffle lining for maximum heat retention.",
-    "image_url": "https://images.unsplash.com/photo-1509783236416-c9ad59bae472?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0094/2252/files/SUN2067-1-950-Detail.jpg?v=1786998758",
     "in_stock": true
   },
   {
@@ -1317,7 +1317,7 @@ export const INITIAL_PRODUCTS = [
     "price": 120,
     "badge": "⚡ Performance",
     "description": "Breathable jacquard knit upper paired with nitrogen-infused dual-density foam for boundless kinetic return.",
-    "image_url": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_29a369ba-216e-4b73-9463-0ce5fad10216.jpg?v=1788240880",
     "in_stock": true
   },
   {
@@ -1329,7 +1329,7 @@ export const INITIAL_PRODUCTS = [
     "price": 145,
     "badge": "🏃 Pro Pace",
     "description": "Full-length carbon fiber propulsion plate encased in high-rebound supercritical midsole foam.",
-    "image_url": "https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_31fd2efd-66cf-4535-981c-021cc6dca08f.jpg?v=1759316329",
     "in_stock": true
   },
   {
@@ -1341,7 +1341,7 @@ export const INITIAL_PRODUCTS = [
     "price": 115,
     "badge": "🔥 Everyday Mile",
     "description": "Seamless engineered mesh upper with molded heel counter and durable carbon rubber high-abrasion zones.",
-    "image_url": "https://images.unsplash.com/photo-1597045566677-8cf032ed6634?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/3_0355b6c4-132b-4e5c-a2b2-f6b07bc4a00f.jpg?v=1788509927",
     "in_stock": true
   },
   {
@@ -1353,7 +1353,7 @@ export const INITIAL_PRODUCTS = [
     "price": 138,
     "badge": "⛰️ Trail Gripper",
     "description": "5mm multidirectional chevron lugs with rock protection plate, water-shedding gusseted tongue, and toe guard.",
-    "image_url": "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_94d9e615-da93-46d2-a493-ded75f568c55.jpg?v=1788257649",
     "in_stock": true
   },
   {
@@ -1365,7 +1365,7 @@ export const INITIAL_PRODUCTS = [
     "price": 125,
     "badge": "⚡ High Rebound",
     "description": "Segmented crash pad with plush interior padding designed for fluid heel-to-toe transitions during high mileage.",
-    "image_url": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_3d5d4d5d-fa84-4f07-82f2-5d13d465b55f.jpg?v=1774853290",
     "in_stock": true
   },
   {
@@ -1377,7 +1377,7 @@ export const INITIAL_PRODUCTS = [
     "price": 118,
     "badge": "🪶 Sub-200g",
     "description": "Minimalist racing flat upper clocking under 200 grams with laser-cut ventilation ports and lockdown lacing.",
-    "image_url": "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_250f8fd6-80f6-4899-8ea1-d62b4aa5a471.jpg?v=1759316308",
     "in_stock": true
   },
   {
@@ -1389,7 +1389,7 @@ export const INITIAL_PRODUCTS = [
     "price": 130,
     "badge": "🛡️ Arch Support",
     "description": "Medial post guide rails designed to curb overpronation while maintaining plush forefoot flexibility.",
-    "image_url": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/M-PR-VEL-0040-BLACK.jpg?v=1759386436",
     "in_stock": true
   },
   {
@@ -1401,103 +1401,103 @@ export const INITIAL_PRODUCTS = [
     "price": 128,
     "badge": "✨ 360° Reflective",
     "description": "3M Scotchlite reflective interwoven yarn across the upper providing high visibility on evening runs.",
-    "image_url": "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0371/5416/0772/files/1_c64bdc79-dca8-4466-8095-38d6f7ec5801.jpg?v=1773310004",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-1",
     "retailer_id": "retailer-3",
-    "name": "Shearling-Lined Suede Lounge Slippers",
+    "name": "Men's Handcrafted Criss-Cross Leather Slide",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 68,
-    "badge": "☁️ Cloud Comfort",
-    "description": "Plush genuine Australian shearling interior with water-resistant cowhide suede upper and EVA tread sole.",
-    "image_url": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=900&auto=format&fit=crop&q=80",
+    "price": 48,
+    "badge": "✨ Criss-Cross",
+    "description": "Supple full-grain leather criss-cross upper with precision contrast edge stitching, padded insole, and flexible non-slip tread.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_7911d16a-cbcd-4bd9-acff-84046a38f1d8.png?v=1782985884",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-2",
     "retailer_id": "retailer-3",
-    "name": "Ergonomic Cork Suede Slip-On Mules",
+    "name": "Classic Textured Tan Leather Comfort Slipper",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 74,
-    "badge": "🦶 Ortho Support",
-    "description": "Contoured natural cork-latex footbed with deep heel cup, arch bridge, and velvety split suede upper.",
-    "image_url": "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?w=900&auto=format&fit=crop&q=80",
+    "price": 52,
+    "badge": "👞 Textured Luxe",
+    "description": "Hand-finished tan leather slide featuring ergonomic arch contouring, breathable leather lining, and dual-density shock-absorbing sole.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_c47b4d7a-df58-4a17-a832-3e97a2df242a.png?v=1782282245",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-3",
     "retailer_id": "retailer-3",
-    "name": "Quilted Ripstop Down-Filled Indoor Slide",
+    "name": "Executive Dark Espresso Cutout Leather Slide",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 58,
-    "badge": "🏕️ Camp Warmth",
-    "description": "Treated water-resistant ripstop shell insulated with 650-fill down and collapsible soft neoprene heel.",
-    "image_url": "https://images.unsplash.com/photo-1562183241-b937e95585b6?w=900&auto=format&fit=crop&q=80",
+    "price": 54,
+    "badge": "🌿 Ergonomic Arch",
+    "description": "Deep espresso brown oiled leather with side air-circulation cutouts, cushioned heel cup, and ultra-durable welted rubber outsole.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_ad881bed-7b78-4aa6-a0bb-c43fdc448d2e.png?v=1782282739",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-4",
     "retailer_id": "retailer-3",
-    "name": "Felted Merino Wool Swedish House Shoe",
+    "name": "Dual-Band Stitch-Detailed Leather Slipper",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 65,
-    "badge": "🐑 100% Merino",
-    "description": "Seamless boiled wool upper that naturally breathes and thermoregulates with slip-resistant vegetable tanned leather sole.",
-    "image_url": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=900&auto=format&fit=crop&q=80",
+    "price": 46,
+    "badge": "🧵 Hand-Stitched",
+    "description": "Tailored twin leather straps reinforced with artisanal hand-stitching over an anatomical memory-foam footbed for all-day relaxation.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_85673860-7a82-48ae-9c6a-8495dcdcaebe.png?v=1782985640",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-5",
     "retailer_id": "retailer-3",
-    "name": "Hand-Stitched Leather Lounger Slippers",
+    "name": "Ergonomic Cushion-Padded Leather Comfort Slide",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 78,
-    "badge": "👞 Leather Luxe",
-    "description": "Supple nappa leather house slipper with memory foam midsole and non-marking rubber indoor/outdoor sole.",
-    "image_url": "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=900&auto=format&fit=crop&q=80",
+    "price": 49,
+    "badge": "☁️ Cloud Cushion",
+    "description": "Ultra-soft padded leather instep with plush foam lining and contoured arch bed designed to alleviate pressure during long strolls.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_a9c9151f-abab-44be-b027-216bc39f5b3d.png?v=1784200160",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-6",
     "retailer_id": "retailer-3",
-    "name": "Memory Foam Recovery Slide in Bone",
+    "name": "Broad-Strap Contoured Footbed Leather Slipper",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 45,
-    "badge": "⚡ Post-Workout",
-    "description": "Thick single-piece injected EVA foam with ergonomic footbed ridges to soothe tired feet after training.",
-    "image_url": "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?w=900&auto=format&fit=crop&q=80",
+    "price": 50,
+    "badge": "⭐ Wide Comfort",
+    "description": "Generous wide-cut genuine leather vamp, soft microfiber interior, and non-marking outdoor rubber sole for versatile daily wear.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_6dc01221-595b-436c-aa68-bee017932e8f.png?v=1782285191",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-7",
     "retailer_id": "retailer-3",
-    "name": "Shearling Clog Slipper with Brass Buckle",
+    "name": "Adjustable Dual-Strap Comfort Sport Slide",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 82,
-    "badge": "⭐ Premium Comfort",
-    "description": "Warm chestnut suede clog with adjustable buckle strap, genuine wool lining, and durable non-slip grip.",
-    "image_url": "https://images.unsplash.com/photo-1617606002806-94e279c22567?w=900&auto=format&fit=crop&q=80",
+    "price": 39,
+    "badge": "⚡ Active Sport",
+    "description": "Dual hook-and-loop adjustable straps with durable synthetic nubuck upper, textured footbed grip, and lightweight phylon midsole.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_f90bd98b-b143-4561-abdb-48e73b03e96c.jpg?v=1770881952",
     "in_stock": true
   },
   {
     "id": "prod-sh-slp-8",
     "retailer_id": "retailer-3",
-    "name": "Woven Suede Indoor Loafer Slide",
+    "name": "Premium Handcrafted Stitch-Welted Leather Slide",
     "category": "shoes",
     "item_category": "slippers",
-    "price": 72,
-    "badge": "✨ Artisan Weave",
-    "description": "Intricately hand-braided suede straps over a soft cushioned leather footbed for elevated weekend relaxation.",
-    "image_url": "https://images.unsplash.com/photo-1549298916-f52d724204b4?w=900&auto=format&fit=crop&q=80",
+    "price": 55,
+    "badge": "✨ Artisan Welt",
+    "description": "Artisan welted sole construction with premium burnished leather upper, cushioned leather sockliner, and slip-resistant tread.",
+    "image_url": "https://cdn.shopify.com/s/files/1/0083/8405/3305/files/1_79b90d95-e5f2-4a99-a58f-44107f639410.png?v=1775211983",
     "in_stock": true
   },
   {
@@ -1521,7 +1521,7 @@ export const INITIAL_PRODUCTS = [
     "price": 89,
     "badge": "⚡ 25ms Latency",
     "description": "Dedicated 2.4GHz dual-mode USB-C dongle + Bluetooth 5.3 connection with studio positional gaming audio.",
-    "image_url": "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0040/7201/3924/files/1_ca06ca06-726e-4725-b7b7-a0f3d3e9c415.jpg?v=1764839370",
     "in_stock": true
   },
   {
@@ -1533,7 +1533,7 @@ export const INITIAL_PRODUCTS = [
     "price": 145,
     "badge": "🎵 Audiophile",
     "description": "Dual balanced armature + dynamic hybrid drivers certified for Hi-Res Audio wireless with LDAC 990kbps streaming.",
-    "image_url": "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0040/7201/3924/files/KiwiEarsCoda_2.jpg?v=1787821141",
     "in_stock": true
   },
   {
@@ -1545,54 +1545,54 @@ export const INITIAL_PRODUCTS = [
     "price": 95,
     "badge": "✨ Sleek Design",
     "description": "Pebble charging case with Qi wireless fast charging, touch gesture controls, and IPX5 water resistance.",
-    "image_url": "https://images.unsplash.com/photo-1598331668826-20cecc596b86?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
     "id": "prod-tc-ear-5",
     "retailer_id": "retailer-4",
-    "name": "Transparent Cyber Edition Dual-Driver Earbuds",
+    "name": "StudioPulse Over-Ear Active Noise-Cancelling Headphones",
     "category": "tech",
-    "item_category": "earbuds",
-    "price": 110,
-    "badge": "⚡ Cyber Aesthetic",
-    "description": "Smoke-tinted see-through shell showcasing precision internal circuitry, copper coils, and battery cells.",
+    "item_category": "headphones",
+    "price": 149,
+    "badge": "🎧 45dB Hybrid ANC",
+    "description": "High-definition 40mm titanium drivers with custom active noise cancellation, ambient transparency, and 50hr battery life.",
     "image_url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
     "id": "prod-tc-ear-6",
     "retailer_id": "retailer-4",
-    "name": "Open-Ear Air Conduction Sport Buds",
+    "name": "AcousticPro Wireless Closed-Back Studio Monitor Headphones",
     "category": "tech",
-    "item_category": "earbuds",
-    "price": 85,
-    "badge": "🏃 Ambient Aware",
-    "description": "Ergonomic titanium memory-wire ear hooks delivering rich acoustic sound while leaving ear canals open for situational safety.",
+    "item_category": "headphones",
+    "price": 165,
+    "badge": "🎼 Studio Master",
+    "description": "Tuned for flat acoustic frequency response with memory-foam ear cushions, low-latency DSP, and balanced 3.5mm/Bluetooth dual mode.",
     "image_url": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
     "id": "prod-tc-ear-7",
     "retailer_id": "retailer-4",
-    "name": "Magnetic Titanium Neckband Sport Earbuds",
+    "name": "Vanguard Wireless ANC Hi-Fi Over-Ear Headphones",
     "category": "tech",
-    "item_category": "earbuds",
-    "price": 68,
-    "badge": "🔋 28hr Battery",
-    "description": "Flexible shape-memory liquid silicone neckband with magnetic snap buds and USB-C quick fuel: 10 mins gives 8 hours.",
+    "item_category": "headphones",
+    "price": 129,
+    "badge": "🔋 60hr Playtime",
+    "description": "Ergonomic cushioned headband, deep bass sound staging, quad microphones for ultra-clear calls, and rapid USB-C quick charge.",
     "image_url": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
   {
     "id": "prod-tc-ear-8",
     "retailer_id": "retailer-4",
-    "name": "Precision Call ANC Buds with Wind-Noise Reduction",
+    "name": "LuxeGold Spatial Audio Wireless Over-Ear Headphones",
     "category": "tech",
-    "item_category": "earbuds",
-    "price": 105,
-    "badge": "📞 Crystal Voice",
-    "description": "Aerodynamic mesh acoustic chambers designed to cancel out wind turbulence during outdoor voice and video calls.",
+    "item_category": "headphones",
+    "price": 199,
+    "badge": "✨ Spatial Audio",
+    "description": "Crafted with anodized champagne aluminum earcups, breathable knit-mesh canopy, dynamic head-tracking spatial audio, and premium ANC.",
     "image_url": "https://images.unsplash.com/photo-1613040809024-b4ef7ba99bc3?w=900&auto=format&fit=crop&q=80",
     "in_stock": true
   },
@@ -1641,7 +1641,7 @@ export const INITIAL_PRODUCTS = [
     "price": 99,
     "badge": "🏆 4000Hz Rate",
     "description": "Real 4000Hz polling rate wireless receiver providing sub-0.25ms responsiveness for tournament esports gameplay.",
-    "image_url": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0455/0914/8840/files/Pulsar-Xlite-v4-Gaming-Mouse_size3-Black_001_321d2e3e-d316-461b-855c-978a93a5f7cc.png?v=1758612951",
     "in_stock": true
   },
   {
@@ -1653,7 +1653,7 @@ export const INITIAL_PRODUCTS = [
     "price": 64,
     "badge": "🌈 RGB Glow",
     "description": "Hexagonal perforated outer shell offering maximum airflow to keep palms cool during long desk sessions.",
-    "image_url": "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0549/2681/files/GLO-OC-WL-BLK_Web_Gallery_1_Perspective_2x_fe3f5d3e-a0e5-45ca-8f85-1c87b8ef6a63.webp?v=1772724905",
     "in_stock": true
   },
   {
@@ -1689,7 +1689,7 @@ export const INITIAL_PRODUCTS = [
     "price": 69,
     "badge": "⭐ Grippy Texture",
     "description": "Textured rubberized side panels, optical switches rated for 80 million clicks, and onboard profile memory.",
-    "image_url": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0549/2681/files/GLO-D3-WL-BLK_Web_Gallery_Front_2x_904e8b0c-d7df-452f-8d02-c77ac2135703.webp?v=1769119545",
     "in_stock": true
   },
   {
@@ -1701,7 +1701,7 @@ export const INITIAL_PRODUCTS = [
     "price": 139,
     "badge": "⌨️ Gasket Mount",
     "description": "Factory-lubed Gateron Yellow Pro switches, double-shot PBT keycaps, Poron acoustic dampening foam, and multi-device Bluetooth.",
-    "image_url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/F75_-_14_e425964e-25a6-4362-b369-28a1ee78fed0.png?v=1754892492",
     "in_stock": true
   },
   {
@@ -1713,7 +1713,7 @@ export const INITIAL_PRODUCTS = [
     "price": 165,
     "badge": "✨ Full Aluminum",
     "description": "Anodized solid 6063 aluminum chassis weighing 1.4kg with brass weight bar, south-facing RGB, and QMK/VIA key remapping.",
-    "image_url": "https://images.unsplash.com/photo-1595225476474-87563907a212?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/EpomakerHE65v2TMR_black_08.png?v=1781503759",
     "in_stock": true
   },
   {
@@ -1725,7 +1725,7 @@ export const INITIAL_PRODUCTS = [
     "price": 125,
     "badge": "🪶 Low Profile",
     "description": "15mm thickness with Gateron Low Profile mechanical switches, Mac/Windows layout switch, and sleek aluminum frame.",
-    "image_url": "https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1520/4366/files/sm1-slim-mechanical-backlit-bluetooth-keyboard-keyboards-satechi-305662.png?v=1743714698",
     "in_stock": true
   },
   {
@@ -1737,7 +1737,7 @@ export const INITIAL_PRODUCTS = [
     "price": 148,
     "badge": "📻 Retro Dial",
     "description": "Vintage cream chassis featuring a knurled metal volume knob, tactile linear switches, and warm amber backlighting.",
-    "image_url": "https://images.unsplash.com/photo-1560762484-813fc97650a0?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/EPOMAKERRT100PRO_13.webp?v=1777429324",
     "in_stock": true
   },
   {
@@ -1749,7 +1749,7 @@ export const INITIAL_PRODUCTS = [
     "price": 99,
     "badge": "⚡ Tournament",
     "description": "Maximized desk space layout with optical speed switches, detachable USB-C, and per-key customizable RGB lighting.",
-    "image_url": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/IMG_7744.png?v=1746609221",
     "in_stock": true
   },
   {
@@ -1761,7 +1761,7 @@ export const INITIAL_PRODUCTS = [
     "price": 135,
     "badge": "🤫 Silent Thock",
     "description": "Pre-lubed silent tactile switches with multi-layer silicone acoustic dampening designed for quiet open-office productivity.",
-    "image_url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/EPOMAKER_Galaxy_100_Lite_Creamy_White_3.webp?v=1763521588",
     "in_stock": true
   },
   {
@@ -1773,7 +1773,7 @@ export const INITIAL_PRODUCTS = [
     "price": 140,
     "badge": "⭐ TKL Layout",
     "description": "Classic 87-key layout with thick 1.5mm dye-sublimated PBT keycaps that never shine or wear down over time.",
-    "image_url": "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/products/203A6524.jpg?v=1700633294",
     "in_stock": true
   },
   {
@@ -1785,7 +1785,7 @@ export const INITIAL_PRODUCTS = [
     "price": 175,
     "badge": "🩺 Ergonomic Split",
     "description": "Contoured Alice angled key cluster and dual spacebars engineered to keep wrists in a natural non-pronated angle.",
-    "image_url": "https://images.unsplash.com/photo-1541140134513-85a161dc4a00?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/EPOMAKER_Split70-white_blue-bip_3.webp?v=1758767386",
     "in_stock": true
   },
   {
@@ -1797,7 +1797,7 @@ export const INITIAL_PRODUCTS = [
     "price": 24,
     "badge": "⚡ 100W PD",
     "description": "Ballistic nylon braiding with E-Marker smart power chip, zinc-alloy connectors, and 480Mbps data sync.",
-    "image_url": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1520/4366/products/usb-c-to-usb-c-100w-charging-cable-cables-satechi-518036.jpg?v=1762440113",
     "in_stock": true
   },
   {
@@ -1809,7 +1809,7 @@ export const INITIAL_PRODUCTS = [
     "price": 38,
     "badge": "✨ Desk Aesthetic",
     "description": "Double-sleeved PET mesh coiled cable with 5-pin GX16 metal aviator quick-release connector and gold-plated tips.",
-    "image_url": "https://images.unsplash.com/photo-1588508065123-287b28e013da?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0280/3931/5529/files/IMG_91691_6a70fc46-70eb-458a-a18d-78c10ecaf01b.jpg?v=1686639310",
     "in_stock": true
   },
   {
@@ -1821,7 +1821,7 @@ export const INITIAL_PRODUCTS = [
     "price": 45,
     "badge": "🚀 40Gbps",
     "description": "Certified 40Gbps bandwidth supporting single 8K or dual 4K 120Hz display output with 240W Power Delivery.",
-    "image_url": "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1520/4366/products/thunderbolt-4-pro-cable-1m-cables-satechi-685670.jpg?v=1762441399",
     "in_stock": true
   },
   {
@@ -1833,7 +1833,7 @@ export const INITIAL_PRODUCTS = [
     "price": 29,
     "badge": "🧲 Magnetic Snap",
     "description": "Swiveling 540-degree magnetic head with interchangeable USB-C, Lightning, and Micro-USB tips.",
-    "image_url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0611/2234/7259/files/1.5m-cen_445a1d0d-747e-4416-95a7-bf78aff5245a.webp?v=1776224207",
     "in_stock": true
   },
   {
@@ -1845,7 +1845,7 @@ export const INITIAL_PRODUCTS = [
     "price": 22,
     "badge": "🎮 Handheld Comfort",
     "description": "90-degree right angle connector designed for seamless handheld gaming and phone usage while charging.",
-    "image_url": "https://images.unsplash.com/photo-1592659762303-90081d34b277?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1520/4366/files/right-angle-usb-c-to-usb-c-data-and-charge-cable-1m-satechi-927183.webp?v=1762441864",
     "in_stock": true
   },
   {
@@ -1857,7 +1857,7 @@ export const INITIAL_PRODUCTS = [
     "price": 32,
     "badge": "📺 8K @ 60Hz",
     "description": "48Gbps ultra-high-speed bandwidth with dynamic HDR, eARC, and VRR support for PS5 and PC gaming.",
-    "image_url": "https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1520/4366/products/8k-ultra-hd-high-speed-hdmi-21-cable-cables-satechi-166826.jpg?v=1762441155",
     "in_stock": true
   },
   {
@@ -1869,7 +1869,7 @@ export const INITIAL_PRODUCTS = [
     "price": 19,
     "badge": "🎵 Lossless Sound",
     "description": "Silver-plated oxygen-free copper core with 24K gold-plated audio plugs for pure signal transmission.",
-    "image_url": "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/1503/1368/files/Meze-Audio-99-Series-Gold-standard-cable.webp?v=1734524439",
     "in_stock": true
   },
   {
@@ -1881,7 +1881,7 @@ export const INITIAL_PRODUCTS = [
     "price": 26,
     "badge": "🛡️ 30,000+ Bends",
     "description": "Bulletproof Kevlar fiber core with strain-relief collar tested to withstand over 30,000 extreme bends.",
-    "image_url": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=900&auto=format&fit=crop&q=80",
+    "image_url": "https://cdn.shopify.com/s/files/1/0611/2234/7259/files/240W_CC_Cbale.webp?v=1785235794",
     "in_stock": true
   },
   {

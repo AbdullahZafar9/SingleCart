@@ -2,10 +2,11 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_REVIEWS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v10',
-  PRODUCTS: 'sc_products_v10',
+  SHOPS: 'sc_shops_v11',
+  PRODUCTS: 'sc_products_v16',
   ORDERS: 'sc_orders_v10',
-  REVIEWS: 'sc_reviews_v10'
+  REVIEWS: 'sc_reviews_v10',
+  APPLICATIONS: 'sc_store_applications_v1'
 };
 
 // Safe LocalStorage helpers
@@ -56,6 +57,13 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_products_v9');
     localStorage.removeItem('sc_orders_v9');
     localStorage.removeItem('sc_reviews_v9');
+    localStorage.removeItem('sc_products_v10');
+    localStorage.removeItem('sc_products_v11');
+    localStorage.removeItem('sc_products_v12');
+    localStorage.removeItem('sc_products_v13');
+    localStorage.removeItem('sc_products_v14');
+    localStorage.removeItem('sc_products_v15');
+    localStorage.removeItem('sc_shops_v10');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
@@ -457,6 +465,7 @@ export const getOrders = async (retailerId = null) => {
 
 export const placeOrder = async (orderData) => {
   const orderId = Math.floor(1000 + Math.random() * 9000);
+  const generatedOtp = orderData.delivery_otp || Math.floor(1000 + Math.random() * 9000).toString();
 
   const newOrder = {
     id: orderId,
@@ -466,6 +475,7 @@ export const placeOrder = async (orderData) => {
     delivery_notes: orderData.delivery_notes?.trim() || 'Doorstep Delivery',
     total_price: parseFloat(orderData.total_price) || 0,
     status: 'Pending',
+    delivery_otp: generatedOtp,
     items: orderData.items || [],
     created_at: new Date().toISOString()
   };
@@ -475,14 +485,29 @@ export const placeOrder = async (orderData) => {
   const updatedOrders = [newOrder, ...currentOrders];
   setStoredList(STORAGE_KEYS.ORDERS, updatedOrders);
 
-  // Supabase save
+  // Keep last order in localStorage for quick navbar tracking
+  try {
+    localStorage.setItem('sc_last_order', JSON.stringify(newOrder));
+  } catch (e) {}
+
+  // Supabase save with fallback for existing tables
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data } = await withTimeout(
+      const { data, error } = await withTimeout(
         supabase.from('orders').insert([newOrder]).select()
       );
-      if (data && data[0]) {
+      if (!error && data && data[0]) {
         newOrder.id = data[0].id;
+      } else if (error) {
+        // Retry without delivery_otp if column has not been added to Supabase yet
+        console.warn('Supabase place order retrying without delivery_otp column:', error.message);
+        const { delivery_otp, ...fallbackOrder } = newOrder;
+        const { data: retryData } = await withTimeout(
+          supabase.from('orders').insert([fallbackOrder]).select()
+        );
+        if (retryData && retryData[0]) {
+          newOrder.id = retryData[0].id;
+        }
       }
     } catch (e) {
       console.warn('Supabase place order fallback:', e);
@@ -496,6 +521,79 @@ export const placeOrder = async (orderData) => {
   return newOrder;
 };
 
+export const getLastTrackedOrder = () => {
+  try {
+    const raw = localStorage.getItem('sc_last_order');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+};
+
+export const findOrderByIdOrPhone = async (searchTerm) => {
+  if (!searchTerm) return null;
+  const term = String(searchTerm).trim().toLowerCase();
+
+  // Try Supabase first
+  if (isSupabaseConfigured && supabase) {
+    try {
+      let query;
+      // If purely digits and length <= 6, treat as possible order ID
+      if (/^\d{1,6}$/.test(term)) {
+        query = supabase.from('orders').select('*').eq('id', parseInt(term, 10)).limit(1);
+      } else {
+        query = supabase.from('orders').select('*').ilike('customer_phone', `%${term}%`).order('created_at', { ascending: false }).limit(1);
+      }
+      const { data, error } = await withTimeout(query);
+      if (!error && data && data.length > 0) {
+        return data[0];
+      }
+    } catch (e) {
+      console.warn('Supabase search order error, falling back to local storage:', e);
+    }
+  }
+
+  // Fallback to local storage
+  const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  const found = currentOrders.find((o) => {
+    const idMatch = String(o.id) === term;
+    const phoneMatch = o.customer_phone && o.customer_phone.replace(/\D/g, '').includes(term.replace(/\D/g, ''));
+    return idMatch || (term.length >= 4 && phoneMatch);
+  });
+
+  return found || null;
+};
+
+export const confirmOrderDeliveryWithPin = async (orderId, pin) => {
+  const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  const orderIndex = currentOrders.findIndex((o) => String(o.id) === String(orderId));
+
+  if (orderIndex === -1) {
+    return { success: false, message: 'Order could not be located in records.' };
+  }
+
+  const order = currentOrders[orderIndex];
+  const storedOtp = String(order.delivery_otp || '').trim();
+  const inputOtp = String(pin || '').trim();
+
+  // If order has a PIN, verify match (or allow fallback if order was placed prior to OTP feature)
+  if (storedOtp && storedOtp !== inputOtp) {
+    return {
+      success: false,
+      message: `Invalid Verification PIN. Please verify the 4-digit code shown on your order receipt.`
+    };
+  }
+
+  // Advance status to Completed
+  await updateOrderStatus(orderId, 'Completed');
+
+  const updatedOrder = { ...order, status: 'Completed' };
+  try {
+    localStorage.setItem('sc_last_order', JSON.stringify(updatedOrder));
+  } catch (e) {}
+
+  return { success: true, order: updatedOrder };
+};
+
 export const updateOrderStatus = async (orderId, newStatus) => {
   const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
   const updatedOrders = currentOrders.map((o) => {
@@ -505,6 +603,17 @@ export const updateOrderStatus = async (orderId, newStatus) => {
     return o;
   });
   setStoredList(STORAGE_KEYS.ORDERS, updatedOrders);
+
+  // Also update last order if matches
+  try {
+    const lastRaw = localStorage.getItem('sc_last_order');
+    if (lastRaw) {
+      const lastObj = JSON.parse(lastRaw);
+      if (String(lastObj.id) === String(orderId)) {
+        localStorage.setItem('sc_last_order', JSON.stringify({ ...lastObj, status: newStatus }));
+      }
+    }
+  } catch (e) {}
 
   if (isSupabaseConfigured && supabase) {
     try {
@@ -563,6 +672,91 @@ export const deleteOrdersByDateRange = async (startDate, endDate) => {
   }
 
   return { success: true, deletedCount, deletedRevenue };
+};
+
+export const deleteRetailerOrdersByDateRange = async (retailerId, startDate, endDate) => {
+  const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  const startMs = new Date(startDate).getTime();
+  const endMs = new Date(endDate).getTime();
+
+  const remainingOrders = [];
+  let deletedCount = 0;
+  let deletedRevenue = 0;
+
+  currentOrders.forEach((o) => {
+    const isThisRetailer = String(o.retailer_id) === String(retailerId);
+    const orderTime = new Date(o.created_at).getTime();
+    if (isThisRetailer && orderTime >= startMs && orderTime <= endMs) {
+      deletedCount += 1;
+      if (o.status === 'Completed') {
+        deletedRevenue += Number(o.total_price) || 0;
+      }
+    } else {
+      remainingOrders.push(o);
+    }
+  });
+
+  setStoredList(STORAGE_KEYS.ORDERS, remainingOrders);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await withTimeout(
+        supabase
+          .from('orders')
+          .delete()
+          .eq('retailer_id', retailerId)
+          .gte('created_at', new Date(startDate).toISOString())
+          .lte('created_at', new Date(endDate).toISOString())
+      );
+    } catch (e) {
+      console.warn('Supabase delete retailer orders by range fallback:', e);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('sc:orders_updated', {
+        detail: { deletedRange: true, retailerId, deletedCount, deletedRevenue }
+      })
+    );
+  }
+
+  return { success: true, deletedCount, deletedRevenue };
+};
+
+export const resetRetailerTodayOrders = async (retailerId) => {
+  const today = new Date();
+  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+  const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999);
+
+  return deleteRetailerOrdersByDateRange(retailerId, startOfDay.toISOString(), endOfDay.toISOString());
+};
+
+export const deleteOrder = async (orderId) => {
+  const currentOrders = getStoredList(STORAGE_KEYS.ORDERS, INITIAL_ORDERS);
+  const target = currentOrders.find((o) => String(o.id) === String(orderId));
+  const remaining = currentOrders.filter((o) => String(o.id) !== String(orderId));
+  setStoredList(STORAGE_KEYS.ORDERS, remaining);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await withTimeout(
+        supabase.from('orders').delete().eq('id', orderId)
+      );
+    } catch (e) {
+      console.warn('Supabase delete order error:', e);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('sc:orders_updated', {
+        detail: { deletedOrderId: orderId, retailerId: target?.retailer_id }
+      })
+    );
+  }
+
+  return { success: true, deletedOrder: target };
 };
 
 // ==========================================
@@ -737,5 +931,107 @@ export const subscribeToReviews = (onUpdate, productId = null, retailerId = null
       window.removeEventListener('sc:reviews_updated', handleCustomEvent);
     }
   };
+};
+
+/* ============================================================
+   RETAILER STORE REGISTRATION APPLICATIONS
+   ============================================================ */
+
+export const getStoreApplicationsSync = () => {
+  return getStoredList(STORAGE_KEYS.APPLICATIONS, []);
+};
+
+export const getStoreApplications = async () => {
+  if (isSupabaseConfigured && supabase) {
+    try {
+      const { data, error } = await withTimeout(
+        supabase.from('store_applications').select('*').order('created_at', { ascending: false })
+      );
+      if (!error && Array.isArray(data)) {
+        setStoredList(STORAGE_KEYS.APPLICATIONS, data);
+        return data;
+      }
+    } catch (err) {
+      console.warn('Failed to fetch applications from Supabase, using storage fallback:', err);
+    }
+  }
+  return getStoreApplicationsSync();
+};
+
+export const submitStoreApplication = async (applicationData) => {
+  const newApp = {
+    id: `app-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+    applicant_name: (applicationData.applicantName || applicationData.applicant_name || '').trim(),
+    phone: (applicationData.phone || '').trim(),
+    email: (applicationData.email || '').trim(),
+    store_name: (applicationData.storeName || applicationData.store_name || '').trim(),
+    department: (applicationData.department || 'Fashion & Apparel').trim(),
+    description: (applicationData.description || '').trim(),
+    status: 'Pending',
+    created_at: new Date().toISOString()
+  };
+
+  const existing = getStoreApplicationsSync();
+  const updated = [newApp, ...existing];
+  setStoredList(STORAGE_KEYS.APPLICATIONS, updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from('store_applications').insert([newApp]);
+    } catch (err) {
+      console.warn('Could not sync application to Supabase:', err);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('sc:applications_updated', { detail: newApp }));
+  }
+
+  return newApp;
+};
+
+export const updateStoreApplicationStatus = async (applicationId, newStatus) => {
+  const existing = getStoreApplicationsSync();
+  const updated = existing.map((app) =>
+    String(app.id) === String(applicationId) ? { ...app, status: newStatus } : app
+  );
+  setStoredList(STORAGE_KEYS.APPLICATIONS, updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase
+        .from('store_applications')
+        .update({ status: newStatus })
+        .eq('id', applicationId);
+    } catch (err) {
+      console.warn('Could not update application status in Supabase:', err);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('sc:applications_updated', { detail: { id: applicationId, status: newStatus } }));
+  }
+
+  return updated;
+};
+
+export const deleteStoreApplication = async (applicationId) => {
+  const existing = getStoreApplicationsSync();
+  const updated = existing.filter((app) => String(app.id) !== String(applicationId));
+  setStoredList(STORAGE_KEYS.APPLICATIONS, updated);
+
+  if (isSupabaseConfigured && supabase) {
+    try {
+      await supabase.from('store_applications').delete().eq('id', applicationId);
+    } catch (err) {
+      console.warn('Could not delete application from Supabase:', err);
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('sc:applications_updated', { detail: { id: applicationId, deleted: true } }));
+  }
+
+  return updated;
 };
 

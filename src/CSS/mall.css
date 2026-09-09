@@ -100,12 +100,15 @@
 .mall-nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .nav-icon-btn {
-  padding: 8px 14px;
-  border-radius: var(--radius-full);
+  position: relative;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -113,10 +116,11 @@
   background: var(--bg-surface);
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .nav-icon-btn:hover {
@@ -146,44 +150,86 @@
   background: rgba(225, 29, 72, 0.06);
 }
 
+.track-toggle-btn:hover {
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.08);
+}
+
 .nav-fav-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
   background: #e11d48;
   color: #ffffff;
-  border-radius: var(--radius-full);
-  font-size: 0.72rem;
+  border-radius: 9999px;
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 1px 6px;
-  min-width: 16px;
-  text-align: center;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-surface);
+  box-shadow: 0 2px 6px rgba(225, 29, 72, 0.4);
+  animation: badgePop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .cart-toggle-btn {
   position: relative;
-  display: flex;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
   background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
   color: #ffffff;
   font-weight: 700;
-  padding: 9px 18px;
-  border-radius: var(--radius-full);
-  font-size: 0.88rem;
   box-shadow: 0 4px 14px var(--accent-gold-glow);
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
 .cart-toggle-btn:hover {
   transform: translateY(-1px);
-  filter: brightness(1.05);
+  filter: brightness(1.08);
 }
 
 .cart-count-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
   background: #ffffff;
-  color: var(--accent-gold);
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  color: #c2410c;
+  border-radius: 9999px;
+  font-size: 0.68rem;
   font-weight: 800;
-  padding: 2px 7px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  animation: badgePop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0.3); opacity: 0; }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 /* ============================================================
@@ -1045,28 +1091,44 @@
 }
 
 /* CHECKOUT MODAL */
+/* CHECKOUT & APPLICATION MODALS */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(6px);
-  z-index: 250;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 300;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 20px;
+  padding: 24px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   animation: fadeIn 0.2s ease;
 }
 
 .modal-dialog {
-  background: #ffffff;
+  margin: auto 0;
+  background: var(--bg-card, #ffffff);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 520px;
+  max-width: 540px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
   animation: modalScale 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-dialog form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 @keyframes modalScale {
@@ -1075,16 +1137,31 @@
 }
 
 .modal-header {
-  padding: 20px 24px;
+  padding: 18px 24px;
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: var(--bg-card, #ffffff);
+  flex-shrink: 0;
 }
 
 .modal-body {
-  padding: 24px;
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 4px;
 }
 
 .form-group {
@@ -1118,11 +1195,14 @@
 }
 
 .modal-footer {
-  padding: 16px 24px 24px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-subtle);
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 12px;
-  background: #ffffff;
+  background: var(--bg-surface, #ffffff);
+  flex-shrink: 0;
 }
 
 .btn-secondary {
@@ -1670,6 +1750,28 @@
 [data-theme="dark"] .mall-navbar {
   background: rgba(18, 17, 16, 0.94);
   border-bottom-color: #332d27;
+}
+
+[data-theme="dark"] .nav-icon-btn {
+  background: #1c1a18;
+  border-color: #332d27;
+  color: #d6ccc2;
+}
+
+[data-theme="dark"] .nav-icon-btn:hover {
+  background: #25211d;
+  color: #faf5f0;
+  border-color: #4d443c;
+}
+
+[data-theme="dark"] .nav-fav-badge {
+  border-color: #1a1816;
+}
+
+[data-theme="dark"] .cart-count-badge {
+  background: #ffffff;
+  color: #c2410c;
+  border-color: #f59e0b;
 }
 
 [data-theme="dark"] .mall-footer {
@@ -3026,5 +3128,91 @@
 
 [data-theme="dark"] .contact-detail-row p {
   color: #faf5f0;
+}
+
+/* ============================================================
+   MOBILE-FIRST SCREEN OPTIMIZATIONS (Smartphones & Tablets)
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Navbar Actions: Compact layout with icons only */
+  .mall-nav-inner {
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .mall-brand {
+    gap: 8px;
+  }
+
+  .mall-logo-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mall-brand-text h1 {
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+
+  .mall-brand-text span {
+    font-size: 0.64rem;
+  }
+
+  .mall-nav-actions {
+    gap: 7px;
+  }
+
+  .nav-icon-btn,
+  .cart-toggle-btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+  }
+
+  /* Modals: Single-screen viewport fit without inner cutting */
+  .modal-backdrop {
+    padding: 8px;
+    align-items: center;
+  }
+
+  .modal-dialog {
+    width: 100% !important;
+    max-width: 95vw !important;
+    max-height: 92vh !important;
+    margin: 0 auto !important;
+    border-radius: 14px !important;
+  }
+
+  .modal-header {
+    padding: 12px 14px !important;
+  }
+
+  .modal-body {
+    padding: 12px 14px !important;
+  }
+
+  .modal-footer {
+    padding: 10px 14px !important;
+  }
+
+  /* Stepper on mobile */
+  .order-status-stepper {
+    gap: 4px;
+  }
+
+  .step-label {
+    font-size: 0.65rem;
+  }
+
+  .step-circle {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Input fields touch target & prevent iOS zoom */
+  .form-input {
+    font-size: 16px;
+    padding: 9px 12px;
+  }
 }
 

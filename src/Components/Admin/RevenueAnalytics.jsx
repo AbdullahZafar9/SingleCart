@@ -29,7 +29,7 @@ const RevenueAnalytics = ({ analytics }) => {
       </div>
 
       {shopStats.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '40px', color: 'var(--text-muted)' }}>
+        <div style={{ textAlign: 'center', padding: '40px', color: 'var(--admin-text-muted)' }}>
           <p>No finalized orders recorded yet.</p>
         </div>
       ) : (
@@ -43,18 +43,18 @@ const RevenueAnalytics = ({ analytics }) => {
               <div key={stat.id} className="revenue-bar-item">
                 <div className="bar-meta-row">
                   <span className="shop-revenue-name">
-                    {idx === 0 && <Award size={16} color="var(--accent-gold)" />}
-                    <span style={{ color: 'var(--text-primary)' }}>{stat.shop_name}</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>
+                    {idx === 0 && <Award size={16} color="var(--admin-gold)" />}
+                    <span style={{ color: 'var(--admin-text-primary)', fontWeight: '600' }}>{stat.shop_name}</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)', fontWeight: 'normal' }}>
                       ({stat.completedOrdersCount} orders fulfilled)
                     </span>
                   </span>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                    <span style={{ fontSize: '0.82rem', color: 'var(--admin-text-muted)' }}>
                       {percentage}% of Mall GMV
                     </span>
-                    <span className="shop-revenue-amount" style={{ color: stat.totalRevenue > 0 ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                    <span className="shop-revenue-amount" style={{ color: stat.totalRevenue > 0 ? 'var(--admin-text-primary)' : 'var(--admin-text-muted)' }}>
                       ${stat.totalRevenue.toFixed(2)}
                     </span>
                   </div>

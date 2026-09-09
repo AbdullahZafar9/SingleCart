@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Plus, Trash2, Check, X, Package, Star, MessageSquare, Mail, User } from 'lucide-react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Plus, Trash2, Check, X, Package, Star, MessageSquare, Mail, User, Camera, Upload, Image as ImageIcon } from 'lucide-react';
 import {
   getProducts,
   saveProduct,
@@ -23,7 +23,60 @@ const CatalogManager = ({ retailerId, shopName }) => {
   const [newCategory, setNewCategory] = useState('General');
   const [newBadge, setNewBadge] = useState('✨ New Drop');
   const [newDesc, setNewDesc] = useState('');
-  const [newImg, setNewImg] = useState('https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=900&auto=format&fit=crop&q=80');
+  const [newImg, setNewImg] = useState('');
+  const [imageError, setImageError] = useState('');
+
+  const galleryInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+
+  const processImageFile = (file) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setImageError('Please select a valid image file (PNG, JPG, WEBP).');
+      return;
+    }
+    setImageError('');
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 1200;
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressed = canvas.toDataURL('image/jpeg', 0.86);
+        setNewImg(compressed);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleGalleryChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) processImageFile(file);
+    e.target.value = '';
+  };
+
+  const handleCameraChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) processImageFile(file);
+    e.target.value = '';
+  };
 
   const fetchShopProducts = useCallback(async () => {
     setLoading(true);
@@ -67,6 +120,10 @@ const CatalogManager = ({ retailerId, shopName }) => {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     if (!newName.trim() || !newPrice) return;
+    if (!newImg) {
+      setImageError('Please select a product photo from device gallery or take a picture with camera.');
+      return;
+    }
 
     await saveProduct({
       retailer_id: retailerId,
@@ -84,6 +141,8 @@ const CatalogManager = ({ retailerId, shopName }) => {
     setNewName('');
     setNewPrice('');
     setNewDesc('');
+    setNewImg('');
+    setImageError('');
     fetchShopProducts();
   };
 
@@ -376,14 +435,107 @@ const CatalogManager = ({ retailerId, shopName }) => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Image URL</label>
+                  <label className="form-label" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>Product Image (Gallery / Camera)</span>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Required</span>
+                  </label>
+
+                  {/* Hidden file inputs */}
                   <input
-                    type="url"
-                    className="form-input"
-                    value={newImg}
-                    onChange={(e) => setNewImg(e.target.value)}
-                    required
+                    ref={galleryInputRef}
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleGalleryChange}
                   />
+                  <input
+                    ref={cameraInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    style={{ display: 'none' }}
+                    onChange={handleCameraChange}
+                  />
+
+                  {newImg ? (
+                    <div className="image-preview-card">
+                      <div className="image-preview-img-wrap">
+                        <img src={newImg} alt="Preview" />
+                        <span className="image-preview-badge">
+                          <Check size={12} /> Ready to Publish
+                        </span>
+                      </div>
+                      <div className="image-preview-actions">
+                        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            className="image-action-small-btn"
+                            onClick={() => galleryInputRef.current?.click()}
+                          >
+                            <Upload size={13} />
+                            <span>Gallery</span>
+                          </button>
+                          <button
+                            type="button"
+                            className="image-action-small-btn"
+                            onClick={() => cameraInputRef.current?.click()}
+                          >
+                            <Camera size={13} />
+                            <span>Camera</span>
+                          </button>
+                        </div>
+                        <button
+                          type="button"
+                          className="image-action-small-btn danger"
+                          onClick={() => setNewImg('')}
+                          title="Remove image"
+                        >
+                          <Trash2 size={13} />
+                          <span>Remove</span>
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="image-picker-zone">
+                      <div className="image-picker-icon-circle">
+                        <ImageIcon size={24} />
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <strong style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                          Upload Product Image
+                        </strong>
+                        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                          Pick from device gallery or capture live via camera
+                        </span>
+                      </div>
+
+                      <div className="image-picker-buttons">
+                        <button
+                          type="button"
+                          className="image-upload-btn gallery"
+                          onClick={() => galleryInputRef.current?.click()}
+                        >
+                          <Upload size={15} />
+                          <span>Choose from Gallery</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          className="image-upload-btn camera"
+                          onClick={() => cameraInputRef.current?.click()}
+                        >
+                          <Camera size={15} />
+                          <span>Take Photo (Camera)</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {imageError && (
+                    <span style={{ color: '#ef4444', fontSize: '0.78rem', marginTop: '4px', display: 'block', fontWeight: '600' }}>
+                      ⚠️ {imageError}
+                    </span>
+                  )}
                 </div>
 
                 <div className="form-group">

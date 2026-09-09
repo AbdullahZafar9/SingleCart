@@ -11,19 +11,28 @@ import {
   DollarSign,
   Sun,
   Moon,
-  Globe
+  Globe,
+  Inbox
 } from 'lucide-react';
-import { getRevenueAnalytics, getShops, getOrders, subscribeToOrders } from '../../Data/mallStore';
+import {
+  getRevenueAnalytics,
+  getShops,
+  getOrders,
+  subscribeToOrders,
+  getStoreApplications,
+  updateStoreApplicationStatus
+} from '../../Data/mallStore';
 import RevenueAnalytics from './RevenueAnalytics';
 import OrderHistorySection from './OrderHistorySection';
 import TenantDirectory from './TenantDirectory';
+import StoreApplicationsSection from './StoreApplicationsSection';
 import CreateShopModal from './CreateShopModal';
 import '../../CSS/admin.css';
 
 const AdminDashboard = ({ adminUser, onLogout }) => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('sc_admin_theme') || 'light';
+    return localStorage.getItem('sc_admin_theme') || localStorage.getItem('sc_theme') || 'light';
   });
 
   const [analytics, setAnalytics] = useState({
@@ -37,23 +46,43 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
   });
   const [shops, setShops] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [applications, setApplications] = useState([]);
+  const [activeAdminTab, setActiveAdminTab] = useState('history'); // 'history' | 'tenants' | 'applications'
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedAppForCreation, setSelectedAppForCreation] = useState(null);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    const handleThemeChange = (e) => {
+      if (e.detail) setTheme(e.detail);
+    };
+    window.addEventListener('sc:theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+  }, []);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
     localStorage.setItem('sc_admin_theme', nextTheme);
+    localStorage.setItem('sc_theme', nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: nextTheme }));
   };
 
   const fetchDashboardData = async () => {
-    const [analyticsData, shopsData, ordersData] = await Promise.all([
+    const [analyticsData, shopsData, ordersData, applicationsData] = await Promise.all([
       getRevenueAnalytics(),
       getShops(),
-      getOrders()
+      getOrders(),
+      getStoreApplications()
     ]);
     setAnalytics(analyticsData);
     setShops(shopsData);
     setOrders(ordersData);
+    setApplications(applicationsData || []);
   };
 
   useEffect(() => {
@@ -68,13 +97,23 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
       fetchDashboardData();
     };
 
+    const handleAppsUpdated = () => {
+      fetchDashboardData();
+    };
+
     window.addEventListener('sc:shops_updated', handleShopsUpdated);
+    window.addEventListener('sc:applications_updated', handleAppsUpdated);
 
     return () => {
       unsubscribe();
       window.removeEventListener('sc:shops_updated', handleShopsUpdated);
+      window.removeEventListener('sc:applications_updated', handleAppsUpdated);
     };
   }, []);
+
+  const pendingApplicationsCount = applications.filter(
+    (a) => (a.status || 'Pending').toLowerCase() === 'pending'
+  ).length;
 
   return (
     <div className="admin-wrapper" data-admin-theme={theme}>
@@ -216,25 +255,87 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
           </div>
         </div>
 
-        {/* REVENUE PER STORE ANALYTICS */}
-        <RevenueAnalytics analytics={analytics} />
+        {/* DASHBOARD TAB NAVIGATION BAR */}
+        <div className="admin-tabs-bar">
+          <button
+            className={`admin-tab-btn ${activeAdminTab === 'history' ? 'active' : ''}`}
+            onClick={() => setActiveAdminTab('history')}
+          >
+            <TrendingUp size={16} />
+            <span>Order History & Revenue</span>
+          </button>
 
-        {/* ORDER & REVENUE HISTORY SECTION (DAY / WEEK / MONTH / YEAR / CUSTOM) */}
-        <OrderHistorySection
-          orders={orders}
-          shops={shops}
-          onDataCleared={() => fetchDashboardData()}
-        />
+          <button
+            className={`admin-tab-btn ${activeAdminTab === 'tenants' ? 'active' : ''}`}
+            onClick={() => setActiveAdminTab('tenants')}
+          >
+            <Store size={16} />
+            <span>Tenant Directory</span>
+            <span className="tab-count-pill">{shops.length}</span>
+          </button>
 
-        {/* TENANT DIRECTORY TABLE */}
-        <TenantDirectory shops={shops} onShopDeleted={() => fetchDashboardData()} />
+          <button
+            className={`admin-tab-btn ${activeAdminTab === 'applications' ? 'active' : ''}`}
+            onClick={() => setActiveAdminTab('applications')}
+          >
+            <Inbox size={16} />
+            <span>Store Applications</span>
+            {pendingApplicationsCount > 0 ? (
+              <span className="tab-pending-badge">
+                {pendingApplicationsCount} Pending
+              </span>
+            ) : (
+              <span className="tab-count-pill">{applications.length}</span>
+            )}
+          </button>
+        </div>
+
+        {/* ACTIVE TAB CONTENT VIEWS */}
+        {activeAdminTab === 'history' && (
+          <>
+            {/* REVENUE PER STORE ANALYTICS */}
+            <RevenueAnalytics analytics={analytics} />
+
+            {/* ORDER & REVENUE HISTORY SECTION */}
+            <OrderHistorySection
+              orders={orders}
+              shops={shops}
+              onDataCleared={() => fetchDashboardData()}
+            />
+          </>
+        )}
+
+        {activeAdminTab === 'tenants' && (
+          <TenantDirectory shops={shops} onShopDeleted={() => fetchDashboardData()} />
+        )}
+
+        {activeAdminTab === 'applications' && (
+          <StoreApplicationsSection
+            applications={applications}
+            onApproveApplication={(app) => {
+              setSelectedAppForCreation(app);
+              setIsCreateModalOpen(true);
+            }}
+            onDeclineApplication={async (appId) => {
+              await updateStoreApplicationStatus(appId, 'Rejected');
+              fetchDashboardData();
+            }}
+          />
+        )}
       </main>
 
       {/* CREATE SHOP MODAL */}
       <CreateShopModal
         isOpen={isCreateModalOpen}
-        onClose={() => setIsCreateModalOpen(false)}
-        onShopCreated={() => fetchDashboardData()}
+        initialData={selectedAppForCreation}
+        onClose={() => {
+          setIsCreateModalOpen(false);
+          setSelectedAppForCreation(null);
+        }}
+        onShopCreated={() => {
+          fetchDashboardData();
+          setSelectedAppForCreation(null);
+        }}
       />
     </div>
   );

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, Heart, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, Heart, Sun, Moon, Truck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MallNavbar = ({
   cartCount = 0,
   onOpenCart,
   favoritesCount = 0,
-  onOpenFavorites
+  onOpenFavorites,
+  onOpenTracker
 }) => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(() => {
@@ -59,20 +60,31 @@ const MallNavbar = ({
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label="Toggle Theme"
           >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+          </button>
+
+          {/* Track Order Button */}
+          <button
+            className="nav-icon-btn track-toggle-btn"
+            onClick={onOpenTracker}
+            title="Track Order"
+            aria-label="Track Order"
+          >
+            <Truck size={19} />
           </button>
 
           {/* Saved Favorites Button */}
           <button
             className="nav-icon-btn fav-toggle-btn"
             onClick={onOpenFavorites}
-            title="Saved Favorites"
-            aria-label="Open Saved Favorites"
+            title={favoritesCount > 0 ? `Saved Favorites (${favoritesCount})` : 'Saved Favorites'}
+            aria-label="Saved Favorites"
           >
-            <Heart size={18} />
-            <span>Favorites</span>
+            <Heart size={19} />
             {favoritesCount > 0 && (
-              <span className="nav-fav-badge">{favoritesCount}</span>
+              <span className="nav-fav-badge" key={`fav-${favoritesCount}`}>
+                {favoritesCount}
+              </span>
             )}
           </button>
 
@@ -80,11 +92,15 @@ const MallNavbar = ({
           <button
             className="cart-toggle-btn"
             onClick={onOpenCart}
+            title={cartCount > 0 ? `Shopping Cart (${cartCount})` : 'Shopping Cart'}
             aria-label="Open Shopping Cart"
           >
-            <ShoppingBag size={18} />
-            <span>Cart</span>
-            {cartCount > 0 && <span className="cart-count-badge">{cartCount}</span>}
+            <ShoppingBag size={19} />
+            {cartCount > 0 && (
+              <span className="cart-count-badge" key={`cart-${cartCount}`}>
+                {cartCount}
+              </span>
+            )}
           </button>
         </div>
       </div>

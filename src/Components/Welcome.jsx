@@ -5,9 +5,7 @@ import {
   ShoppingBag,
   Sparkles,
   Truck,
-  CheckCircle,
-  Sun,
-  Moon
+  CheckCircle
 } from 'lucide-react';
 import { INITIAL_SHOPS } from '../Data/initialMallData';
 import { getShops } from '../Data/mallStore';
@@ -56,36 +54,8 @@ const Welcome = () => {
       .catch(() => {});
   }, []);
 
-  const [theme, setTheme] = useState(() => localStorage.getItem('sc_theme') || 'light');
-
-  useEffect(() => {
-    const handleThemeChange = (e) => {
-      if (e.detail && typeof e.detail === 'string') {
-        setTheme(e.detail);
-      }
-    };
-    window.addEventListener('sc:theme_changed', handleThemeChange);
-    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
-  }, []);
-
-  const toggleTheme = () => {
-    const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-    localStorage.setItem('sc_theme', next);
-    document.documentElement.setAttribute('data-theme', next);
-    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: next }));
-  };
-
   return (
     <div className="welcomePage">
-      <button
-        className="welcomeThemeBtn"
-        onClick={toggleTheme}
-        title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-        aria-label="Toggle theme"
-      >
-        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
       <div className="welcomeLeft">
         <div className="welcomeLeftContent">
           {/* Eyebrow Tag */}

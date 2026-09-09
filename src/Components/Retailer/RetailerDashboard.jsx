@@ -19,9 +19,14 @@ import {
   Image as ImageIcon,
   Check,
   ExternalLink,
-  Sparkles,
   Moon,
-  Sun
+  Sun,
+  Upload,
+  Trash2,
+  RotateCcw,
+  Calendar,
+  FileImage,
+  X
 } from 'lucide-react';
 import {
   getOrders,
@@ -31,37 +36,13 @@ import {
   subscribeToReviews,
   getProductsSync,
   getShopByIdSync,
-  updateShop
+  updateShop,
+  deleteRetailerOrdersByDateRange,
+  resetRetailerTodayOrders,
+  deleteOrder
 } from '../../Data/mallStore';
 import CatalogManager from './CatalogManager';
 import '../../CSS/retailer.css';
-
-const BANNER_PRESETS = [
-  {
-    title: 'Fashion & Apparel Showroom',
-    url: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format&fit=crop&q=80'
-  },
-  {
-    title: 'Designer Sneaker & Footwear Wall',
-    url: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?w=1600&auto=format&fit=crop&q=80'
-  },
-  {
-    title: 'Electronics & Audio Studio',
-    url: 'https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=1600&auto=format&fit=crop&q=80'
-  },
-  {
-    title: 'Luxury Perfumery & Cosmetics',
-    url: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&auto=format&fit=crop&q=80'
-  },
-  {
-    title: 'Artisan Cafe & Coffee Roastery',
-    url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1600&auto=format&fit=crop&q=80'
-  },
-  {
-    title: 'Modern Scandinavian Living Space',
-    url: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1600&auto=format&fit=crop&q=80'
-  }
-];
 
 const RetailerDashboard = ({ currentRetailer, onLogout }) => {
   const navigate = useNavigate();
@@ -86,10 +67,24 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Banner state
-  const [bannerInput, setBannerInput] = useState(shop.banner_url || '');
+  // Banner local file & preview state
+  const [bannerPreview, setBannerPreview] = useState(shop.banner_url || '');
   const [isSavingBanner, setIsSavingBanner] = useState(false);
   const [bannerSavedSuccess, setBannerSavedSuccess] = useState(false);
+
+  // Timeframe and date filter state
+  const [timeframe, setTimeframe] = useState('all'); // 'today', 'week', 'month', 'all', 'custom'
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
+
+  // Delete & Reset Modals
+  const [showResetTodayModal, setShowResetTodayModal] = useState(false);
+  const [showDeleteRangeModal, setShowDeleteRangeModal] = useState(false);
+  const [deleteStartDate, setDeleteStartDate] = useState('');
+  const [deleteEndDate, setDeleteEndDate] = useState('');
+  const [isDeletingRecords, setIsDeletingRecords] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState(null);
+  const [isDeletingOrder, setIsDeletingOrder] = useState(false);
 
   // Global Theme toggle
   const [theme, setTheme] = useState(() => localStorage.getItem('sc_theme') || 'light');
@@ -112,7 +107,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
 
   useEffect(() => {
     if (shop.banner_url) {
-      setBannerInput(shop.banner_url);
+      setBannerPreview(shop.banner_url);
     }
   }, [shop.banner_url]);
 
@@ -126,23 +121,56 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
     return () => window.removeEventListener('sc:shops_updated', handleShopUpdate);
   }, [shop.id]);
 
-  const handleSaveBanner = async (newUrl) => {
-    const urlToSave = (newUrl || bannerInput).trim();
-    if (!urlToSave) return;
+  // Handle local image file upload from mobile or computer gallery
+  const handleBannerFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 1600;
+        let width = img.width;
+        let height = img.height;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        setBannerPreview(compressedDataUrl);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSaveBanner = async () => {
+    if (!bannerPreview) return;
     setIsSavingBanner(true);
     setBannerSavedSuccess(false);
 
     const updated = await updateShop(shop.id, {
-      banner_url: urlToSave
+      banner_url: bannerPreview
     });
 
     if (updated) {
       setShopData(updated);
-      setBannerInput(updated.banner_url);
+      setBannerPreview(updated.banner_url);
     }
     setIsSavingBanner(false);
     setBannerSavedSuccess(true);
-    setTimeout(() => setBannerSavedSuccess(false), 3000);
+    setTimeout(() => setBannerSavedSuccess(false), 3500);
   };
 
   // Reviews state
@@ -186,15 +214,99 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
     );
   };
 
-  // Calculations for stats
-  const pendingOrders = orders.filter((o) => o.status === 'Pending' || o.status === 'Preparing');
-  const completedOrders = orders.filter((o) => o.status === 'Completed');
-  const totalRevenue = completedOrders.reduce((acc, o) => acc + Number(o.total_price), 0);
+  // Filter orders by Timeframe (Today, Week, Month, All, Custom)
+  const ordersInTimeframe = orders.filter((o) => {
+    if (!o.created_at) return true;
+    const orderDate = new Date(o.created_at);
+    const now = new Date();
 
-  const filteredOrders = orders.filter((o) => {
+    if (timeframe === 'today') {
+      return (
+        orderDate.getFullYear() === now.getFullYear() &&
+        orderDate.getMonth() === now.getMonth() &&
+        orderDate.getDate() === now.getDate()
+      );
+    }
+
+    if (timeframe === 'week') {
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(now.getDate() - 7);
+      return orderDate >= sevenDaysAgo;
+    }
+
+    if (timeframe === 'month') {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(now.getDate() - 30);
+      return orderDate >= thirtyDaysAgo;
+    }
+
+    if (timeframe === 'custom') {
+      if (customStartDate && orderDate < new Date(customStartDate + 'T00:00:00')) return false;
+      if (customEndDate && orderDate > new Date(customEndDate + 'T23:59:59')) return false;
+      return true;
+    }
+
+    return true; // 'all'
+  });
+
+  // Calculations for stats based on selected timeframe
+  const pendingOrders = ordersInTimeframe.filter((o) => o.status === 'Pending' || o.status === 'Preparing' || o.status === 'Ready');
+  const completedOrders = ordersInTimeframe.filter((o) => o.status === 'Completed');
+  const totalRevenue = completedOrders.reduce((acc, o) => acc + Number(o.total_price), 0);
+  const pendingRevenue = pendingOrders.reduce((acc, o) => acc + Number(o.total_price), 0);
+
+  const filteredOrders = ordersInTimeframe.filter((o) => {
     if (filterStatus === 'All') return true;
     return o.status.toLowerCase() === filterStatus.toLowerCase();
   });
+
+  // Orders placed today for the Reset Today confirmation
+  const todayOrders = orders.filter((o) => {
+    if (!o.created_at) return false;
+    const orderDate = new Date(o.created_at);
+    const now = new Date();
+    return (
+      orderDate.getFullYear() === now.getFullYear() &&
+      orderDate.getMonth() === now.getMonth() &&
+      orderDate.getDate() === now.getDate()
+    );
+  });
+
+  // Orders in delete range preview
+  const deleteRangeOrders = orders.filter((o) => {
+    if (!deleteStartDate || !deleteEndDate || !o.created_at) return false;
+    const orderDate = new Date(o.created_at);
+    return (
+      orderDate >= new Date(deleteStartDate + 'T00:00:00') &&
+      orderDate <= new Date(deleteEndDate + 'T23:59:59')
+    );
+  });
+
+  const handleResetToday = async () => {
+    setIsDeletingRecords(true);
+    await resetRetailerTodayOrders(shop.id);
+    await fetchOrders();
+    setIsDeletingRecords(false);
+    setShowResetTodayModal(false);
+  };
+
+  const handleDeleteDateRange = async () => {
+    if (!deleteStartDate || !deleteEndDate) return;
+    setIsDeletingRecords(true);
+    await deleteRetailerOrdersByDateRange(shop.id, deleteStartDate + 'T00:00:00', deleteEndDate + 'T23:59:59');
+    await fetchOrders();
+    setIsDeletingRecords(false);
+    setShowDeleteRangeModal(false);
+  };
+
+  const handleConfirmDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    setIsDeletingOrder(true);
+    await deleteOrder(orderToDelete.id);
+    setOrders((prev) => prev.filter((o) => String(o.id) !== String(orderToDelete.id)));
+    setIsDeletingOrder(false);
+    setOrderToDelete(null);
+  };
 
   // Filter reviews by selected product
   const filteredReviews = reviews.filter((r) => {
@@ -288,7 +400,12 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             </div>
             <div className="stat-info">
               <h4>${totalRevenue.toFixed(2)}</h4>
-              <p>Completed Revenue</p>
+              <p>Collected Revenue</p>
+              {pendingRevenue > 0 && (
+                <span style={{ fontSize: '0.72rem', color: 'var(--accent-gold-light)', display: 'block', marginTop: '2px' }}>
+                  +${pendingRevenue.toFixed(2)} in delivery
+                </span>
+              )}
             </div>
           </div>
 
@@ -345,8 +462,106 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
 
         {activeTab === 'orders' && (
           <div className="orders-pipeline-view">
+            {/* TIMEFRAME FILTER TOOLBAR & MAINTENANCE ACTIONS */}
+            <div className="orders-timeframe-toolbar">
+              <div className="timeframe-chips">
+                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: '700', marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                  Filter By:
+                </span>
+                {[
+                  { id: 'today', label: 'Today' },
+                  { id: 'week', label: 'Last 7 Days' },
+                  { id: 'month', label: 'This Month' },
+                  { id: 'all', label: 'All Time' },
+                  { id: 'custom', label: 'Custom Range 📅' }
+                ].map((tf) => (
+                  <button
+                    key={tf.id}
+                    type="button"
+                    className={`timeframe-btn ${timeframe === tf.id ? 'active' : ''}`}
+                    onClick={() => setTimeframe(tf.id)}
+                  >
+                    {tf.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* RECORD MANAGEMENT BUTTONS: RESET TODAY & DELETE BY DATE */}
+              <div className="order-manage-actions">
+                <button
+                  type="button"
+                  className="manage-action-btn reset"
+                  onClick={() => setShowResetTodayModal(true)}
+                  title="Clear all orders received today"
+                >
+                  <RotateCcw size={13} />
+                  <span>Reset Today's Orders</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="manage-action-btn delete"
+                  onClick={() => setShowDeleteRangeModal(true)}
+                  title="Delete order history records by date window"
+                >
+                  <Trash2 size={13} />
+                  <span>Delete by Date</span>
+                </button>
+              </div>
+            </div>
+
+            {/* CUSTOM DATE RANGE PICKER (VISIBLE WHEN TIMEFRAME === 'CUSTOM') */}
+            {timeframe === 'custom' && (
+              <div className="custom-range-picker-bar">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Calendar size={15} color="var(--accent-gold)" />
+                  <strong>Filter Custom Date Window:</strong>
+                </div>
+                <label>
+                  From:
+                  <input
+                    type="date"
+                    value={customStartDate}
+                    onChange={(e) => setCustomStartDate(e.target.value)}
+                  />
+                </label>
+                <label>
+                  To:
+                  <input
+                    type="date"
+                    value={customEndDate}
+                    onChange={(e) => setCustomEndDate(e.target.value)}
+                  />
+                </label>
+                {(customStartDate || customEndDate) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCustomStartDate('');
+                      setCustomEndDate('');
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      fontSize: '0.78rem',
+                      textDecoration: 'underline'
+                    }}
+                  >
+                    Clear dates
+                  </button>
+                )}
+              </div>
+            )}
+
             <div className="orders-pipeline-header">
-              <h3 style={{ fontSize: '1.25rem' }}>Incoming Orders & Fulfillment Queue</h3>
+              <h3 style={{ fontSize: '1.2rem' }}>
+                Incoming Orders & Fulfillment Queue
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: '400', marginLeft: '8px' }}>
+                  ({filteredOrders.length} in timeframe)
+                </span>
+              </h3>
 
               <div className="order-filter-chips">
                 {['All', 'Pending', 'Preparing', 'Ready', 'Completed'].map((st) => (
@@ -409,8 +624,10 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                       </div>
 
                       <div className="order-total-price-row">
-                        <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>Total Ticket</span>
-                        <span style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+                          {order.status === 'Completed' ? 'Cash Collected' : 'Cash Due on Delivery'}
+                        </span>
+                        <span style={{ fontSize: '1.2rem', color: order.status === 'Completed' ? 'var(--accent-emerald)' : 'var(--text-primary)' }}>
                           ${Number(order.total_price).toFixed(2)}
                         </span>
                       </div>
@@ -438,13 +655,34 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                         )}
 
                         {order.status === 'Ready' && (
-                          <button
-                            className="action-btn complete"
-                            onClick={() => handleStatusAdvance(order.id, 'Completed')}
-                          >
-                            <CheckCircle size={14} />
-                            <span>Confirm Doorstep Delivery</span>
-                          </button>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+                            <div style={{
+                              background: 'rgba(245, 158, 11, 0.1)',
+                              border: '1px dashed rgba(245, 158, 11, 0.35)',
+                              borderRadius: '6px',
+                              padding: '6px 8px',
+                              fontSize: '0.74rem',
+                              color: 'var(--accent-gold-light)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}>
+                              <span>Awaiting Customer PIN</span>
+                              {order.delivery_otp && (
+                                <span style={{ fontWeight: '800', fontFamily: 'monospace', color: '#fbbf24' }}>
+                                  PIN: {order.delivery_otp}
+                                </span>
+                              )}
+                            </div>
+                            <button
+                              className="action-btn complete"
+                              onClick={() => handleStatusAdvance(order.id, 'Completed')}
+                              title="Manually confirm if customer verified receipt"
+                            >
+                              <CheckCircle size={14} />
+                              <span>Confirm Cash Collected (${Number(order.total_price).toFixed(2)})</span>
+                            </button>
+                          </div>
                         )}
 
                         {order.status === 'Completed' && (
@@ -454,11 +692,26 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                             fontSize: '0.78rem',
                             color: 'var(--accent-emerald)',
                             padding: '6px',
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            background: 'rgba(16, 185, 129, 0.08)',
+                            borderRadius: '6px'
                           }}>
-                            ✓ Fulfilled & Revenue Accounted
+                            ✓ Cash Paid & Revenue Accounted
                           </div>
                         )}
+                      </div>
+
+                      {/* ORDER CARD BOTTOM FOOTER: CANCEL / DELETE BIN ACTION */}
+                      <div className="order-card-footer">
+                        <button
+                          type="button"
+                          className="order-card-delete-btn"
+                          onClick={() => setOrderToDelete(order)}
+                          title={`Cancel or Delete Ticket #${order.id}`}
+                        >
+                          <Trash2 size={13} />
+                          <span>Cancel / Delete Order</span>
+                        </button>
                       </div>
                     </div>
                   );
@@ -641,11 +894,12 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                 }}
               >
                 <img
-                  src={bannerInput || shop.banner_url}
+                  src={bannerPreview || shop.banner_url}
                   alt={shop.shop_name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&auto=format&fit=crop&q=80';
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
                   }}
                 />
                 <div
@@ -694,121 +948,344 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Custom URL Input */}
-            <div style={{ marginBottom: '28px' }}>
-              <label className="form-label">
-                Custom Banner Image URL
-              </label>
-              <div style={{ display: 'flex', gap: '12px', marginTop: '6px' }}>
-                <input
-                  type="url"
-                  className="form-input"
-                  placeholder="Paste direct image URL (e.g. Unsplash, CDN, or shop photography)..."
-                  value={bannerInput}
-                  onChange={(e) => setBannerInput(e.target.value)}
-                  style={{ flex: 1 }}
-                />
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={() => handleSaveBanner(bannerInput)}
-                  disabled={isSavingBanner || !bannerInput.trim()}
-                  style={{ minWidth: '150px', justifyContent: 'center' }}
-                >
-                  {isSavingBanner ? 'Saving...' : bannerSavedSuccess ? (
-                    <>
-                      <Check size={16} />
-                      <span>Saved!</span>
-                    </>
-                  ) : (
-                    <>
-                      <ImageIcon size={16} />
-                      <span>Save Banner</span>
-                    </>
-                  )}
-                </button>
-              </div>
-              {bannerSavedSuccess && (
+              {/* LOCAL DEVICE / MOBILE GALLERY FILE UPLOAD AREA */}
+              <div style={{ marginBottom: '24px' }}>
+                <label className="form-label" style={{ marginBottom: '8px', display: 'block', marginTop: '24px' }}>
+                  Upload Banner from Mobile Gallery or Computer
+                </label>
+
                 <div
-                  style={{
-                    marginTop: '10px',
-                    fontSize: '0.84rem',
-                    color: '#059669',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
+                  className="banner-dropzone"
+                  onClick={() => document.getElementById('retailer-banner-file-input').click()}
                 >
-                  <CheckCircle size={15} />
-                  <span>Storefront banner has been updated and is immediately live across the Digital Mall!</span>
-                </div>
-              )}
-            </div>
-
-            {/* Preset Showcase */}
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-                <Sparkles size={16} color="var(--accent-gold)" />
-                <h4 style={{ fontSize: '0.98rem', fontWeight: '700' }}>Or Choose a Curated Shop Interior Banner</h4>
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-                  gap: '16px'
-                }}
-              >
-                {BANNER_PRESETS.map((preset, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => {
-                      setBannerInput(preset.url);
-                      handleSaveBanner(preset.url);
-                    }}
-                    style={{
-                      cursor: 'pointer',
-                      borderRadius: '10px',
-                      overflow: 'hidden',
-                      border:
-                        bannerInput === preset.url
-                          ? '2px solid var(--accent-gold)'
-                          : '1px solid var(--border-subtle)',
-                      transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-                      position: 'relative'
-                    }}
-                    className="banner-preset-card"
+                  <input
+                    type="file"
+                    id="retailer-banner-file-input"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={handleBannerFileSelect}
+                  />
+                  <Upload size={36} color="var(--accent-gold)" style={{ margin: '0 auto 10px' }} />
+                  <h4 style={{ fontSize: '1.05rem', fontWeight: '700', marginBottom: '4px' }}>
+                    Tap to Choose Photo from Gallery
+                  </h4>
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', maxWidth: '420px', margin: '0 auto 12px' }}>
+                    Select any photo from your phone's photo library or computer. The image is automatically optimized for fast storefront loading across all devices.
+                  </p>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    style={{ pointerEvents: 'none', margin: '0 auto', fontSize: '0.82rem' }}
                   >
-                    <div style={{ height: '120px', overflow: 'hidden' }}>
-                      <img
-                        src={preset.url}
-                        alt={preset.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    </div>
-                    <div style={{ padding: '10px 12px', background: 'var(--bg-surface)' }}>
-                      <span
-                        style={{
-                          fontSize: '0.8rem',
-                          fontWeight: '600',
-                          color: 'var(--text-primary)',
-                          display: 'block'
-                        }}
-                      >
-                        {preset.title}
-                      </span>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '2px', display: 'block' }}>
-                        Click to apply immediately
-                      </span>
-                    </div>
+                    <FileImage size={15} />
+                    <span>Browse Photo Library</span>
+                  </button>
+                </div>
+
+                {/* Save Banner Action Button */}
+                {bannerPreview && bannerPreview !== shop.banner_url && (
+                  <div style={{ marginTop: '16px', display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      onClick={handleSaveBanner}
+                      disabled={isSavingBanner}
+                      style={{ minWidth: '200px', justifyContent: 'center' }}
+                    >
+                      {isSavingBanner ? 'Saving...' : bannerSavedSuccess ? (
+                        <>
+                          <Check size={16} />
+                          <span>Banner Saved & Published!</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle size={16} />
+                          <span>Save & Publish Banner</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      onClick={() => setBannerPreview(shop.banner_url)}
+                      style={{ fontSize: '0.82rem' }}
+                    >
+                      Revert Changes
+                    </button>
                   </div>
-                ))}
+                )}
+
+                {bannerSavedSuccess && (
+                  <div
+                    style={{
+                      marginTop: '12px',
+                      fontSize: '0.85rem',
+                      color: '#059669',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: 'rgba(16, 185, 129, 0.1)',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(16, 185, 129, 0.25)'
+                    }}
+                  >
+                    <CheckCircle size={16} />
+                    <span>Storefront banner updated and is immediately live across the Digital Mall!</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         )}
       </main>
+
+      {/* MODAL 1: RESET TODAY'S ORDERS CONFIRMATION */}
+      {showResetTodayModal && (
+        <div className="modal-backdrop" onClick={() => setShowResetTodayModal(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '440px' }}>
+            <div className="modal-header">
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: '#d97706' }}>
+                <RotateCcw size={18} />
+                Reset Today's Orders
+              </h3>
+              <button className="close-drawer-btn" onClick={() => setShowResetTodayModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '14px' }}>
+                Are you sure you want to clear all incoming orders placed <strong>today</strong> for <strong>{shop.shop_name}</strong>?
+              </p>
+              <div style={{
+                background: 'rgba(245, 158, 11, 0.08)',
+                border: '1px solid rgba(245, 158, 11, 0.25)',
+                borderRadius: '8px',
+                padding: '12px',
+                marginBottom: '16px',
+                fontSize: '0.84rem'
+              }}>
+                <div>Orders to be reset: <strong>{todayOrders.length}</strong></div>
+                <div style={{ marginTop: '4px', color: 'var(--text-muted)' }}>
+                  This clears today's fulfillment queue and resets today's stats. This action cannot be undone.
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowResetTodayModal(false)}
+                  style={{ flex: 1, justifyContent: 'center' }}
+                  disabled={isDeletingRecords}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={handleResetToday}
+                  disabled={isDeletingRecords || todayOrders.length === 0}
+                  style={{
+                    flex: 1.4,
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #d97706, #b45309)',
+                    borderColor: '#b45309'
+                  }}
+                >
+                  {isDeletingRecords ? 'Resetting...' : `Reset ${todayOrders.length} Order(s)`}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 2: DELETE BY DATE RANGE */}
+      {showDeleteRangeModal && (
+        <div className="modal-backdrop" onClick={() => setShowDeleteRangeModal(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '460px' }}>
+            <div className="modal-header">
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: '#dc2626' }}>
+                <Trash2 size={18} />
+                Delete Records by Date Range
+              </h3>
+              <button className="close-drawer-btn" onClick={() => setShowDeleteRangeModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginBottom: '14px' }}>
+                Select the date window to permanently purge past order records for <strong>{shop.shop_name}</strong>:
+              </p>
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.78rem', fontWeight: '600', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
+                    From Date
+                  </label>
+                  <input
+                    type="date"
+                    className="form-input"
+                    value={deleteStartDate}
+                    onChange={(e) => setDeleteStartDate(e.target.value)}
+                    style={{ width: '100%', fontSize: '0.85rem' }}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <label style={{ fontSize: '0.78rem', fontWeight: '600', color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>
+                    To Date
+                  </label>
+                  <input
+                    type="date"
+                    className="form-input"
+                    value={deleteEndDate}
+                    onChange={(e) => setDeleteEndDate(e.target.value)}
+                    style={{ width: '100%', fontSize: '0.85rem' }}
+                  />
+                </div>
+              </div>
+
+              {deleteStartDate && deleteEndDate && (
+                <div style={{
+                  background: deleteRangeOrders.length > 0 ? 'rgba(239, 68, 68, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid',
+                  borderColor: deleteRangeOrders.length > 0 ? 'rgba(239, 68, 68, 0.25)' : 'var(--border-subtle)',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  marginBottom: '16px',
+                  fontSize: '0.84rem'
+                }}>
+                  <div>Matching Orders to Delete: <strong>{deleteRangeOrders.length}</strong></div>
+                  <div style={{ marginTop: '2px', color: 'var(--text-muted)' }}>
+                    Total value: ${deleteRangeOrders.reduce((a, b) => a + Number(b.total_price || 0), 0).toFixed(2)}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setShowDeleteRangeModal(false)}
+                  style={{ flex: 1, justifyContent: 'center' }}
+                  disabled={isDeletingRecords}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={handleDeleteDateRange}
+                  disabled={isDeletingRecords || !deleteStartDate || !deleteEndDate || deleteRangeOrders.length === 0}
+                  style={{
+                    flex: 1.4,
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #dc2626, #b91c1c)',
+                    borderColor: '#b91c1c'
+                  }}
+                >
+                  {isDeletingRecords ? 'Deleting...' : `Delete ${deleteRangeOrders.length} Record(s)`}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 3: CANCEL & DELETE ORDER CONFIRMATION */}
+      {orderToDelete && (
+        <div className="modal-backdrop" onClick={() => !isDeletingOrder && setOrderToDelete(null)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '460px' }}>
+            <div className="modal-header">
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px', color: '#dc2626' }}>
+                <Trash2 size={18} />
+                Cancel & Delete Order
+              </h3>
+              <button
+                className="close-drawer-btn"
+                onClick={() => !isDeletingOrder && setOrderToDelete(null)}
+                disabled={isDeletingOrder}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '14px', lineHeight: 1.5 }}>
+                Are you sure you want to cancel and permanently delete <strong>Ticket #{orderToDelete.id}</strong> from your fulfillment queue?
+              </p>
+
+              <div style={{
+                background: 'var(--bg-surface)',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: '8px',
+                padding: '14px',
+                marginBottom: '16px',
+                fontSize: '0.84rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '6px' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Customer:</span>
+                  <strong>{orderToDelete.customer_name}</strong>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '6px' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Phone:</span>
+                  <span>{orderToDelete.customer_phone}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '6px' }}>
+                  <span style={{ color: 'var(--text-muted)' }}>Total Amount:</span>
+                  <strong style={{ color: 'var(--accent-gold)' }}>${Number(orderToDelete.total_price).toFixed(2)}</strong>
+                </div>
+                <div>
+                  <span style={{ color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Items:</span>
+                  <span style={{ fontWeight: '600' }}>
+                    {orderToDelete.items?.map((it) => `${it.quantity}x ${it.name}`).join(', ') || 'No item detail'}
+                  </span>
+                </div>
+              </div>
+
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.25)',
+                borderRadius: '6px',
+                padding: '10px 12px',
+                fontSize: '0.78rem',
+                color: '#ef4444',
+                lineHeight: 1.4
+              }}>
+                ⚠️ This will cancel and permanently purge this order ticket from both live operations and analytics.
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => setOrderToDelete(null)}
+                disabled={isDeletingOrder}
+              >
+                Keep Order
+              </button>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={handleConfirmDeleteOrder}
+                disabled={isDeletingOrder}
+                style={{
+                  background: 'linear-gradient(135deg, #dc2626, #b91c1c)',
+                  borderColor: '#b91c1c'
+                }}
+              >
+                <Trash2 size={14} />
+                <span>{isDeletingOrder ? 'Deleting...' : 'Confirm Delete'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

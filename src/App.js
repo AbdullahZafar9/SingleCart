@@ -5,6 +5,7 @@ import MallDirectory from './Components/Customer/MallDirectory';
 import StorefrontDetail from './Components/Customer/StorefrontDetail';
 import CartDrawer from './Components/Customer/CartDrawer';
 import CheckoutModal from './Components/Customer/CheckoutModal';
+import OrderReceiptModal from './Components/Customer/OrderReceiptModal';
 import OrderTrackerModal from './Components/Customer/OrderTrackerModal';
 import RetailerLogin from './Components/Retailer/RetailerLogin';
 import RetailerDashboard from './Components/Retailer/RetailerDashboard';
@@ -82,7 +83,9 @@ function App() {
   // Drawer / Modals for Storefront view
   const [isStoreCartOpen, setIsStoreCartOpen] = useState(false);
   const [isStoreCheckoutOpen, setIsStoreCheckoutOpen] = useState(false);
+  const [storeReceiptOrder, setStoreReceiptOrder] = useState(null);
   const [storeTrackedOrder, setStoreTrackedOrder] = useState(null);
+  const [isStoreTrackerOpen, setIsStoreTrackerOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -214,6 +217,10 @@ function App() {
                   favorites={favorites}
                   onToggleFavorite={handleToggleFavorite}
                   onRemoveFavorite={handleRemoveFavorite}
+                  onOpenTracker={() => {
+                    setStoreTrackedOrder(null); // Explicitly prompt for Ticket ID on navbar click
+                    setIsStoreTrackerOpen(true);
+                  }}
                 />
                 <CartDrawer
                   isOpen={isStoreCartOpen}
@@ -229,13 +236,26 @@ function App() {
                   cart={cart}
                   onOrderSuccess={(order) => {
                     handleClearCart();
+                    setStoreReceiptOrder(order);
+                  }}
+                />
+                <OrderReceiptModal
+                  isOpen={Boolean(storeReceiptOrder)}
+                  onClose={() => setStoreReceiptOrder(null)}
+                  order={storeReceiptOrder}
+                  onTrackOrder={(order) => {
                     setStoreTrackedOrder(order);
+                    setIsStoreTrackerOpen(true);
                   }}
                 />
                 <OrderTrackerModal
-                  isOpen={Boolean(storeTrackedOrder)}
-                  onClose={() => setStoreTrackedOrder(null)}
+                  isOpen={isStoreTrackerOpen}
+                  onClose={() => {
+                    setIsStoreTrackerOpen(false);
+                    setStoreTrackedOrder(null);
+                  }}
                   initialOrder={storeTrackedOrder}
+                  requireLookup={!storeTrackedOrder}
                 />
               </>
             }

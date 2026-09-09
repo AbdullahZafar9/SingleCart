@@ -34,7 +34,8 @@ const StorefrontDetail = ({
   onOpenCart,
   favorites = [],
   onToggleFavorite,
-  onRemoveFavorite
+  onRemoveFavorite,
+  onOpenTracker
 }) => {
   const { storeId } = useParams();
   const navigate = useNavigate();
@@ -123,6 +124,22 @@ const StorefrontDetail = ({
     const prodItemCat = (product.item_category || '').toLowerCase();
     const prodGenCat = (product.category || '').toLowerCase();
     const targetCat = selectedCategory.toLowerCase();
+
+    // Support unified Earbuds & Headphones category matching both earbuds and headphones
+    if (
+      targetCat === 'earbuds' ||
+      targetCat === 'headphones' ||
+      targetCat === 'earbuds & headphones' ||
+      targetCat === 'earbuds-headphones'
+    ) {
+      return (
+        prodItemCat === 'earbuds' ||
+        prodItemCat === 'headphones' ||
+        prodItemCat === 'earbuds & headphones' ||
+        prodGenCat === targetCat
+      );
+    }
+
     return prodItemCat === targetCat || prodGenCat === targetCat;
   });
 
@@ -134,6 +151,7 @@ const StorefrontDetail = ({
           onOpenCart={onOpenCart}
           favoritesCount={favorites.length}
           onOpenFavorites={() => setIsFavoritesOpen(true)}
+          onOpenTracker={onOpenTracker}
         />
         <div style={{ padding: '80px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
           <p>Opening store storefront...</p>
@@ -150,6 +168,7 @@ const StorefrontDetail = ({
           onOpenCart={onOpenCart}
           favoritesCount={favorites.length}
           onOpenFavorites={() => setIsFavoritesOpen(true)}
+          onOpenTracker={onOpenTracker}
         />
         <div style={{ padding: '80px 24px', textAlign: 'center' }}>
           <h2>Storefront Not Found</h2>
@@ -171,6 +190,7 @@ const StorefrontDetail = ({
         onOpenCart={onOpenCart}
         favoritesCount={favorites.length}
         onOpenFavorites={() => setIsFavoritesOpen(true)}
+        onOpenTracker={onOpenTracker}
       />
 
       {/* AUTHENTIC STORE INTERIOR BANNER HEADER */}

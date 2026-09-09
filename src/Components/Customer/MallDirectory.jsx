@@ -6,6 +6,7 @@ import MallNavbar from './MallNavbar';
 import StorefrontCard from './StorefrontCard';
 import CartDrawer from './CartDrawer';
 import CheckoutModal from './CheckoutModal';
+import OrderReceiptModal from './OrderReceiptModal';
 import OrderTrackerModal from './OrderTrackerModal';
 import FavoritesDrawer from './FavoritesDrawer';
 import MallFooter from '../Shared/MallFooter';
@@ -30,7 +31,9 @@ const MallDirectory = ({
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [receiptOrder, setReceiptOrder] = useState(null);
   const [activeTrackedOrder, setActiveTrackedOrder] = useState(null);
+  const [isTrackerOpen, setIsTrackerOpen] = useState(false);
 
   const fetchMallData = async () => {
     if (getShopsSync().length === 0) {
@@ -76,7 +79,17 @@ const MallDirectory = ({
 
   const handleOrderSuccess = (order) => {
     onClearCart();
+    setReceiptOrder(order);
+  };
+
+  const handleTrackFromReceipt = (order) => {
     setActiveTrackedOrder(order);
+    setIsTrackerOpen(true);
+  };
+
+  const handleOpenTracker = () => {
+    setActiveTrackedOrder(null); // Explicitly prompts user for Ticket ID first
+    setIsTrackerOpen(true);
   };
 
   return (
@@ -86,6 +99,7 @@ const MallDirectory = ({
         onOpenCart={() => setIsCartOpen(true)}
         favoritesCount={favorites.length}
         onOpenFavorites={() => setIsFavoritesOpen(true)}
+        onOpenTracker={handleOpenTracker}
       />
 
       {/* CENTERED NORMAL-SIZED SINGLECART HEADING & SEARCH BAR */}
@@ -205,11 +219,23 @@ const MallDirectory = ({
         onOrderSuccess={handleOrderSuccess}
       />
 
-      {/* LIVE ORDER STATUS TRACKER MODAL */}
+      {/* POST-CHECKOUT COMPACT RECEIPT WITH GALLERY DOWNLOAD */}
+      <OrderReceiptModal
+        isOpen={Boolean(receiptOrder)}
+        onClose={() => setReceiptOrder(null)}
+        order={receiptOrder}
+        onTrackOrder={handleTrackFromReceipt}
+      />
+
+      {/* LIVE ORDER STATUS TRACKER MODAL (ASKS TICKET ID ON NAVBAR CLICK) */}
       <OrderTrackerModal
-        isOpen={Boolean(activeTrackedOrder)}
-        onClose={() => setActiveTrackedOrder(null)}
+        isOpen={isTrackerOpen}
+        onClose={() => {
+          setIsTrackerOpen(false);
+          setActiveTrackedOrder(null);
+        }}
         initialOrder={activeTrackedOrder}
+        requireLookup={!activeTrackedOrder}
       />
 
       <MallFooter />

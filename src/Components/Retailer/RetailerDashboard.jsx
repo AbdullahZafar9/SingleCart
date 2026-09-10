@@ -19,6 +19,7 @@ import {
   Image as ImageIcon,
   Check,
   ExternalLink,
+  Eye,
   Moon,
   Sun,
   Upload,
@@ -334,11 +335,6 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
         </div>
 
         <div className="retailer-header-actions">
-          <div className="live-indicator">
-            <span className="pulse-dot" />
-            <span>Live Store Operations</span>
-          </div>
-
           <button
             className="theme-toggle-btn"
             onClick={toggleTheme}
@@ -350,10 +346,11 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
 
           <button
             className="portal-link-btn"
-            onClick={() => navigate('/')}
-            title="View Digital Mall"
+            onClick={() => navigate(`/store/${shop.id}`)}
+            title="View store as customer"
           >
-            <span>Customer Mall</span>
+            <Eye size={16} />
+            <span>Customer View</span>
           </button>
 
           <button

@@ -153,6 +153,26 @@
   gap: 12px;
 }
 
+.portal-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.portal-link-btn:hover {
+  color: var(--accent-terracotta);
+  background: rgba(234, 88, 12, 0.08);
+}
+
 .live-indicator {
   display: flex;
   align-items: center;

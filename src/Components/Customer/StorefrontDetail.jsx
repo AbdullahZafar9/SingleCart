@@ -193,66 +193,72 @@ const StorefrontDetail = ({
         onOpenTracker={onOpenTracker}
       />
 
-      {/* AUTHENTIC STORE INTERIOR BANNER HEADER */}
-      <header
-        className="store-detail-header"
-        style={{
-          backgroundImage: shop.banner_url
-            ? `linear-gradient(180deg, rgba(12, 16, 28, 0.76) 0%, rgba(12, 16, 28, 0.88) 100%), url(${shop.banner_url})`
-            : (shop.header_gradient || 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)'),
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <div className="store-detail-header-inner">
-          <div className="store-header-top-bar">
-            {/* Sleek arrow button with smooth hover effect */}
+      {/* INTEGRATED LUXURY BOUTIQUE HEADER (Direction 1) */}
+      <header className="store-luxury-header">
+        <div className="store-luxury-container">
+          {/* Top Navigation Row: Back button & Department badge */}
+          <div className="store-luxury-top-nav">
             <button
-              className="back-arrow-btn"
+              className="store-luxury-back-btn"
               onClick={() => navigate('/mall')}
               aria-label="Back to Mall Directory"
               title="Back to Mall Directory"
             >
-              <ArrowLeft size={20} />
+              <ArrowLeft size={16} />
+              <span>Mall Directory</span>
             </button>
 
-            <span className="store-header-dept-tag">
+            <span className="store-luxury-dept-tag">
               {shop.department}
             </span>
           </div>
 
-          <div className="store-profile-main">
-            <img
-              src={shop.logo_url}
-              alt={shop.shop_name}
-              className="store-avatar-large"
-            />
-            <div className="store-info-title">
-              <h2>{shop.shop_name}</h2>
-              <div className="store-tags-row">
-                <span className="status-pill ready">Open Now</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Star size={14} fill="#fbbf24" stroke="#fbbf24" />
-                  <strong>{shop.rating || 5.0}</strong> ({shop.reviews_count || 50}+ ratings)
+          {/* Centered Brand Presentation */}
+          <div className="store-luxury-brand-center">
+            <div className="store-luxury-avatar-wrap">
+              <img
+                src={shop.logo_url}
+                alt={shop.shop_name}
+                className="store-luxury-avatar"
+              />
+              <span className="store-luxury-verified-badge" title="Verified SingleCart Merchant">
+                <ShieldCheck size={14} />
+              </span>
+            </div>
+
+            <div className="store-luxury-meta">
+              <h1 className="store-luxury-title">{shop.shop_name}</h1>
+              <p className="store-luxury-description">
+                {shop.description}
+              </p>
+            </div>
+
+            {/* Clean Horizontal Trust Ribbon */}
+            <div className="store-luxury-trust-bar">
+              <span className="store-trust-pill open-pill">
+                <span className="trust-pulse-dot" />
+                Open Now
+              </span>
+
+              <span className="store-trust-pill rating-pill">
+                <Star size={13} fill="#d97706" stroke="#d97706" />
+                <strong>{shop.rating || 5.0}</strong>
+                <span className="trust-subtext">({shop.reviews_count || 50}+ ratings)</span>
+              </span>
+
+              <span className="store-trust-pill feature-pill">
+                <Truck size={13} />
+                <span>Doorstep Delivery</span>
+              </span>
+
+              {shop.phone && (
+                <span className="store-trust-pill contact-pill">
+                  <Phone size={13} />
+                  <span>{shop.phone}</span>
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Truck size={14} />
-                  Doorstep Delivery
-                </span>
-                {shop.phone && (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Phone size={14} />
-                    {shop.phone}
-                  </span>
-                )}
-              </div>
+              )}
             </div>
           </div>
-
-          <p className="store-header-description">
-            {shop.description}
-          </p>
         </div>
       </header>
 

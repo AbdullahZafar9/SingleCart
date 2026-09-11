@@ -2085,7 +2085,7 @@ export const INITIAL_PRODUCTS = [
     "price": 168,
     "badge": "⭐ Bestseller",
     "description": "Handcrafted from full-grain artisan leather with sturdy shoulder drop straps, unlined suede interior, and interior slip pocket.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/classic-leather--tote-bag-medium-crossbody-tote-classic-cognac0-1_1.jpg?v=1788277146",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/montana-tote-nutmeg-wo-PLG-1.jpg?v=1775504454",
     "in_stock": true
   },
   {
@@ -2097,7 +2097,7 @@ export const INITIAL_PRODUCTS = [
     "price": 195,
     "badge": "👜 Classic Frame",
     "description": "Architectural doctor bag silhouette with structured hinged frame, double rolled handles, and brass feet.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/sloan-doctor-bag-large-nutmeg-1424-Edit.jpg?v=1776379546",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/sloan-doctor-bag-oversize-nutmeg-comparison-portland-leather-wo-1.jpg?v=1776709901",
     "in_stock": true
   },
   {
@@ -2109,7 +2109,7 @@ export const INITIAL_PRODUCTS = [
     "price": 158,
     "badge": "✨ Modern Silhouette",
     "description": "Sculpted bucket silhouette with adjustable Sam Browne shoulder strap, magnetic hook-eye closure, and brass accents.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/belle-bucket-bag-small-honey36.jpg?v=1775504519",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/belle-bucket-bag-large-honey-plg-wo-1.jpg?v=1775504519",
     "in_stock": true
   },
   {
@@ -2133,7 +2133,7 @@ export const INITIAL_PRODUCTS = [
     "price": 180,
     "badge": "🍂 Everyday Luxury",
     "description": "Spacious day tote crafted in rich pull-up leather that softens with wear, featuring interior organizer and durable stitched handles.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/verona-tote-medium-nutmeg-914-Edit.jpg?v=1774463045",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/verona-tote-comparison-nutmeg-portland-leather-wo-1.jpg?v=1775862706",
     "in_stock": true
   },
   {
@@ -2145,7 +2145,7 @@ export const INITIAL_PRODUCTS = [
     "price": 162,
     "badge": "⭐ Relaxed Chic",
     "description": "Effortless slouchy crescent shape made from buttery soft tumbled leather with deep main compartment and magnetic snap closure.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/slouchy-shoulder-bag-small-sienna_2.jpg?v=1775509723",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/slouchy-shoulder-bag-small-sienna-portland-leather-wo-1.jpg?v=1775509723",
     "in_stock": true
   },
   {
@@ -2157,7 +2157,7 @@ export const INITIAL_PRODUCTS = [
     "price": 170,
     "badge": "🔒 Modern Carry",
     "description": "Subtle smoke-grey pebble leather shoulder bag featuring brushed metal hardware, dual interior pockets, and reinforced flat base.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/madison-shoulder-bag-medium-smoke-grey262025.jpg?v=1776794411",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/madison-shoulder-bag-medium-smoke-grey-portland-leather-wo-1.jpg?v=1776794727",
     "in_stock": true
   },
   {
@@ -2169,7 +2169,7 @@ export const INITIAL_PRODUCTS = [
     "price": 165,
     "badge": "🌿 Artisan Edition",
     "description": "Graceful curved top contour in rich sienna leather with comfortable shoulder drop and hand-finished burnished edges.",
-    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/rowan-shoulder-bag-medium-sienna.jpg?v=1779485035",
+    "image_url": "https://cdn.shopify.com/s/files/1/0712/1227/files/rowan-shoulder-bag-medium-sienna-plg-wo-1.jpg?v=1779478273",
     "in_stock": true
   }
 ];

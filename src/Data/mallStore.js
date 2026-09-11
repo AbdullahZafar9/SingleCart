@@ -3,7 +3,7 @@ import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_REVIEWS } from
 
 const STORAGE_KEYS = {
   SHOPS: 'sc_shops_v12',
-  PRODUCTS: 'sc_products_v26',
+  PRODUCTS: 'sc_products_v27',
   ORDERS: 'sc_orders_v10',
   REVIEWS: 'sc_reviews_v10',
   APPLICATIONS: 'sc_store_applications_v1'
@@ -73,6 +73,7 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_products_v23');
     localStorage.removeItem('sc_products_v24');
     localStorage.removeItem('sc_products_v25');
+    localStorage.removeItem('sc_products_v26');
     localStorage.removeItem('sc_shops_v10');
     localStorage.removeItem('sc_shops_v11');
   } catch (e) {}

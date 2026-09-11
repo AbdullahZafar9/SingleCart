@@ -21,7 +21,7 @@ const DEPARTMENT_OPTIONS = [
   'Beauty & Fragrance',
   'Home & Living',
   'Jewelry & Luxury',
-  'Other Boutique'
+  'Custom'
 ];
 
 const RetailerApplicationModal = ({ isOpen, onClose }) => {
@@ -30,6 +30,7 @@ const RetailerApplicationModal = ({ isOpen, onClose }) => {
   const [phone, setPhone] = useState('');
   const [storeName, setStoreName] = useState('');
   const [department, setDepartment] = useState('Fashion & Apparel');
+  const [customDepartment, setCustomDepartment] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -43,6 +44,7 @@ const RetailerApplicationModal = ({ isOpen, onClose }) => {
     setPhone('');
     setStoreName('');
     setDepartment('Fashion & Apparel');
+    setCustomDepartment('');
     setDescription('');
     setIsSubmitting(false);
     setIsSuccess(false);
@@ -54,8 +56,15 @@ const RetailerApplicationModal = ({ isOpen, onClose }) => {
     if (!applicantName.trim() || !email.trim() || !phone.trim() || !storeName.trim()) {
       return;
     }
+    if (department === 'Custom' && !customDepartment.trim()) {
+      return;
+    }
 
     setIsSubmitting(true);
+
+    const effectiveDepartment = department === 'Custom'
+      ? (customDepartment.trim() || 'Custom Boutique')
+      : department;
 
     try {
       await submitStoreApplication({
@@ -63,7 +72,7 @@ const RetailerApplicationModal = ({ isOpen, onClose }) => {
         email,
         phone,
         storeName,
-        department,
+        department: effectiveDepartment,
         description
       });
 
@@ -263,6 +272,27 @@ const RetailerApplicationModal = ({ isOpen, onClose }) => {
                   ))}
                 </select>
               </div>
+
+              {/* Custom Department Manual Input if Custom is Selected */}
+              {department === 'Custom' && (
+                <div className="form-group" style={{ marginTop: '-4px' }}>
+                  <label className="form-label" style={{ color: 'var(--accent-terracotta)' }}>
+                    Custom Department Name
+                  </label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="e.g., Artisanal Bakery, Luxury Watches & Horology, Vintage Vinyl & Books..."
+                    value={customDepartment}
+                    onChange={(e) => setCustomDepartment(e.target.value)}
+                    required
+                    autoFocus
+                  />
+                  <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', marginTop: '4px', display: 'block' }}>
+                    Enter the custom department or specialty category for your boutique.
+                  </span>
+                </div>
+              )}
 
               {/* Store Description / Craft */}
               <div className="form-group">

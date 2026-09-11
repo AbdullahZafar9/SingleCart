@@ -25,20 +25,38 @@ function ScrollToTop() {
   return null;
 }
 
-function App() {
-  // Global theme synchronization
+// Route-aware isolated theme synchronizer
+function RouteThemeManager({ currentRetailer }) {
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    const activeTheme = localStorage.getItem('sc_theme') || localStorage.getItem('sc_admin_theme') || 'light';
-    document.documentElement.setAttribute('data-theme', activeTheme);
+    let targetTheme = 'light';
 
-    const handleThemeChange = (e) => {
-      const newTheme = (typeof e.detail === 'string' ? e.detail : e.detail?.theme) || localStorage.getItem('sc_theme') || 'light';
-      document.documentElement.setAttribute('data-theme', newTheme);
-    };
+    if (pathname === '/') {
+      // 1. Welcome screen is strictly in light mode
+      targetTheme = 'light';
+    } else if (pathname.startsWith('/retailer')) {
+      // 2. Retailer panel: strictly scoped to this retailer's own shop panel
+      const shopId = currentRetailer?.id;
+      const retailerKey = shopId ? `sc_retailer_theme_${shopId}` : 'sc_retailer_theme';
+      targetTheme = localStorage.getItem(retailerKey) || localStorage.getItem('sc_retailer_theme') || 'light';
+    } else if (pathname.startsWith('/admin')) {
+      // 3. Admin panel: strictly scoped to admin operations
+      targetTheme = localStorage.getItem('sc_admin_theme') || 'light';
+    } else if (pathname.startsWith('/mall') || pathname.startsWith('/store')) {
+      // 4. Customer Mall directory & store catalogs: strictly scoped to customer
+      targetTheme = localStorage.getItem('sc_customer_theme') || 'light';
+    } else {
+      targetTheme = 'light';
+    }
 
-    window.addEventListener('sc:theme_changed', handleThemeChange);
-    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
-  }, []);
+    document.documentElement.setAttribute('data-theme', targetTheme);
+  }, [pathname, currentRetailer]);
+
+  return null;
+}
+
+function App() {
 
   // Shopping cart state with localStorage persistence
   const [cart, setCart] = useState(() => {
@@ -183,6 +201,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <RouteThemeManager currentRetailer={currentRetailer} />
       <div className="App">
         <Routes>
           {/* 1. Warming Welcome Screen */}

@@ -54,8 +54,12 @@ const Welcome = () => {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
+
   return (
-    <div className="welcomePage">
+    <div className="welcomePage" data-theme="light">
       <div className="welcomeLeft">
         <div className="welcomeLeftContent">
           {/* Eyebrow Tag */}

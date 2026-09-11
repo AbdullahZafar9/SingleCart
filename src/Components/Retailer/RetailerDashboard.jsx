@@ -87,23 +87,42 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
   const [orderToDelete, setOrderToDelete] = useState(null);
   const [isDeletingOrder, setIsDeletingOrder] = useState(false);
 
-  // Global Theme toggle
-  const [theme, setTheme] = useState(() => localStorage.getItem('sc_theme') || 'light');
+  // Retailer Shop Theme state (scoped strictly to this retailer's shop panel)
+  const retailerThemeKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem(retailerThemeKey) || localStorage.getItem('sc_retailer_theme') || 'light';
+    } catch (e) {
+      return 'light';
+    }
+  });
+
+  useEffect(() => {
+    const currentKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
+    const saved = localStorage.getItem(currentKey) || localStorage.getItem('sc_retailer_theme') || 'light';
+    setTheme(saved);
+  }, [shop?.id]);
 
   useEffect(() => {
     const handleThemeChange = (e) => {
-      if (e.detail) setTheme(e.detail);
+      if (e.detail?.shopId && String(e.detail.shopId) !== String(shop?.id)) return;
+      const newTheme = typeof e.detail === 'string' ? e.detail : e.detail?.theme;
+      if (newTheme) setTheme(newTheme);
     };
-    window.addEventListener('sc:theme_changed', handleThemeChange);
-    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
-  }, []);
+    window.addEventListener('sc:retailer_theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:retailer_theme_changed', handleThemeChange);
+  }, [shop?.id]);
 
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    localStorage.setItem('sc_theme', next);
+    const currentKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
+    try {
+      localStorage.setItem(currentKey, next);
+      localStorage.setItem('sc_retailer_theme', next);
+    } catch (e) {}
     document.documentElement.setAttribute('data-theme', next);
-    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: next }));
+    window.dispatchEvent(new CustomEvent('sc:retailer_theme_changed', { detail: { theme: next, shopId: shop?.id } }));
   };
 
   useEffect(() => {
@@ -320,7 +339,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
     : '5.0';
 
   return (
-    <div className="retailer-wrapper">
+    <div className="retailer-wrapper" data-theme={theme}>
       <header className="retailer-header">
         <div className="retailer-brand-bar">
           <img

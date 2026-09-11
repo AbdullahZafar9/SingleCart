@@ -18,11 +18,13 @@ import { sendRetailerCredentialsEmail } from '../../Services/emailService';
 
 const DEPARTMENT_OPTIONS = [
   { id: 'fashion', name: 'Fashion & Apparel' },
+  { id: 'streetwear', name: 'Streetwear & Sneakers' },
   { id: 'cafes', name: 'Cafes & Dining' },
   { id: 'tech', name: 'Electronics & Tech' },
   { id: 'beauty', name: 'Beauty & Fragrance' },
   { id: 'home', name: 'Home & Living' },
-  { id: 'custom', name: '+ Custom Department...' }
+  { id: 'luxury', name: 'Jewelry & Luxury' },
+  { id: 'custom', name: 'Custom' }
 ];
 
 const CreateShopModal = ({ isOpen, onClose, onShopCreated, initialData = null }) => {
@@ -45,12 +47,12 @@ const CreateShopModal = ({ isOpen, onClose, onShopCreated, initialData = null })
       setDescription(initialData.description || '');
 
       const dept = initialData.department || 'Fashion & Apparel';
-      const matched = DEPARTMENT_OPTIONS.find((d) => d.name.toLowerCase() === dept.toLowerCase());
+      const matched = DEPARTMENT_OPTIONS.find((d) => d.name.toLowerCase() === dept.toLowerCase() && d.id !== 'custom');
       if (matched) {
         setSelectedDeptOption(matched.name);
       } else {
-        setSelectedDeptOption('+ Custom Department...');
-        setCustomDepartment(dept);
+        setSelectedDeptOption('Custom');
+        setCustomDepartment(dept === 'Custom' ? '' : dept);
       }
     }
   }, [initialData, isOpen]);
@@ -96,9 +98,9 @@ Log in using either your Email or Mobile Number.`;
 
     setIsSubmitting(true);
 
-    const isCustom = selectedDeptOption === '+ Custom Department...';
+    const isCustom = selectedDeptOption === 'Custom' || selectedDeptOption === '+ Custom Department...';
     const effectiveDepartment = isCustom
-      ? (customDepartment.trim() || 'Specialty Boutique')
+      ? (customDepartment.trim() || 'Custom Boutique')
       : selectedDeptOption;
 
     const categorySlug = isCustom
@@ -337,7 +339,7 @@ Log in using either your Email or Mobile Number.`;
               </div>
 
               {/* Custom Department Input if Selected */}
-              {selectedDeptOption === '+ Custom Department...' && (
+              {(selectedDeptOption === 'Custom' || selectedDeptOption === '+ Custom Department...') && (
                 <div className="form-group" style={{ marginTop: '-4px' }}>
                   <label className="form-label" style={{ color: 'var(--accent-gold)' }}>
                     Custom Department Name

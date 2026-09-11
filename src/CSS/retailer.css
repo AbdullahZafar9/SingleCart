@@ -767,7 +767,8 @@
    RETAILER DARK MODE OVERRIDES (Deep Warm Obsidian - ZERO NAVY BLUE)
    ============================================================ */
 
-[data-theme="dark"] .retailer-wrapper {
+[data-theme="dark"] .retailer-wrapper,
+.retailer-wrapper[data-theme="dark"] {
   background-color: #121110;
   color: #faf5f0;
 }

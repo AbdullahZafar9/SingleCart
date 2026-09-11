@@ -20,6 +20,7 @@ import {
   getOrders,
   subscribeToOrders,
   getStoreApplications,
+  subscribeToApplications,
   updateStoreApplicationStatus
 } from '../../Data/mallStore';
 import RevenueAnalytics from './RevenueAnalytics';
@@ -32,7 +33,7 @@ import '../../CSS/admin.css';
 const AdminDashboard = ({ adminUser, onLogout }) => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('sc_admin_theme') || localStorage.getItem('sc_theme') || 'light';
+    return localStorage.getItem('sc_admin_theme') || 'light';
   });
 
   const [analytics, setAnalytics] = useState({
@@ -57,19 +58,20 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
 
   useEffect(() => {
     const handleThemeChange = (e) => {
-      if (e.detail) setTheme(e.detail);
+      if (e.detail && typeof e.detail === 'string') setTheme(e.detail);
     };
-    window.addEventListener('sc:theme_changed', handleThemeChange);
-    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+    window.addEventListener('sc:admin_theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:admin_theme_changed', handleThemeChange);
   }, []);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
-    localStorage.setItem('sc_admin_theme', nextTheme);
-    localStorage.setItem('sc_theme', nextTheme);
+    try {
+      localStorage.setItem('sc_admin_theme', nextTheme);
+    } catch (e) {}
     document.documentElement.setAttribute('data-theme', nextTheme);
-    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: nextTheme }));
+    window.dispatchEvent(new CustomEvent('sc:admin_theme_changed', { detail: nextTheme }));
   };
 
   const fetchDashboardData = async () => {
@@ -89,7 +91,11 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
     fetchDashboardData();
 
     // Listen to order updates or shop creations in real time
-    const unsubscribe = subscribeToOrders(() => {
+    const unsubscribeOrders = subscribeToOrders(() => {
+      fetchDashboardData();
+    });
+
+    const unsubscribeApps = subscribeToApplications(() => {
       fetchDashboardData();
     });
 
@@ -97,17 +103,12 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
       fetchDashboardData();
     };
 
-    const handleAppsUpdated = () => {
-      fetchDashboardData();
-    };
-
     window.addEventListener('sc:shops_updated', handleShopsUpdated);
-    window.addEventListener('sc:applications_updated', handleAppsUpdated);
 
     return () => {
-      unsubscribe();
+      unsubscribeOrders();
+      unsubscribeApps();
       window.removeEventListener('sc:shops_updated', handleShopsUpdated);
-      window.removeEventListener('sc:applications_updated', handleAppsUpdated);
     };
   }, []);
 
@@ -116,7 +117,7 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
   ).length;
 
   return (
-    <div className="admin-wrapper" data-admin-theme={theme}>
+    <div className="admin-wrapper" data-admin-theme={theme} data-theme={theme}>
       <header className="admin-header">
         <div className="admin-brand-wrap">
           <div className="admin-badge-icon">

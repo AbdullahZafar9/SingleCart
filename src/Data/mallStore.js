@@ -2,8 +2,8 @@ import { supabase, isSupabaseConfigured } from '../supabaseClient';
 import { INITIAL_SHOPS, INITIAL_PRODUCTS, INITIAL_ORDERS, INITIAL_REVIEWS } from './initialMallData';
 
 const STORAGE_KEYS = {
-  SHOPS: 'sc_shops_v11',
-  PRODUCTS: 'sc_products_v24',
+  SHOPS: 'sc_shops_v12',
+  PRODUCTS: 'sc_products_v26',
   ORDERS: 'sc_orders_v10',
   REVIEWS: 'sc_reviews_v10',
   APPLICATIONS: 'sc_store_applications_v1'
@@ -71,7 +71,10 @@ export const initializeLocalStorage = () => {
     localStorage.removeItem('sc_products_v21');
     localStorage.removeItem('sc_products_v22');
     localStorage.removeItem('sc_products_v23');
+    localStorage.removeItem('sc_products_v24');
+    localStorage.removeItem('sc_products_v25');
     localStorage.removeItem('sc_shops_v10');
+    localStorage.removeItem('sc_shops_v11');
   } catch (e) {}
 
   if (!localStorage.getItem(STORAGE_KEYS.SHOPS)) {
@@ -945,6 +948,23 @@ export const subscribeToReviews = (onUpdate, productId = null, retailerId = null
    RETAILER STORE REGISTRATION APPLICATIONS
    ============================================================ */
 
+// Helper to generate a valid RFC 4122 v4 UUID for PostgreSQL UUID columns
+export const generateUUID = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+
+const isValidUUID = (val) => {
+  if (!val || typeof val !== 'string') return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(val);
+};
+
 export const getStoreApplicationsSync = () => {
   return getStoredList(STORAGE_KEYS.APPLICATIONS, []);
 };
@@ -956,8 +976,36 @@ export const getStoreApplications = async () => {
         supabase.from('store_applications').select('*').order('created_at', { ascending: false })
       );
       if (!error && Array.isArray(data)) {
-        setStoredList(STORAGE_KEYS.APPLICATIONS, data);
-        return data;
+        // Merge Supabase applications with any local applications to ensure NO application is ever lost
+        const localApps = getStoreApplicationsSync();
+        const mergedMap = new Map();
+
+        // 1. Add Supabase applications
+        data.forEach((app) => mergedMap.set(String(app.id), app));
+
+        // 2. Preserve any local applications not yet in Supabase
+        for (const localApp of localApps) {
+          if (!mergedMap.has(String(localApp.id))) {
+            const validApp = {
+              ...localApp,
+              id: isValidUUID(localApp.id) ? localApp.id : generateUUID()
+            };
+            mergedMap.set(String(validApp.id), validApp);
+            // Sync to Supabase in background
+            supabase
+              .from('store_applications')
+              .insert([validApp])
+              .then(() => {})
+              .catch(() => {});
+          }
+        }
+
+        const mergedList = Array.from(mergedMap.values()).sort(
+          (a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0)
+        );
+
+        setStoredList(STORAGE_KEYS.APPLICATIONS, mergedList);
+        return mergedList;
       }
     } catch (err) {
       console.warn('Failed to fetch applications from Supabase, using storage fallback:', err);
@@ -967,8 +1015,9 @@ export const getStoreApplications = async () => {
 };
 
 export const submitStoreApplication = async (applicationData) => {
+  const appId = generateUUID();
   const newApp = {
-    id: `app-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+    id: appId,
     applicant_name: (applicationData.applicantName || applicationData.applicant_name || '').trim(),
     phone: (applicationData.phone || '').trim(),
     email: (applicationData.email || '').trim(),
@@ -980,12 +1029,22 @@ export const submitStoreApplication = async (applicationData) => {
   };
 
   const existing = getStoreApplicationsSync();
-  const updated = [newApp, ...existing];
+  const updated = [newApp, ...existing.filter((a) => String(a.id) !== String(newApp.id))];
   setStoredList(STORAGE_KEYS.APPLICATIONS, updated);
 
   if (isSupabaseConfigured && supabase) {
     try {
-      await supabase.from('store_applications').insert([newApp]);
+      const { data, error } = await supabase
+        .from('store_applications')
+        .insert([newApp])
+        .select();
+
+      if (error) {
+        console.error('Failed to insert store application into Supabase:', error);
+      } else if (data && data[0]) {
+        newApp.id = data[0].id;
+        newApp.created_at = data[0].created_at || newApp.created_at;
+      }
     } catch (err) {
       console.warn('Could not sync application to Supabase:', err);
     }
@@ -1041,5 +1100,38 @@ export const deleteStoreApplication = async (applicationId) => {
   }
 
   return updated;
+};
+
+export const subscribeToApplications = (onUpdate) => {
+  const handleCustomEvent = (e) => {
+    onUpdate(e.detail);
+  };
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('sc:applications_updated', handleCustomEvent);
+  }
+
+  let supabaseChannel = null;
+  if (isSupabaseConfigured && supabase) {
+    try {
+      supabaseChannel = supabase
+        .channel('public:store_applications')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'store_applications' }, (payload) => {
+          onUpdate(payload);
+        })
+        .subscribe();
+    } catch (e) {
+      console.warn('Realtime applications subscription fallback to events:', e);
+    }
+  }
+
+  return () => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('sc:applications_updated', handleCustomEvent);
+    }
+    if (supabaseChannel && supabase) {
+      supabase.removeChannel(supabaseChannel);
+    }
+  };
 };
 

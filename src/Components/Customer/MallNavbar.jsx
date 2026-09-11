@@ -11,13 +11,13 @@ const MallNavbar = ({
 }) => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('sc_theme') || 'light';
+    return localStorage.getItem('sc_customer_theme') || 'light';
   });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     try {
-      localStorage.setItem('sc_theme', theme);
+      localStorage.setItem('sc_customer_theme', theme);
     } catch (e) {}
   }, [theme]);
 
@@ -27,14 +27,18 @@ const MallNavbar = ({
         setTheme(e.detail);
       }
     };
-    window.addEventListener('sc:theme_changed', handleThemeChange);
-    return () => window.removeEventListener('sc:theme_changed', handleThemeChange);
+    window.addEventListener('sc:customer_theme_changed', handleThemeChange);
+    return () => window.removeEventListener('sc:customer_theme_changed', handleThemeChange);
   }, []);
 
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
-    window.dispatchEvent(new CustomEvent('sc:theme_changed', { detail: next }));
+    try {
+      localStorage.setItem('sc_customer_theme', next);
+    } catch (e) {}
+    document.documentElement.setAttribute('data-theme', next);
+    window.dispatchEvent(new CustomEvent('sc:customer_theme_changed', { detail: next }));
   };
 
   return (

@@ -443,7 +443,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             onClick={() => setActiveTab('orders')}
           >
             <Clock size={16} />
-            <span>Live Orders Pipeline ({pendingOrders.length} active)</span>
+            <span>Orders ({pendingOrders.length})</span>
           </button>
 
           <button
@@ -451,7 +451,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             onClick={() => setActiveTab('catalog')}
           >
             <Layers size={16} />
-            <span>Product Catalog & Stock</span>
+            <span>Catalog & Drops</span>
           </button>
 
           <button
@@ -459,7 +459,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             onClick={() => setActiveTab('reviews')}
           >
             <MessageSquare size={16} />
-            <span>Customer Reviews ({reviews.length})</span>
+            <span>Reviews ({reviews.length})</span>
           </button>
 
           <button
@@ -467,7 +467,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             onClick={() => setActiveTab('banner')}
           >
             <ImageIcon size={16} />
-            <span>Storefront Banner</span>
+            <span>Store Banner</span>
           </button>
         </div>
 

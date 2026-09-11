@@ -2082,3 +2082,230 @@
   color: #faf5f0 !important;
 }
 
+/* ============================================================
+   ADMIN OPERATIONS CENTER MOBILE RESPONSIVE STYLING
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .admin-main {
+    padding: 20px 16px 50px;
+  }
+
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Top Navbar on Mobile */
+  .admin-header {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .admin-brand-wrap {
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .admin-badge-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .admin-badge-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .admin-title-box h2 {
+    font-size: 0.96rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 155px;
+  }
+
+  .admin-status-pill {
+    display: none;
+  }
+
+  .admin-header-actions {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  /* Compact Admin User Pill */
+  .admin-user-badge {
+    padding: 6px 10px;
+    font-size: 0.72rem;
+  }
+
+  .admin-user-badge strong {
+    display: none;
+  }
+
+  .btn-create-shop {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    border-radius: 8px;
+  }
+
+  .theme-toggle-btn.icon-only {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 8px;
+  }
+
+  /* Main Container */
+  .admin-main {
+    padding: 14px 12px 50px;
+  }
+
+  /* 2x2 Stats Grid */
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .admin-stat-card {
+    padding: 12px 10px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .admin-stat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+
+  .admin-stat-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .admin-stat-info h3 {
+    font-size: 1.15rem;
+  }
+
+  .admin-stat-info p {
+    font-size: 0.68rem;
+  }
+
+  /* Horizontal Tabs Bar */
+  .admin-tabs-bar {
+    gap: 6px;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+  }
+
+  .admin-tabs-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-tab-btn {
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    gap: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    border-radius: 8px;
+  }
+
+  /* Tenant Directory Table */
+  .tenants-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .tenants-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid var(--admin-border);
+  }
+
+  .tenants-table {
+    min-width: 620px;
+  }
+
+  /* Applications Queue */
+  .applications-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .applications-filter-chips {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding-bottom: 4px;
+  }
+
+  .applications-filter-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-chip-btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .application-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .application-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .app-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+    font-size: 0.82rem;
+  }
+
+  /* Order History & Revenue Analytics */
+  .history-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .history-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid var(--admin-border);
+  }
+
+  .history-table {
+    min-width: 660px;
+  }
+}
+
+

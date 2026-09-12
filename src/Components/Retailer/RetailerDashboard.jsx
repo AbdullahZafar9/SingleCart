@@ -481,7 +481,7 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
             {/* TIMEFRAME FILTER TOOLBAR & MAINTENANCE ACTIONS */}
             <div className="orders-timeframe-toolbar">
               <div className="timeframe-chips">
-                <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: '700', marginRight: '4px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                <span className="timeframe-label">
                   Filter By:
                 </span>
                 {[

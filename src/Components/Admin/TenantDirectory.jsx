@@ -10,11 +10,12 @@ import {
   AlertTriangle,
   Lock,
   X,
-  CheckCircle
+  CheckCircle,
+  Plus
 } from 'lucide-react';
 import { deleteShop } from '../../Data/mallStore';
 
-const TenantDirectory = ({ shops = [], onShopDeleted }) => {
+const TenantDirectory = ({ shops = [], onShopDeleted, onOpenCreateModal }) => {
   const navigate = useNavigate();
   const [shopToDelete, setShopToDelete] = useState(null);
   const [adminPassword, setAdminPassword] = useState('');
@@ -73,9 +74,22 @@ const TenantDirectory = ({ shops = [], onShopDeleted }) => {
             Live status of active digital storefronts across the virtual mall
           </p>
         </div>
-        <span style={{ fontSize: '0.85rem', color: 'var(--admin-gold)', fontWeight: '700' }}>
-          {shops.length} Active Stores
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.85rem', color: 'var(--admin-gold)', fontWeight: '700' }}>
+            {shops.length} Active Stores
+          </span>
+          {onOpenCreateModal && (
+            <button
+              type="button"
+              className="btn-create-shop"
+              onClick={onOpenCreateModal}
+              style={{ padding: '7px 14px', fontSize: '0.82rem' }}
+            >
+              <Plus size={15} />
+              <span>Onboard New Retailer</span>
+            </button>
+          )}
+        </div>
       </div>
 
       {successToast && (

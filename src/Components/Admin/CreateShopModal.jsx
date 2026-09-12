@@ -199,7 +199,7 @@ Log in using either your Email or Mobile Number.`;
                     ✓ Credentials Email Sent Automatically in Background!
                   </strong>
                   <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                    Dispatched from <strong>furqannasir561@gmail.com</strong> directly to <strong>{successData.email}</strong> silently without opening any tabs.
+                    Dispatched directly to <strong>{successData.email}</strong> silently without opening any tabs.
                   </span>
                 </div>
               </div>
@@ -216,10 +216,6 @@ Log in using either your Email or Mobile Number.`;
             )}
 
             <div className="admin-creds-card">
-              <div className="creds-row">
-                <span className="creds-label">Sender Admin:</span>
-                <strong style={{ fontSize: '0.88rem', color: '#ea4335' }}>furqannasir561@gmail.com</strong>
-              </div>
 
               <div className="creds-row">
                 <span className="creds-label">Store Name:</span>
@@ -393,9 +389,6 @@ Log in using either your Email or Mobile Number.`;
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-                  <span style={{ fontSize: '0.74rem', color: '#059669', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <ShieldCheck size={12} /> Email will be sent from <strong>furqannasir561@gmail.com</strong>
-                  </span>
                 </div>
 
                 <div className="form-group">
@@ -423,26 +416,6 @@ Log in using either your Email or Mobile Number.`;
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-              </div>
-
-              {/* Note on Online Store & Banner */}
-              <div
-                style={{
-                  padding: '12px 14px',
-                  borderRadius: '8px',
-                  background: '#f8fafc',
-                  border: '1px solid var(--border-subtle)',
-                  fontSize: '0.78rem',
-                  color: 'var(--text-secondary)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}
-              >
-                <ShieldCheck size={16} color="var(--accent-gold)" style={{ flexShrink: 0 }} />
-                <span>
-                  <strong>Online Storefront:</strong> This store will be registered as a <em>Verified Online Store</em>. The retailer can customize their store banner directly within their own dashboard.
-                </span>
               </div>
             </div>
 

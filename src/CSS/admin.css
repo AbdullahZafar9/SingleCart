@@ -403,8 +403,23 @@
 }
 
 /* ------------------------------------------------------------
-   ADMIN DASHBOARD TAB NAVIGATION BAR
+   ADMIN DASHBOARD TAB NAVIGATION & ACTION TOOLBAR
    ------------------------------------------------------------ */
+.admin-toolbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.admin-toolbar-row .admin-tabs-bar {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+}
+
 .admin-tabs-bar {
   display: flex;
   align-items: center;
@@ -2129,7 +2144,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 155px;
+    max-width: 220px;
   }
 
   .admin-status-pill {
@@ -2199,6 +2214,27 @@
 
   .admin-stat-info p {
     font-size: 0.68rem;
+  }
+
+  /* Admin Toolbar Row on Mobile */
+  .admin-toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .admin-toolbar-row .admin-tabs-bar {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .admin-toolbar-row .btn-create-shop {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 0.86rem;
+    border-radius: 10px;
   }
 
   /* Horizontal Tabs Bar */

@@ -153,15 +153,6 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
             )}
           </button>
 
-          {/* Onboard Retailer */}
-          <button
-            className="btn-create-shop"
-            onClick={() => setIsCreateModalOpen(true)}
-          >
-            <Plus size={16} />
-            <span>Onboard Retailer</span>
-          </button>
-
           {/* Customer Mall Portal */}
           <button
             className="portal-link-btn"
@@ -256,38 +247,51 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
           </div>
         </div>
 
-        {/* DASHBOARD TAB NAVIGATION BAR */}
-        <div className="admin-tabs-bar">
-          <button
-            className={`admin-tab-btn ${activeAdminTab === 'history' ? 'active' : ''}`}
-            onClick={() => setActiveAdminTab('history')}
-          >
-            <TrendingUp size={16} />
-            <span>Order History & Revenue</span>
-          </button>
+        {/* DASHBOARD TAB NAVIGATION & ACTION TOOLBAR */}
+        <div className="admin-toolbar-row">
+          <div className="admin-tabs-bar">
+            <button
+              className={`admin-tab-btn ${activeAdminTab === 'history' ? 'active' : ''}`}
+              onClick={() => setActiveAdminTab('history')}
+            >
+              <TrendingUp size={16} />
+              <span>Order History & Revenue</span>
+            </button>
+
+            <button
+              className={`admin-tab-btn ${activeAdminTab === 'tenants' ? 'active' : ''}`}
+              onClick={() => setActiveAdminTab('tenants')}
+            >
+              <Store size={16} />
+              <span>Tenant Directory</span>
+              <span className="tab-count-pill">{shops.length}</span>
+            </button>
+
+            <button
+              className={`admin-tab-btn ${activeAdminTab === 'applications' ? 'active' : ''}`}
+              onClick={() => setActiveAdminTab('applications')}
+            >
+              <Inbox size={16} />
+              <span>Store Applications</span>
+              {pendingApplicationsCount > 0 ? (
+                <span className="tab-pending-badge">
+                  {pendingApplicationsCount} Pending
+                </span>
+              ) : (
+                <span className="tab-count-pill">{applications.length}</span>
+              )}
+            </button>
+          </div>
 
           <button
-            className={`admin-tab-btn ${activeAdminTab === 'tenants' ? 'active' : ''}`}
-            onClick={() => setActiveAdminTab('tenants')}
+            className="btn-create-shop"
+            onClick={() => {
+              setSelectedAppForCreation(null);
+              setIsCreateModalOpen(true);
+            }}
           >
-            <Store size={16} />
-            <span>Tenant Directory</span>
-            <span className="tab-count-pill">{shops.length}</span>
-          </button>
-
-          <button
-            className={`admin-tab-btn ${activeAdminTab === 'applications' ? 'active' : ''}`}
-            onClick={() => setActiveAdminTab('applications')}
-          >
-            <Inbox size={16} />
-            <span>Store Applications</span>
-            {pendingApplicationsCount > 0 ? (
-              <span className="tab-pending-badge">
-                {pendingApplicationsCount} Pending
-              </span>
-            ) : (
-              <span className="tab-count-pill">{applications.length}</span>
-            )}
+            <Plus size={16} />
+            <span>Onboard Retailer</span>
           </button>
         </div>
 
@@ -307,7 +311,14 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
         )}
 
         {activeAdminTab === 'tenants' && (
-          <TenantDirectory shops={shops} onShopDeleted={() => fetchDashboardData()} />
+          <TenantDirectory
+            shops={shops}
+            onShopDeleted={() => fetchDashboardData()}
+            onOpenCreateModal={() => {
+              setSelectedAppForCreation(null);
+              setIsCreateModalOpen(true);
+            }}
+          />
         )}
 
         {activeAdminTab === 'applications' && (

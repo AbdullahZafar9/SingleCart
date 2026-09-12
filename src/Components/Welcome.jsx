@@ -29,10 +29,6 @@ const Welcome = () => {
               Single<span>Cart</span>
             </span>
           </div>
-          <div className="welcomeStatusBadge">
-            <span className="statusDot" />
-            <span>Virtual Mall Live</span>
-          </div>
         </header>
 
         {/* Central Hero Content */}

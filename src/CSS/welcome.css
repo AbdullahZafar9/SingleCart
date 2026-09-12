@@ -82,7 +82,7 @@
 .welcomeTopBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   padding-bottom: 12px;
 }
@@ -113,40 +113,6 @@
 
 .brandName span {
   color: #c2410c;
-}
-
-.welcomeStatusBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(194, 65, 12, 0.16);
-  padding: 6px 14px;
-  border-radius: 9999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #57534e;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px rgba(28, 25, 23, 0.04);
-}
-
-.statusDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
-  animation: pulseGreen 2.2s infinite;
-}
-
-@keyframes pulseGreen {
-  0%, 100% {
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.08);
-  }
 }
 
 /* ============================================================
@@ -374,10 +340,6 @@
     height: 32px;
   }
 
-  .welcomeStatusBadge {
-    padding: 5px 11px;
-    font-size: 0.74rem;
-  }
 
   .welcomeHero {
     padding: 12px 0;

@@ -2139,12 +2139,10 @@
   }
 
   .admin-title-box h2 {
-    font-size: 0.96rem;
+    font-size: 1.05rem;
     line-height: 1.2;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 220px;
+    margin: 0;
   }
 
   .admin-status-pill {
@@ -2152,31 +2150,51 @@
   }
 
   .admin-header-actions {
-    gap: 6px;
+    gap: 8px;
     flex-shrink: 0;
+    align-items: center;
+    display: flex;
   }
 
-  /* Compact Admin User Pill */
-  .admin-user-badge {
-    padding: 6px 10px;
-    font-size: 0.72rem;
+  .theme-toggle-btn.icon-only,
+  .theme-toggle-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
-  .admin-user-badge strong {
-    display: none;
+  .theme-toggle-btn svg {
+    width: 18px !important;
+    height: 18px !important;
   }
 
-  .btn-create-shop {
-    padding: 8px 12px;
-    font-size: 0.78rem;
-    border-radius: 8px;
+  .portal-link-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
-  .theme-toggle-btn.icon-only {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: 8px;
+  .portal-link-btn span {
+    display: none !important;
+  }
+
+  .portal-link-btn svg {
+    width: 18px !important;
+    height: 18px !important;
   }
 
   /* Main Container */

@@ -1682,43 +1682,47 @@
 
   /* Compact touch-friendly icon buttons */
   .portal-link-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle);
-    background: var(--bg-card);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border-subtle) !important;
+    background: var(--bg-card) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
   .portal-link-btn span {
-    display: none;
+    display: none !important;
   }
 
   .portal-link-btn svg {
-    width: 17px;
-    height: 17px;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   .theme-toggle-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle);
-    background: var(--bg-card);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--border-subtle) !important;
+    background: var(--bg-card) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
   }
 
   .theme-toggle-btn svg {
-    width: 17px;
-    height: 17px;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   /* MAIN LAYOUT */

@@ -124,7 +124,7 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
             <ShieldCheck size={22} />
           </div>
           <div className="admin-title-box">
-            <h2>SingleCart Operations Center</h2>
+            <h2>Admin Panel</h2>
           </div>
         </div>
 

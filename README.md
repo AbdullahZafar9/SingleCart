@@ -1,101 +1,151 @@
-# SingleCart - Virtual Mall Platform 🛍️
+# SingleCart • Next-Gen Virtual Mall Platform 🛍️
 
-A multi-tenant 3-sided Virtual Mall platform built with React, Vite, TailwindCSS / modern styling, and Supabase.
+[![React](https://img.shields.io/badge/React-18-blue.svg?style=flat-square&logo=react)](https://reactjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL%20%26%20Auth-green.svg?style=flat-square&logo=supabase)](https://supabase.com/)
+[![Deployment](https://img.shields.io/badge/Deploy-Vercel-black.svg?style=flat-square&logo=vercel)](https://vercel.com/)
+[![License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](LICENSE)
 
-SingleCart bridges the gap between single-vendor ordering systems and enterprise-level multi-tenant SaaS products. Anonymous customers can browse brands, categories, and order friction-free, while Retailers manage live orders and catalogs, and Global Admins oversee mall operations and revenue analytics.
-
----
-
-## 🌟 Key Roles & Features
-
-### 1. 🛒 The Customer (Frictionless / No Login Required)
-- **Digital Mall Directory**: Browse stores by categories (Clothing, Electronics, Cafes, etc.).
-- **Storefront Catalogs**: Explore individual brand catalogs and menus.
-- **Cart & Instant Checkout**: Add items from any store and place orders by providing name, phone number, and pickup table/location note (no account needed).
-
-### 2. 🏪 The Retailer / Shop Owner (Authenticated Dashboard)
-- **Vendor Authentication**: Secure login for store managers.
-- **Live Orders Feed**: Real-time incoming order notifications powered by Supabase Realtime.
-- **Order Pipeline**: One-click status management (`Pending` ➔ `Preparing` ➔ `Ready` ➔ `Completed`).
-- **Product Catalog Editor**: Add, modify, stock toggle, and delete products.
-
-### 3. 👑 Global Mall Admin (Master Command Center)
-- **Retailer Provisioning**: Onboard new stores and provision retailer credentials.
-- **Mall Revenue Analytics**: Real-time revenue aggregation and store performance metrics.
-- **Store Directory Management**: Global catalog and tenant oversight.
+**SingleCart** is a modern multi-tenant digital mall architecture that bridges the gap between single-vendor ordering systems and multi-store SaaS marketplaces. It enables customers to browse curated boutique storefronts with zero login friction, drop products from multiple independent merchants into a unified cart, and fulfill orders with real-time tracking.
 
 ---
 
-## 🗄️ Database Architecture (Supabase SQL)
+## 🌟 3-Sided Ecosystem Architecture
 
-### Schema
+```
+                               ┌────────────────────────┐
+                               │   SingleCart Platform   │
+                               └───────────┬────────────┘
+                ┌──────────────────────────┼──────────────────────────┐
+                ▼                          ▼                          ▼
+     ┌─────────────────────┐    ┌─────────────────────┐    ┌─────────────────────┐
+     │    Customer Mall    │    │  Retailer Operation │    │    Admin Command    │
+     │  (Zero Auth / Free) │    │  (Store-Scoped Auth)│    │  (Master Governance)│
+     └─────────────────────┘    └─────────────────────┘    └─────────────────────┘
+```
+
+### 1. 🛒 Customer Experience (`/mall`, `/store/:id`)
+- **Multi-Store Unified Cart**: Collect items across multiple boutique shops and checkout in a single friction-free transaction.
+- **Real-Time Live Order Tracker**: Visual 4-stage pipeline stepper (`Pending` ➔ `Preparing` ➔ `Ready` ➔ `Completed`).
+- **Customer Order History Lookup**: Instant access to previous receipts and fulfillment statuses via phone number without requiring account registration.
+- **Canvas Digital Receipt**: Generates and downloads high-resolution PNG order summaries directly from the browser.
+- **Boutique Catalog & Product Zoom**: Rich product showcase with high-res zoom, verified merchant badges, category filtering, and interactive wishlist.
+
+### 2. 🏪 Retailer Operations Center (`/retailer`)
+- **Store-Scoped Theme Isolation**: Dedicated dark/light preferences persisted strictly per individual `shop.id`, preventing theme bleed across merchants.
+- **Live Orders Feed**: Real-time incoming order notifications with sound alerts and one-click status transitions.
+- **Interactive Catalog Management**: Add, modify, toggle stock availability, and delete products with category dropdown selectors.
+- **Custom Store Branding**: Configurable shop banner cover photos, contact details, and location notes.
+
+### 3. 👑 Global Admin Command Center (`/admin`)
+- **Automated Tenant Provisioning**: Onboard new stores, generate secure credentials, and dispatch automated welcome emails via EmailJS.
+- **Real-Time Revenue Analytics**: Live mall Gross Merchandise Value (GMV), active storefront count, order volume, and Average Ticket Size calculations.
+- **Order History & Archive**: Searchable global audit log with multi-factor date filtering and soft/hard record deletion capabilities.
+- **Direct Store Access & Controls**: Preview and manage any tenant catalog directly from the administration dashboard.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend Framework** | React 18 (`react-scripts`) |
+| **Routing & Navigation** | React Router DOM v6 |
+| **Icons & Micro-Interactions** | Lucide React |
+| **Styling & Design System** | Modular Vanilla CSS (Light & Obsidian Dark Modes, CSS Grid & Flexbox, Fluid Typography) |
+| **Backend & Database** | Supabase (PostgreSQL, Realtime WebSockets, Row Level Security) |
+| **Notification Engine** | EmailJS REST API for merchant provisioning alerts |
+| **Deployment** | Vercel (Continuous Deployment linked to GitHub `main`) |
+
+---
+
+## 🗄️ Database Schema & Security Model
+
+The platform uses Supabase PostgreSQL with strict Row Level Security (RLS):
 
 ```sql
--- 1. Create custom Role Type
-CREATE TYPE user_role AS ENUM ('retailer', 'admin');
-
--- 2. Profiles Table (Retailers & Admins)
+-- Profiles Table (Retailers & Admins)
 CREATE TABLE public.profiles (
   id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
-  shop_name TEXT, -- NULL for global admin
+  shop_name TEXT,
   role user_role NOT NULL DEFAULT 'retailer'::user_role,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 
--- 3. Products Table
+-- Products Table
 CREATE TABLE public.products (
   id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
   retailer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   name TEXT NOT NULL,
-  category TEXT NOT NULL, -- 'Clothing', 'Cafes', 'Electronics', etc.
+  category TEXT NOT NULL,
   price NUMERIC NOT NULL,
   image_url TEXT,
   in_stock BOOLEAN DEFAULT true NOT NULL
 );
 
--- 4. Customer Orders Table
+-- Customer Orders Table
 CREATE TABLE public.orders (
   id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
   retailer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   customer_name TEXT NOT NULL,
   customer_phone TEXT NOT NULL,
-  delivery_notes TEXT, -- 'Table No. 5', 'Pickup', etc.
+  delivery_notes TEXT,
   total_price NUMERIC NOT NULL,
-  status TEXT DEFAULT 'Pending' NOT NULL, -- 'Pending', 'Preparing', 'Ready', 'Completed'
+  status TEXT DEFAULT 'Pending' NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );
 ```
 
-### Row Level Security (RLS)
-
-```sql
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
-
--- Products Policies
-CREATE POLICY "Anyone can browse products" 
-ON public.products FOR SELECT USING (true);
-
-CREATE POLICY "Retailers can modify their own products" 
-ON public.products FOR ALL 
-USING (auth.uid() = retailer_id);
-
--- Orders Policies
-CREATE POLICY "Anonymous customers can place orders" 
-ON public.orders FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Retailers can only view their own store orders" 
-ON public.orders FOR SELECT 
-USING (auth.uid() = retailer_id OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
-
-CREATE POLICY "Retailers can update their order statuses" 
-ON public.orders FOR UPDATE 
-USING (auth.uid() = retailer_id);
-```
+### Hybrid Persistence Engine
+SingleCart implements an offline-first hybrid synchronization layer:
+- Operates in full cloud-connected mode when Supabase credentials are configured.
+- Automatically falls back to resilient `localStorage` state with optimistic UI updates when operating offline or during evaluation without external credentials.
 
 ---
 
-## 🚀 Tech Stack
-- **Frontend**: React 18 / Create React App (`react-scripts`), React Router DOM, Lucide Icons
-- **Backend & Database**: Supabase (PostgreSQL + Auth + Realtime + RLS)
-- **State & Data**: Hybrid Persistence (Supabase + LocalStorage Fallback)
+## 🚀 Quickstart & Local Setup
+
+### 1. Clone & Install Dependencies
+```bash
+git clone https://github.com/AbdullahZafar9/SingleCart.git
+cd SingleCart
+npm install
+```
+
+### 2. Environment Configuration
+Create a `.env` file in the root directory:
+```env
+REACT_APP_SUPABASE_URL=https://your-project.supabase.co
+REACT_APP_SUPABASE_ANON_KEY=your-anon-key
+REACT_APP_EMAILJS_SERVICE_ID=your-service-id
+REACT_APP_EMAILJS_TEMPLATE_ID=your-template-id
+REACT_APP_EMAILJS_PUBLIC_KEY=your-public-key
+```
+
+### 3. Launch Development Server
+```bash
+npm start
+```
+The application will launch at `http://localhost:3000`.
+
+---
+
+## 🔑 Evaluation & Demo Credentials
+
+Recruiters and evaluators can test each portal using the following pre-configured credentials:
+
+| Portal | Route | Role / Identity | Password |
+| :--- | :--- | :--- | :--- |
+| **Welcome / Customer Mall** | `/` or `/mall` | Frictionless Shopper | *No login needed* |
+| **Retailer Operations** | `/retailer` | Store Manager (`aura@singlecart.com`) | `store123` |
+| **Admin Command Center** | `/admin` | Global Administrator (`admin@singlecart.com`) | `12345678` |
+
+---
+
+## 📱 Mobile & Desktop Responsiveness
+- **Mobile First**: Dynamic viewport scaling, full-width touch drawers, responsive category filter chips with invisible horizontal momentum scrolling, and touch-optimized action targets (>= 44px).
+- **Laptop & Desktop**: Centered max-width containers, multi-column product grids, real-time analytics side panels, and keyboard accessibility.
+
+---
+
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).

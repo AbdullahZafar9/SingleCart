@@ -33,3 +33,6 @@ dist-ssr
 
 # Temporary Scratch
 scratch/
+
+# Local Generated Executive Summaries & Reports
+*.pdf

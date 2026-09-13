@@ -385,6 +385,10 @@
     margin-bottom: 20px;
   }
 
+  .welcomeDescription.typewriter {
+    min-height: 6.8em;
+  }
+
   .welcomePillsRow {
     gap: 7px;
     margin-bottom: 24px;

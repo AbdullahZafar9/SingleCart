@@ -6,14 +6,12 @@ import {
   Phone,
   Plus,
   Check,
-  Heart,
   Clock,
   ShieldCheck,
   PackageCheck,
   Store,
   Truck,
-  Globe,
-  MessageSquare
+  Globe
 } from 'lucide-react';
 import {
   getShopByIdSync,
@@ -304,9 +302,6 @@ const StorefrontDetail = ({
           <div className="products-grid">
             {filteredProducts.map((product) => {
               const isAdded = recentlyAddedId === product.id;
-              const isLiked = favorites.some(
-                (item) => String(item.id) === String(product.id)
-              );
               const ratingInfo = getProductRatingSummary(product.id);
 
               return (
@@ -328,59 +323,30 @@ const StorefrontDetail = ({
                       className="product-img"
                       loading="lazy"
                     />
-
-                    {product.badge && (
-                      <span className="product-badge-tag">{product.badge}</span>
-                    )}
-
-                    {product.item_category && (
-                      <span className="product-subcat-badge">
-                        {product.item_category}
-                      </span>
-                    )}
-
-                    {/* Like / Favorite heart icon button directly on each item */}
-                    <button
-                      className={`product-fav-btn ${isLiked ? 'active' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite && onToggleFavorite(product, shop);
-                      }}
-                      title={isLiked ? 'Remove from liked items' : 'Like this item'}
-                      aria-label="Save item to favorites"
-                    >
-                      <Heart
-                        size={16}
-                        fill={isLiked ? '#e11d48' : 'rgba(0, 0, 0, 0.25)'}
-                        color={isLiked ? '#e11d48' : '#ffffff'}
-                      />
-                    </button>
                   </div>
 
                   <div className="product-body">
-                    <h5>{product.name}</h5>
-                    <p className="product-desc">{product.description}</p>
+                    {/* Category & Feature Badges beneath image */}
+                    {(product.badge || product.item_category) && (
+                      <div className="product-card-badges-row">
+                        {product.badge && (
+                          <span className="product-card-badge-inline">{product.badge}</span>
+                        )}
+                        {product.item_category && (
+                          <span className="product-card-cat-inline">{product.item_category}</span>
+                        )}
+                      </div>
+                    )}
 
-                    {/* RATINGS & REVIEWS ROW ON CARD */}
+                    <h5>{product.name}</h5>
+
+                    {/* RATINGS ON CARD */}
                     <div className="product-card-reviews-row">
                       <div className="product-card-rating">
-                        <Star size={13} fill="#fbbf24" stroke="#fbbf24" />
+                        <Star size={12} fill="#fbbf24" stroke="#fbbf24" />
                         <strong>{ratingInfo.average.toFixed(1)}</strong>
                         <span>({ratingInfo.count})</span>
                       </div>
-
-                      <button
-                        className="btn-card-add-review"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setOpenReviewOnCard(true);
-                          setZoomedProduct(product);
-                        }}
-                        title="Add a review for this product"
-                      >
-                        <MessageSquare size={12} />
-                        <span>Add Review</span>
-                      </button>
                     </div>
 
                     <div className="product-bottom-row">
@@ -392,16 +358,17 @@ const StorefrontDetail = ({
                         className={`add-to-cart-btn ${!product.in_stock ? 'disabled' : ''}`}
                         onClick={(e) => handleAdd(product, e)}
                         disabled={!product.in_stock}
+                        title={product.in_stock ? 'Add to cart' : 'Sold out'}
                       >
                         {isAdded ? (
                           <>
-                            <Check size={16} />
+                            <Check size={14} />
                             <span>Added</span>
                           </>
                         ) : product.in_stock ? (
                           <>
-                            <Plus size={16} />
-                            <span>Add to Cart</span>
+                            <Plus size={14} />
+                            <span>Add</span>
                           </>
                         ) : (
                           <span>Sold Out</span>

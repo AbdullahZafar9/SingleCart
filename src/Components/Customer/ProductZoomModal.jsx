@@ -209,13 +209,27 @@ const ProductZoomModal = ({
               {zoomScale > 1 ? 'Move mouse to inspect details' : 'Click image to magnify & zoom in'}
             </span>
           </div>
-          <button
-            className="product-zoom-close"
-            onClick={onClose}
-            aria-label="Close product card"
-          >
-            <X size={20} />
-          </button>
+          <div className="product-zoom-header-actions">
+            <button
+              className={`product-zoom-header-fav-btn ${isLiked ? 'active' : ''}`}
+              onClick={() => onToggleFavorite && onToggleFavorite(product, shop)}
+              title={isLiked ? 'Remove from liked items' : 'Like this item'}
+              aria-label="Save item to favorites"
+            >
+              <Heart
+                size={18}
+                fill={isLiked ? '#e11d48' : 'none'}
+                color={isLiked ? '#e11d48' : 'currentColor'}
+              />
+            </button>
+            <button
+              className="product-zoom-close"
+              onClick={onClose}
+              aria-label="Close product card"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Modal Main Content (2-Column Scrollable) */}
@@ -238,10 +252,6 @@ const ProductZoomModal = ({
                   transformOrigin: `${panOrigin.x}% ${panOrigin.y}%`
                 }}
               />
-
-              {product.badge && (
-                <span className="product-zoom-badge-pill">{product.badge}</span>
-              )}
             </div>
 
             {/* Floating Zoom Controls */}
@@ -289,6 +299,12 @@ const ProductZoomModal = ({
                   <Truck size={12} />
                   Doorstep Delivery
                 </span>
+              </div>
+            )}
+
+            {product.badge && (
+              <div style={{ marginBottom: '8px' }}>
+                <span className="product-card-badge-inline">{product.badge}</span>
               </div>
             )}
 
@@ -346,10 +362,11 @@ const ProductZoomModal = ({
                 aria-label="Toggle favorite"
               >
                 <Heart
-                  size={20}
+                  size={18}
                   fill={isLiked ? '#e11d48' : 'none'}
                   color={isLiked ? '#e11d48' : 'currentColor'}
                 />
+                <span className="product-zoom-fav-text">{isLiked ? 'Liked' : 'Save'}</span>
               </button>
             </div>
 

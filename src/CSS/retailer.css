@@ -611,6 +611,95 @@
   color: var(--primary);
 }
 
+.catalog-header-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.catalog-category-filter-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.catalog-category-filter-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.catalog-category-dropdown {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.catalog-category-dropdown:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.2);
+}
+
+.catalog-prod-cat-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.catalog-actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.catalog-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.catalog-action-btn.edit:hover {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.catalog-action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #dc2626;
+  transform: translateY(-1px);
+}
+
 /* Retailer Customer Reviews Tab */
 .retailer-reviews-view {
   display: flex;
@@ -962,6 +1051,41 @@
   background: #292522;
   color: #fbbf24;
   border-color: #443c35;
+}
+
+[data-theme="dark"] .catalog-category-filter-wrap {
+  background: #1c1a18;
+  border-color: #332d27;
+}
+
+[data-theme="dark"] .catalog-category-dropdown {
+  background: #201d1a;
+  border-color: #38322c;
+  color: #faf5f0;
+}
+
+[data-theme="dark"] .catalog-prod-cat-tag {
+  background: #25221e;
+  border-color: #38322c;
+  color: #d6cfc7;
+}
+
+[data-theme="dark"] .catalog-action-btn {
+  background: #201d1a;
+  border-color: #332d27;
+  color: #a89f91;
+}
+
+[data-theme="dark"] .catalog-action-btn.edit:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+[data-theme="dark"] .catalog-action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 [data-theme="dark"] .retailer-review-card {

@@ -412,6 +412,14 @@ export const saveProduct = async (productData) => {
   return formattedProduct;
 };
 
+export const updateProduct = async (productId, updates) => {
+  const currentProds = getStoredList(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
+  const existing = currentProds.find((p) => String(p.id) === String(productId));
+  if (!existing) return null;
+  const merged = { ...existing, ...updates, id: productId };
+  return saveProduct(merged);
+};
+
 export const toggleProductStock = async (productId, inStock) => {
   const currentProds = getStoredList(STORAGE_KEYS.PRODUCTS, INITIAL_PRODUCTS);
   const updatedProds = currentProds.map((p) => {

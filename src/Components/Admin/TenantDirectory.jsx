@@ -42,7 +42,7 @@ const TenantDirectory = ({ shops = [], onShopDeleted, onOpenCreateModal }) => {
 
     const pass = adminPassword.trim();
     // Validate admin password
-    if (pass !== 'qazi@123' && pass !== 'admin123') {
+    if (pass !== '12345678') {
       setPasswordError('Authorization failed: Incorrect administrator password.');
       return;
     }

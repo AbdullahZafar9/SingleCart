@@ -125,20 +125,10 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
           </div>
           <div className="admin-title-box">
             <h2>SingleCart Operations Center</h2>
-            <div className="admin-status-pill">
-              <span className="pulse-indicator"></span>
-              <span>Global Mall Command &bull; Live</span>
-            </div>
           </div>
         </div>
 
         <div className="admin-header-actions">
-          {/* Executive Email Badge */}
-          <div className="admin-user-badge">
-            <ShieldCheck size={14} color="#10b981" />
-            <span>Admin: <strong>{adminUser?.email || 'furqannasir561@gmail.com'}</strong></span>
-          </div>
-
           {/* Theme Mode Toggle (Icon Only) */}
           <button
             className="theme-toggle-btn icon-only"
@@ -153,27 +143,27 @@ const AdminDashboard = ({ adminUser, onLogout }) => {
             )}
           </button>
 
-          {/* Customer Mall Portal */}
+          {/* Customer View Portal */}
           <button
             className="portal-link-btn"
             onClick={() => navigate('/')}
             title="Browse Public Marketplace"
           >
             <Globe size={15} />
-            <span>Customer Mall</span>
+            <span>Customer View</span>
           </button>
 
-          {/* Exit Command */}
+          {/* Sign Out */}
           <button
             className="portal-link-btn logout-btn"
             onClick={() => {
               if (onLogout) onLogout();
               navigate('/admin/login');
             }}
-            title="Exit Administrative Console"
+            title="Sign Out"
           >
             <LogOut size={15} />
-            <span>Exit Command</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </header>

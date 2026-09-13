@@ -19,7 +19,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
       cleanEmail === 'qazia7513@gmail.com' ||
       cleanEmail === 'admin@singlecart.com';
 
-    const isAuthorizedPass = cleanPass === 'qazi@123' || cleanPass === 'admin123';
+    const isAuthorizedPass = cleanPass === '12345678';
 
     if (!isAuthorizedEmail || !isAuthorizedPass) {
       setErrorMessage(

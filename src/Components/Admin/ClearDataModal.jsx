@@ -67,7 +67,7 @@ const ClearDataModal = ({ isOpen, onClose, orders = [], onDataCleared }) => {
     e.preventDefault();
     const cleanPass = adminPassword.trim();
 
-    if (cleanPass !== 'qazi@123' && cleanPass !== 'admin123') {
+    if (cleanPass !== '12345678') {
       setPasswordError('Authorization failed: Incorrect administrator password.');
       return;
     }

@@ -5,6 +5,9 @@
 [![Deployment](https://img.shields.io/badge/Deploy-Vercel-black.svg?style=flat-square&logo=vercel)](https://vercel.com/)
 [![License](https://img.shields.io/badge/License-MIT-orange.svg?style=flat-square)](LICENSE)
 
+> 🚀 **Live Production Deployment**: [**https://singlecart.vercel.app/**](https://singlecart.vercel.app/)  
+> Experience the multi-tenant digital mall live in your browser (desktop & mobile).
+
 **SingleCart** is a modern multi-tenant digital mall architecture that bridges the gap between single-vendor ordering systems and multi-store SaaS marketplaces. It enables customers to browse curated boutique storefronts with zero login friction, drop products from multiple independent merchants into a unified cart, and fulfill orders with real-time tracking.
 
 ---
@@ -103,11 +106,11 @@ The application will launch at `http://localhost:3000`.
 
 Recruiters and evaluators can test each portal using the following pre-configured credentials:
 
-| Portal | Route | Role / Identity | Password |
+| Portal | Live Route | Role / Identity | Demo Password |
 | :--- | :--- | :--- | :--- |
-| **Welcome / Customer Mall** | `/` or `/mall` | Frictionless Shopper | *No login needed* |
-| **Retailer Operations** | `/retailer` | Store Manager (`aura@singlecart.com`) | `store123` |
-| **Admin Command Center** | `/admin` | Global Administrator (`admin@singlecart.com`) | `12345678` |
+| **Welcome / Customer Mall** | [`https://singlecart.vercel.app/mall`](https://singlecart.vercel.app/mall) | Frictionless Shopper | *No login needed* |
+| **Retailer Operations** | [`https://singlecart.vercel.app/retailer`](https://singlecart.vercel.app/retailer) | Store Manager (`aura@singlecart.com`) | `store123` |
+| **Admin Command Center** | [`https://singlecart.vercel.app/admin`](https://singlecart.vercel.app/admin) | Global Administrator (`admin@singlecart.com`) | `12345678` |
 
 ---
 

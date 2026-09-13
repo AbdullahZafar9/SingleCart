@@ -172,12 +172,12 @@ def generate_pdf(output_path):
     
     meta_data = [
         [
-            Paragraph("<b>Author / Engineer:</b> Candidate / Portfolio", table_cell),
-            Paragraph("<b>Stack:</b> React 18 • Supabase • REST • CSS Modules", table_cell),
+            Paragraph("<b>Author / Engineer:</b> Abdullah Zafar (Candidate Portfolio)", table_cell),
+            Paragraph("<b>Stack:</b> React 18 • Supabase • REST • Modular CSS", table_cell),
         ],
         [
             Paragraph("<b>Target Domain:</b> E-Commerce / SaaS / Multi-Tenancy", table_cell),
-            Paragraph("<b>Deployment:</b> Vercel Continuous Deployment • GitHub Sync", table_cell),
+            Paragraph("<b>Live Production URL:</b> <font color='#c2410c'><u>https://singlecart.vercel.app/</u></font>", table_cell),
         ]
     ]
     meta_table = Table(meta_data, colWidths=[250, 254])
@@ -267,27 +267,27 @@ def generate_pdf(output_path):
     story.append(Paragraph("5. Recruiter Quick-Evaluation Credentials", h1_style))
     
     cred_data = [
-        [Paragraph("Portal", table_header), Paragraph("Route", table_header), Paragraph("Demo Account", table_header), Paragraph("Password", table_header)],
+        [Paragraph("Portal", table_header), Paragraph("Live URL Route", table_header), Paragraph("Demo Account", table_header), Paragraph("Password", table_header)],
         [
             Paragraph("Welcome / Customer Mall", table_cell),
-            Paragraph("<code>/</code> or <code>/mall</code>", table_cell),
+            Paragraph("<code>singlecart.vercel.app/mall</code>", table_cell),
             Paragraph("Frictionless Anonymous User", table_cell),
             Paragraph("<i>None Required</i>", table_cell)
         ],
         [
             Paragraph("Retailer Operations", table_cell),
-            Paragraph("<code>/retailer</code>", table_cell),
+            Paragraph("<code>singlecart.vercel.app/retailer</code>", table_cell),
             Paragraph("<code>aura@singlecart.com</code>", table_cell),
             Paragraph("<code>store123</code>", table_cell)
         ],
         [
             Paragraph("Admin Command Center", table_cell),
-            Paragraph("<code>/admin</code>", table_cell),
+            Paragraph("<code>singlecart.vercel.app/admin</code>", table_cell),
             Paragraph("<code>admin@singlecart.com</code>", table_cell),
             Paragraph("<code>12345678</code>", table_cell)
         ]
     ]
-    cred_table = Table(cred_data, colWidths=[120, 110, 150, 124])
+    cred_table = Table(cred_data, colWidths=[115, 135, 134, 120])
     cred_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), c_dark),
         ('BOX', (0, 0), (-1, -1), 0.5, c_border),

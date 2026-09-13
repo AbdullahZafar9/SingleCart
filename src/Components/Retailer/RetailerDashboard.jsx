@@ -87,27 +87,33 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
   const [orderToDelete, setOrderToDelete] = useState(null);
   const [isDeletingOrder, setIsDeletingOrder] = useState(false);
 
-  // Retailer Shop Theme state (scoped strictly to this retailer's shop panel)
-  const retailerThemeKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
+  // Retailer Shop Theme state (strictly scoped per individual retailer store)
   const [theme, setTheme] = useState(() => {
     try {
-      return localStorage.getItem(retailerThemeKey) || localStorage.getItem('sc_retailer_theme') || 'light';
+      if (!shop?.id) return 'light';
+      return localStorage.getItem(`sc_retailer_theme_${shop.id}`) || 'light';
     } catch (e) {
       return 'light';
     }
   });
 
   useEffect(() => {
-    const currentKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
-    const saved = localStorage.getItem(currentKey) || localStorage.getItem('sc_retailer_theme') || 'light';
-    setTheme(saved);
+    if (!shop?.id) return;
+    try {
+      const saved = localStorage.getItem(`sc_retailer_theme_${shop.id}`) || 'light';
+      setTheme(saved);
+      document.documentElement.setAttribute('data-theme', saved);
+    } catch (e) {}
   }, [shop?.id]);
 
   useEffect(() => {
     const handleThemeChange = (e) => {
+      // Only react if event is specifically for this shop or matches this shopId
       if (e.detail?.shopId && String(e.detail.shopId) !== String(shop?.id)) return;
       const newTheme = typeof e.detail === 'string' ? e.detail : e.detail?.theme;
-      if (newTheme) setTheme(newTheme);
+      if (newTheme) {
+        setTheme(newTheme);
+      }
     };
     window.addEventListener('sc:retailer_theme_changed', handleThemeChange);
     return () => window.removeEventListener('sc:retailer_theme_changed', handleThemeChange);
@@ -116,13 +122,17 @@ const RetailerDashboard = ({ currentRetailer, onLogout }) => {
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    const currentKey = shop?.id ? `sc_retailer_theme_${shop.id}` : 'sc_retailer_theme';
-    try {
-      localStorage.setItem(currentKey, next);
-      localStorage.setItem('sc_retailer_theme', next);
-    } catch (e) {}
+    if (shop?.id) {
+      try {
+        localStorage.setItem(`sc_retailer_theme_${shop.id}`, next);
+      } catch (e) {}
+    }
     document.documentElement.setAttribute('data-theme', next);
-    window.dispatchEvent(new CustomEvent('sc:retailer_theme_changed', { detail: { theme: next, shopId: shop?.id } }));
+    window.dispatchEvent(
+      new CustomEvent('sc:retailer_theme_changed', {
+        detail: { theme: next, shopId: shop?.id }
+      })
+    );
   };
 
   useEffect(() => {

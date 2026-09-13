@@ -176,6 +176,24 @@
   max-width: 620px;
 }
 
+.welcomeDescription.typewriter {
+  min-height: 4.8em;
+  position: relative;
+}
+
+.welcomeTypingCursor {
+  display: inline-block;
+  color: #c2410c;
+  font-weight: 800;
+  margin-left: 2px;
+  animation: blinkCursor 0.75s infinite ease-in-out;
+}
+
+@keyframes blinkCursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* HIGHLIGHT PILLS */
 .welcomePillsRow {
   display: flex;

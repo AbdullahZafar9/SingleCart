@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
@@ -9,11 +9,31 @@ import {
 } from 'lucide-react';
 import '../CSS/welcome.css';
 
+const FULL_DESCRIPTION =
+  'Step into a unified digital mall platform connecting premier fashion brands, skincare specialists, and tech innovators under one roof. Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy seamless tracked doorstep delivery.';
+
 const Welcome = () => {
   const navigate = useNavigate();
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
+
+  useEffect(() => {
+    let charIndex = 0;
+    const speed = 14; // ~14ms per character for brisk, natural real-time streaming
+    const timer = setInterval(() => {
+      charIndex += 1;
+      setDisplayedText(FULL_DESCRIPTION.slice(0, charIndex));
+      if (charIndex >= FULL_DESCRIPTION.length) {
+        clearInterval(timer);
+        setIsTypingComplete(true);
+      }
+    }, speed);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -50,9 +70,10 @@ const Welcome = () => {
             Multi-Tenant Virtual Mall & Instant Ordering
           </p>
 
-          {/* Value Story Description */}
-          <p className="welcomeDescription">
-            Step into a unified digital mall platform connecting premier fashion brands, skincare specialists, and tech innovators under one roof. Browse curated storefronts with zero login friction, drop items from multiple shops into your single cart, and enjoy seamless tracked doorstep delivery.
+          {/* Value Story Description (Streamed in real-time) */}
+          <p className="welcomeDescription typewriter">
+            {displayedText}
+            {!isTypingComplete && <span className="welcomeTypingCursor">|</span>}
           </p>
 
           {/* Highlight Pills */}
@@ -76,9 +97,9 @@ const Welcome = () => {
             <button
               className="welcomePrimaryBtn"
               onClick={() => navigate('/mall')}
-              aria-label="Enter Digital Mall"
+              aria-label="Explore Marketplace"
             >
-              <span>Enter Digital Mall</span>
+              <span>Explore Marketplace</span>
               <ArrowRight size={18} />
             </button>
           </div>

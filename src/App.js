@@ -36,10 +36,10 @@ function RouteThemeManager({ currentRetailer }) {
       // 1. Welcome screen is strictly in light mode
       targetTheme = 'light';
     } else if (pathname.startsWith('/retailer')) {
-      // 2. Retailer panel: strictly scoped to this retailer's own shop panel
+      // 2. Retailer panel: strictly scoped to this specific retailer's store panel
       const shopId = currentRetailer?.id;
-      const retailerKey = shopId ? `sc_retailer_theme_${shopId}` : 'sc_retailer_theme';
-      targetTheme = localStorage.getItem(retailerKey) || localStorage.getItem('sc_retailer_theme') || 'light';
+      const retailerKey = shopId ? `sc_retailer_theme_${shopId}` : null;
+      targetTheme = (retailerKey && localStorage.getItem(retailerKey)) || 'light';
     } else if (pathname.startsWith('/admin')) {
       // 3. Admin panel: strictly scoped to admin operations
       targetTheme = localStorage.getItem('sc_admin_theme') || 'light';
